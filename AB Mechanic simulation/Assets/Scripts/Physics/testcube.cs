@@ -23,4 +23,11 @@ public class testcube : MonoBehaviour
     {
         rb.AddForce(new Vector3(0, 100, 0));
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+
+        }
+    }
 }
