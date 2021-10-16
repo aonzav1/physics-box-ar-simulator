@@ -2,23 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClickButton : MonoBehaviour
+public class PhysicBox : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject TopBox;
-    public GameObject BottomBox;
+    private Rigidbody box;
     void Start()
     {
-
+        box = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update()
+
+    public void PullBox()
     {
-        
-    }
-    private void Onclick()
-    {
-        
+        box.AddForce(new Vector3(0, 0, 250));
     }
 }
