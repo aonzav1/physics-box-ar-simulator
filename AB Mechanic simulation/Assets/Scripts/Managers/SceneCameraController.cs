@@ -5,6 +5,7 @@ using UnityEngine;
 public class SceneCameraController : MonoBehaviour
 {
     public Camera targetCamera;
+    public Transform targetTransform;
     private Vector3 originalPositon;
     private Vector3 originalRotation;
     public bool enableRotate;
@@ -16,12 +17,13 @@ public class SceneCameraController : MonoBehaviour
     void Start()
     {
         targetCamera = transform.GetChild(0).GetComponent<Camera>();
-        originalPositon = targetCamera.transform.position;
+        originalPositon = new Vector3(0,0,-6.31f);
         originalRotation = transform.rotation.eulerAngles;
     }
 
     public void ResetCam()
     {
+        targetTransform = null;
         targetCamera.transform.position = originalPositon;
         transform.rotation.eulerAngles.Set(originalRotation.x,originalRotation.y, originalRotation.z);
         Debug.Log("Reset camera");
@@ -36,10 +38,25 @@ public class SceneCameraController : MonoBehaviour
             Y = transform.rotation.eulerAngles.y;
             transform.rotation = Quaternion.Euler(X, Y, 0);
         }
+        if(targetTransform != null)
+        {
+            transform.position = targetTransform.position;
+        }
     }
 
     public void Zoom(float num)
     {
-        LeanTween.moveLocal(targetCamera.gameObject, targetCamera.transform.localPosition + new Vector3(0, 0, num),0.2f);
+        LeanTween.moveLocal(targetCamera.gameObject, targetCamera.transform.localPosition + new Vector3(0,-num*0.25f, num),0.2f);
+    }
+
+    public void LockTarget(Transform target)
+    {
+        targetTransform = target;
+    }
+
+    public void LockOriginal()
+    {
+        targetTransform = null;
+        transform.position = originalPositon;
     }
 }

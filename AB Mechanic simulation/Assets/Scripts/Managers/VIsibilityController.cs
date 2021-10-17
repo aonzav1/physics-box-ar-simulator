@@ -7,17 +7,20 @@ public class VIsibilityController : MonoBehaviour
     public SelectableObject selectingObject;
     public ObjectEditorController objEditor;
     public MenuController menu_controller;
+    public SceneCameraController CamController;
+    public Transform workSpace;
     // Start is called before the first frame update
     void Start()
     {
         objEditor = GetComponent<ObjectEditorController>();
         menu_controller = GetComponent<MenuController>();
+        CamController = menu_controller.CamController;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (selectingObject == null && Input.GetMouseButtonDown(0))
+        if (selectingObject == null && !CamController.enableRotate && Input.GetMouseButtonDown(0))
         {
             RaycastHit hitInfo = new RaycastHit();
             bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
@@ -55,8 +58,35 @@ public class VIsibilityController : MonoBehaviour
 
     public void DeselectAll()
     {
+        if (objEditor.viewmode == ViewMode.focus)
+            SeeAllObjects();
         selectingObject.UpdateSelection(false);
         selectingObject = null;
-        menu_controller.OpenPage(-1);
+        menu_controller.OpenPage(0);
+    }
+
+    public void DisableOtherObjects()
+    {
+        bool isFound = false;
+        for (int i = 0; i < workSpace.childCount; i++)
+        {
+            if (isFound || workSpace.GetChild(i).gameObject != objEditor.selecting)
+            {
+                workSpace.GetChild(i).gameObject.SetActive(false);
+            }
+            else
+            {
+                isFound = true;
+            }
+        }
+        CamController.LockTarget(selectingObject.transform);
+    }
+    public void SeeAllObjects()
+    {
+        CamController.LockOriginal();
+        for (int i = 0; i < workSpace.childCount; i++)
+        {
+            workSpace.GetChild(i).gameObject.SetActive(true);
+        }
     }
 }

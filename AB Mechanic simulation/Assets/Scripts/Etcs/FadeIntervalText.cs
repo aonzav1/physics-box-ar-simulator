@@ -10,7 +10,7 @@ public class FadeIntervalText : MonoBehaviour
     RectTransform rect;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rect = transform.GetComponent<RectTransform>();
         StartCoroutine(intervalFade());

@@ -57,7 +57,7 @@ public class MenuController : MonoBehaviour
                     Pages[i].SetActive(num == i);
                 }
                 SubMenu.SetActive(false);
-                CamController.enableRotate = (num == 2);
+                CamController.enableRotate = (num != 2);
                 if (num == 3)
                 {
                     SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
