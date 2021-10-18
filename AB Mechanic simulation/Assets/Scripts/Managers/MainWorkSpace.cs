@@ -14,7 +14,6 @@ public class MainWorkSpace : MonoBehaviour
     public GameObject startButton;
     public GameObject pauseButton;
     public static bool isSimulate;
-    public static bool tmp_workspace;
     public ObjectDatacenter datacenter;
     public Text simulationTime_txt;
     public float simulationTime;
@@ -38,11 +37,12 @@ public class MainWorkSpace : MonoBehaviour
     }
     public void StartSimulation()
     {
-        if (!tmp_workspace)
+        if (!isSimulate)
         {
             SaveTmpData();
-            tmp_workspace = true;
+            isSimulate = true;
         }
+        Time.timeScale = 1;
         isSimulate = true;
         startButton.SetActive(false);
         pauseButton.SetActive(true);
@@ -53,17 +53,17 @@ public class MainWorkSpace : MonoBehaviour
     }
     public void PauseSimulation()
     {
-        isSimulate = false;
+        Time.timeScale = 0;
         startButton.SetActive(true);
         pauseButton.SetActive(false);
-        for (int i = 0; i < workSpace.childCount; i++)
+       /* for (int i = 0; i < workSpace.childCount; i++)
         {
             workSpace.GetChild(i).GetComponent<Rigidbody>().isKinematic = true;
-        }
+        }*/
     }
     public void StopSimulation()
     {
-        isSimulate = false;
+        Time.timeScale = 1;
         startButton.SetActive(true);
         pauseButton.SetActive(false);
         for (int i = 0; i < workSpace.childCount; i++)
@@ -72,10 +72,10 @@ public class MainWorkSpace : MonoBehaviour
         }
         simulationTime = 0;
         simulationTime_txt.text = "t = 0.00 s";
-        if (tmp_workspace)
+        if (isSimulate)
         {
             LoadTmpData();
-            tmp_workspace = false;
+            isSimulate = false;
         }
     }
 
@@ -100,7 +100,8 @@ public class MainWorkSpace : MonoBehaviour
         {
             tmpSave[i].obj.transform.position = tmpSave[i].position;
             Vector3 rot = tmpSave[i].rotation;
-            tmpSave[i].obj.transform.rotation.eulerAngles.Set(rot.x, rot.y, rot.z);
+            tmpSave[i].obj.transform.eulerAngles = rot;
+          //  tmpSave[i].obj.transform.rotation.eulerAngles.Set(rot.x, rot.y, rot.z);
         }
         tmpSave.Clear();
     }

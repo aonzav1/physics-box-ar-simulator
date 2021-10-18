@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PhysicsObject : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class PhysicsObject : MonoBehaviour
     Rigidbody rb;
     BoxCollider boxCollider;
     public GameObject velocityLine;
+    public GameObject centerofMass;
+    public Text velocityMagnitude;
 
     // Start is called before the first frame update
     void Start()
@@ -20,14 +23,13 @@ public class PhysicsObject : MonoBehaviour
             case ObjectType.Box:
                 rb = GetComponent<Rigidbody>();
                 boxCollider = GetComponent<BoxCollider>();
-              /*  MeshRenderer renderer = GetComponent<MeshRenderer>();
-                renderer.sortingLayerName = "Default";
-                renderer.sortingOrder = 0;*/
                 //should be set when instantiate
                 properties = new float[3];
                 properties[0] = 1; //mass
-                properties[1] = 1; //static friction coefficient
-                properties[2] = 1; //dynamic friction coefficient
+                properties[1] = 0.9f; //static friction coefficient
+                properties[2] = 0.7f; //dynamic friction coefficient
+
+                centerofMass.transform.localPosition = rb.centerOfMass;
                 break;
         }
         LoadProperties();
@@ -36,15 +38,24 @@ public class PhysicsObject : MonoBehaviour
     {
         if (VIsibilityController.showVelocity)
         {
-            if (rb.velocity.magnitude > 0.01)
-            {
-                velocityLine.transform.rotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
-                velocityLine.SetActive(true);
-            }
-            else
-            {
-                velocityLine.SetActive(false);
-            }
+            centerofMass.SetActive(true);
+           // if (Time.timeScale > 0)
+        //    {
+                if (rb.velocity.magnitude > 0.01)
+                {
+                    velocityLine.transform.rotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
+                    velocityMagnitude.text = rb.velocity.magnitude.ToString("F2") + " m/s";
+                    velocityLine.SetActive(true);
+                }
+                else
+                {
+                    velocityLine.SetActive(false);
+                }
+          //  }
+        }
+        else
+        {
+            centerofMass.SetActive(false);
         }
     }
     public void NewProperties(float[] newdata)

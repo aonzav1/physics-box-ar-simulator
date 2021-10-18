@@ -45,8 +45,14 @@ public class SceneCameraController : MonoBehaviour
     }
 
     public void Zoom(float num)
-    {
-        LeanTween.moveLocal(targetCamera.gameObject, targetCamera.transform.localPosition + new Vector3(0,-num*0.25f, num),0.2f);
+    {if (Time.timeScale == 1)
+        {
+            LeanTween.moveLocal(targetCamera.gameObject, targetCamera.transform.localPosition + new Vector3(0, -num * 0.25f, num), 0.2f);
+        }
+        else
+        {
+            targetCamera.transform.localPosition += new Vector3(0, -num * 0.25f, num);
+        }
     }
 
     public void LockTarget(Transform target)

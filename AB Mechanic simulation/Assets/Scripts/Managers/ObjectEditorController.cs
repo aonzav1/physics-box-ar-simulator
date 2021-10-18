@@ -38,6 +38,7 @@ public class ObjectEditorController : MonoBehaviour
     public Transform[] modeList;
     public Text selecting_txt;
     public Canvas canvas;
+    public GameObject forcevisible_hover;
 
     [Header("Edit paremeter")]
   //  public float moveFactor;
@@ -179,7 +180,7 @@ public class ObjectEditorController : MonoBehaviour
             return; 
         Debug.Log("Cancel");
         selecting.transform.position = tmp_position;
-        selecting.transform.rotation.eulerAngles.Set(tmp_rotation.x, tmp_rotation.y, tmp_rotation.z);
+        selecting.transform.eulerAngles = tmp_rotation;
         selecting = null;
         enableEdit = false;
         visible_controller.DeselectAll();
@@ -188,13 +189,13 @@ public class ObjectEditorController : MonoBehaviour
     public void Undo()
     {
         selecting.transform.position = backup_position;
-        selecting.transform.rotation.eulerAngles.Set(backup_rotation.x, backup_rotation.y, backup_rotation.z);
+        selecting.transform.eulerAngles = backup_rotation;
     }
 
     public void Redo()
     {
         selecting.transform.position = now_position;
-        selecting.transform.rotation.eulerAngles.Set(now_rotation.x, now_rotation.y, now_rotation.z);
+        selecting.transform.eulerAngles = now_rotation;
     }
 
     public void EditProperties()

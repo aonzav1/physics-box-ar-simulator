@@ -55,7 +55,7 @@ public class MenuController : MonoBehaviour
                 //num 4 for open setting page
                 break;
             case 2:
-                if (num == 2 && MainWorkSpace.tmp_workspace)
+                if (num == 2 && MainWorkSpace.isSimulate)
                 {
                     DisplayError("Stop simulation first!");
                     return;
