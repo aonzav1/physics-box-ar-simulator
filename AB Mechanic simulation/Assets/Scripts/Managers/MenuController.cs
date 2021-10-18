@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class MenuController : MonoBehaviour
     public GameObject[] Pages;
     public GameObject SubMenu;
     public  SceneCameraController CamController;
+    public GameObject Error_pref;
+    public Canvas canvas;
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +55,11 @@ public class MenuController : MonoBehaviour
                 //num 4 for open setting page
                 break;
             case 2:
+                if (num == 2 && MainWorkSpace.tmp_workspace)
+                {
+                    DisplayError("Stop simulation first!");
+                    return;
+                }
                 for (int i = 0; i < Pages.Length; i++)
                 {
                     Pages[i].SetActive(num == i);
@@ -64,6 +72,12 @@ public class MenuController : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    public void DisplayError(string mes)
+    {
+        GameObject a = Instantiate(Error_pref, canvas.transform);
+        a.GetComponent<Text>().text = mes;
     }
 
     public void OpenSubMenu()

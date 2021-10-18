@@ -8,6 +8,8 @@ public class VIsibilityController : MonoBehaviour
     public ObjectEditorController objEditor;
     public MenuController menu_controller;
     public SceneCameraController CamController;
+    public static bool showVelocity;
+    public GameObject vectorVisibility_hover;
     public Transform workSpace;
     // Start is called before the first frame update
     void Start()
@@ -15,6 +17,7 @@ public class VIsibilityController : MonoBehaviour
         objEditor = GetComponent<ObjectEditorController>();
         menu_controller = GetComponent<MenuController>();
         CamController = menu_controller.CamController;
+        ChangeVelocitVisibility();
     }
 
     // Update is called once per frame
@@ -87,6 +90,24 @@ public class VIsibilityController : MonoBehaviour
         for (int i = 0; i < workSpace.childCount; i++)
         {
             workSpace.GetChild(i).gameObject.SetActive(true);
+        }
+    }
+
+    public void ChangeVelocitVisibility()
+    {
+        if (showVelocity)
+        {
+            showVelocity = false;
+            vectorVisibility_hover.SetActive(true);
+            for (int i = 0; i < workSpace.childCount; i++)
+            {
+                workSpace.GetChild(i).GetComponent<PhysicsObject>().velocityLine.SetActive(false);
+            }
+        }
+        else
+        {
+            showVelocity = true;
+            vectorVisibility_hover.SetActive(false);
         }
     }
 }

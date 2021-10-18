@@ -10,8 +10,7 @@ public class BoxProperties : MonoBehaviour
     public Slider[] propertie_slider;
     public float[] propertie_value;
     public string[] backword;
-    public float[] saved_value;
-    public GameObject target_gameObject; //target physics box
+    public PhysicsObject target_Object; //target physics box
     // Start is called before the first frame update
     void Start()
     {
@@ -33,17 +32,17 @@ public class BoxProperties : MonoBehaviour
         //load from save
         for(int i = 0; i < propertie_txt.Length; i++)
         {
-            propertie_value[i] = 1;
-            propertie_slider[i].value = 1;
-            saved_value[i] = 1;
+            propertie_value[i] = target_Object.properties[i];
+            propertie_slider[i].value = propertie_value[i];
         }
     }
     public void Cancel()
     {
-        objEditor.CloseEditProperties(saved_value);
+        objEditor.CloseEditProperties();
     }
     public void Save()
     {
-        objEditor.CloseEditProperties(propertie_value);
+        target_Object.NewProperties(propertie_value);
+        objEditor.CloseEditProperties();
     }
 }

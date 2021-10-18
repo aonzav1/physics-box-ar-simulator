@@ -21,6 +21,7 @@ public class ObjectEditorController : MonoBehaviour
     Vector3 tmp_position;
     Vector3 tmp_rotation;
     public GameObject OpeningProperties;
+    public float selectedMass;
 
     Vector3 backup_position;
     Vector3 backup_rotation;
@@ -112,8 +113,8 @@ public class ObjectEditorController : MonoBehaviour
                 sel_rb.isKinematic = false;
                 sel_rb.useGravity = false;
 
-                float X = Input.GetAxis("Mouse X") * rotateFactor;
-                float Y = Input.GetAxis("Mouse Y") * rotateFactor;
+                float X = Input.GetAxis("Mouse X") * rotateFactor*selectedMass;
+                float Y = Input.GetAxis("Mouse Y") * rotateFactor*selectedMass;
 
                 sel_rb.AddTorque(Vector3.down* X);
                 sel_rb.AddTorque(Vector3.right * Y);
@@ -126,6 +127,7 @@ public class ObjectEditorController : MonoBehaviour
         selecting = target;
         selecting_txt.text = "Selecting: "+target.name;
         sel_rb = selecting.GetComponent<Rigidbody>();
+        selectedMass = sel_rb.mass;
         tmp_position = target.transform.position;
         tmp_rotation = target.transform.rotation.eulerAngles;
         SelectEditmode(0);
@@ -204,15 +206,16 @@ public class ObjectEditorController : MonoBehaviour
                 GameObject a = Instantiate(BoxProperties, canvas.transform);
                 BoxProperties boxProperties = a.GetComponent<BoxProperties>();
                 boxProperties.objEditor = this;
-                boxProperties.target_gameObject = selecting;
+                boxProperties.target_Object = selecting.GetComponent<PhysicsObject>();
                 OpeningProperties = a;
                 enableEdit = false;
                 break;
         }
     }
 
-    public void CloseEditProperties(float[] data)
+    public void CloseEditProperties()
     {
+        selectedMass = sel_rb.mass;
         visible_controller.CamController.enableRotate = true;
         Destroy(OpeningProperties);
         enableEdit = true;

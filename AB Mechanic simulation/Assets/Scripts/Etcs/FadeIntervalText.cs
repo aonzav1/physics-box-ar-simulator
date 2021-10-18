@@ -15,6 +15,7 @@ public class FadeIntervalText : MonoBehaviour
         rect = transform.GetComponent<RectTransform>();
         StartCoroutine(intervalFade());
     }
+
     IEnumerator intervalFade()
     {
         while (true)
