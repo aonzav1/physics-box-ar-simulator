@@ -18,10 +18,12 @@ public class ObjectEditorController : MonoBehaviour
 {
     [Header("Selected object properties")]
     public GameObject selecting;
+    PhysicsObject selecting_physicsObject;
     Vector3 tmp_position;
     Vector3 tmp_rotation;
     public GameObject OpeningProperties;
     public float selectedMass;
+    public bool isViewForce;
 
     Vector3 backup_position;
     Vector3 backup_rotation;
@@ -46,6 +48,12 @@ public class ObjectEditorController : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject BoxProperties;
+    public GameObject[] ForceArrow;
+
+    [Header("Memory")]
+    public List<GameObject> AllForce = new List<GameObject>();
+    public ForceTmp Gravity;
+    public ForceTmp NormalVector;
 
     // [Header("Ref")]
     bool enableEdit;
@@ -56,6 +64,7 @@ public class ObjectEditorController : MonoBehaviour
     private void Start()
     {
         visible_controller = GetComponent<VIsibilityController>();
+       // ToggleViewForce();
     }
     private void Update()
     {
@@ -96,6 +105,7 @@ public class ObjectEditorController : MonoBehaviour
     }
     private void SaveChange()
     {
+        //CalculateForce();
         now_position = selecting.transform.position;
         now_rotation = selecting.transform.rotation.eulerAngles;
     }
@@ -127,7 +137,8 @@ public class ObjectEditorController : MonoBehaviour
     {
         selecting = target;
         selecting_txt.text = "Selecting: "+target.name;
-        sel_rb = selecting.GetComponent<Rigidbody>();
+        sel_rb = target.GetComponent<Rigidbody>();
+        selecting_physicsObject = target.GetComponent<PhysicsObject>();
         selectedMass = sel_rb.mass;
         tmp_position = target.transform.position;
         tmp_rotation = target.transform.rotation.eulerAngles;
@@ -170,9 +181,7 @@ public class ObjectEditorController : MonoBehaviour
         if (!enableEdit)
             return;
         Debug.Log("Save");
-        selecting = null;
-        enableEdit = false;
-        visible_controller.DeselectAll();
+        CloseEditGracefully();
     }
     public void CancelEdit()
     {
@@ -181,8 +190,13 @@ public class ObjectEditorController : MonoBehaviour
         Debug.Log("Cancel");
         selecting.transform.position = tmp_position;
         selecting.transform.eulerAngles = tmp_rotation;
+        CloseEditGracefully();
+    }
+    void CloseEditGracefully()
+    {
         selecting = null;
         enableEdit = false;
+        CleanTempForces();
         visible_controller.DeselectAll();
     }
 
@@ -207,7 +221,7 @@ public class ObjectEditorController : MonoBehaviour
                 GameObject a = Instantiate(BoxProperties, canvas.transform);
                 BoxProperties boxProperties = a.GetComponent<BoxProperties>();
                 boxProperties.objEditor = this;
-                boxProperties.target_Object = selecting.GetComponent<PhysicsObject>();
+                boxProperties.target_Object = selecting_physicsObject;
                 OpeningProperties = a;
                 enableEdit = false;
                 break;
@@ -217,8 +231,81 @@ public class ObjectEditorController : MonoBehaviour
     public void CloseEditProperties()
     {
         selectedMass = sel_rb.mass;
+        if (Gravity != null)
+        {
+            ChangeForce("mg", selectedMass * -Physics.gravity.y, Vector3.zero);
+        }
         visible_controller.CamController.enableRotate = true;
         Destroy(OpeningProperties);
         enableEdit = true;
+    }
+
+    public void ToggleViewForce()
+    {
+        if (isViewForce)
+        {
+            CleanTempForces();
+            forcevisible_hover.SetActive(true);
+            isViewForce = false;
+        }
+        else
+        {
+            CalculateForce();
+            forcevisible_hover.SetActive(false);
+            isViewForce = true;
+        }
+    }
+
+    public void CalculateForce()
+    {
+        CleanTempForces();
+        Gravity = CreateObjectForce("mg", new Vector3(0,-1,0), sel_rb.mass * -Physics.gravity.y, 0, false);
+        NormalVector = CreateObjectForce("N", selecting_physicsObject.normalVector, 0, 1, false);
+    }
+
+    public ForceTmp CreateObjectForce(string name,Vector3 pos,float magnitude,byte forceColor,bool isFlip)
+    {
+        GameObject force = Instantiate(ForceArrow[forceColor], selecting.transform);
+        force.name = name;
+        force.transform.rotation = Quaternion.LookRotation(pos, Vector3.up);
+        ForceTmp forceScript = force.GetComponent<ForceTmp>();
+        forceScript.UpdateMagnitude(magnitude);
+        forceScript.isLockVector = name == "mg";
+        if(name == "N")
+        {
+            forceScript.isNormal = true;
+            forceScript.target = selecting_physicsObject;
+        }
+        forceScript.LockVector = pos;
+        if (isFlip)
+        {
+            forceScript.arrow.transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+        AllForce.Add(force);
+        return forceScript;
+    }
+
+    public void ChangeForce(string forcename,float magnitude,Vector3 direction)
+    {
+        switch (forcename)
+        {
+            case "mg":
+                Gravity.UpdateMagnitude(magnitude);
+                break;
+            case "n":
+                NormalVector.UpdateMagnitude(0);
+                break;
+        }
+    }
+
+    public void CleanTempForces()
+    {
+        for(int i = 0; i < AllForce.Count; i++)
+        {
+            Destroy(AllForce[i]);
+        }
+        Gravity = null;
+        NormalVector = null;
+        AllForce = new List<GameObject>();
     }
 }
