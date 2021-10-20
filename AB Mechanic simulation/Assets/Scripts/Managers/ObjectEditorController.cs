@@ -11,7 +11,7 @@ public enum ViewMode:byte
 
 public enum EditMode:byte
 {
-    move,rotate,scale
+   none,move,rotate,scale
 }
 
 public class ObjectEditorController : MonoBehaviour
@@ -144,17 +144,17 @@ public class ObjectEditorController : MonoBehaviour
         tmp_rotation = target.transform.rotation.eulerAngles;
         SelectEditmode(0);
         SelectViewmode(0);
-        StartCoroutine(DelayedEnableEdit());
+       // StartCoroutine(DelayedEnableEdit());
     }
-    IEnumerator DelayedEnableEdit()
+ /*   IEnumerator DelayedEnableEdit() //deprecated
     {
         yield return new WaitForSeconds(0.2f);
         enableEdit = true;
-    }
+    }*/
     public void SelectEditmode(int mode)
     {
         editmode = (EditMode)mode;
-        modeSelectionRing.position = modeList[(byte)mode].position;
+      //  modeSelectionRing.position = modeList[(byte)mode].position;
     }
     public void SelectViewmode(int mode)
     {

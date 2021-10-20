@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 1ec2f24ad1f1dc94d8cbbb38400c81ca
   - enabled: 1
-    path: Assets/Scenes/Creative.unity
+    path: Assets/Scenes/Simulation.unity
     guid: 23ab4448795a54b4480ff56672ccfde6
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 0}
