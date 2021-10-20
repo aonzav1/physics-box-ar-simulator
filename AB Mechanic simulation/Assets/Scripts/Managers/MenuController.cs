@@ -13,9 +13,11 @@ public class MenuController : MonoBehaviour
     public  SceneCameraController CamController;
     public GameObject Error_pref;
     public Canvas canvas;
+    public MainWorkSpace mainworlspace;
     // Start is called before the first frame update
     void Start()
     {
+        mainworlspace = GetComponent<MainWorkSpace>();
         page_stack = new Stack<int>();
         OpenPage(0);
     }
