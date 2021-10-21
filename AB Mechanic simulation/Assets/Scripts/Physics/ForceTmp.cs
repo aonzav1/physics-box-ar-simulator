@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class ForceTmp : MonoBehaviour
 {
+    public byte calculateType;
+    public float magnitude;
     public Transform arrow;
-    public bool isLockVector;
-    public Vector3 LockVector;
-    public bool isNormal;
-    public PhysicsObject target;
     public Text text;
     // Start is called before the first frame update
     void Start()
@@ -20,18 +18,17 @@ public class ForceTmp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isLockVector)
-        {
-            transform.rotation = Quaternion.LookRotation(LockVector, Vector3.up);
-        }
-        else if(isNormal)
-        {
-            transform.rotation = Quaternion.LookRotation(target.normalVector, Vector3.up);
-        }
+        //    transform.rotation = Quaternion.LookRotation(LockVector, Vector3.up);
     }
 
-    public void UpdateMagnitude(float magnitude)
+    public void UpdateMagnitude(float magnitudez, bool isAnnonymus)
     {
-        text.text = name + " " + magnitude.ToString("F2") + " m/s^2";
+        if (isAnnonymus)
+            text.text = name;
+        else
+        {
+            text.text = name + " " + magnitudez.ToString("F2") + " N";
+            magnitude = magnitudez;
+        }
     }
 }

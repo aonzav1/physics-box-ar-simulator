@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class PhysicsObject : MonoBehaviour
 {
-    public int objectID;
-    public int refID;
     public ObjectType type;
     public float[] properties;
     Rigidbody rb;
@@ -14,22 +12,16 @@ public class PhysicsObject : MonoBehaviour
     public GameObject velocityLine;
     public GameObject centerofMass;
     public Text velocityMagnitude;
-    public Vector3 normalVector;
+    public ForceVector[] forces;
 
     // Start is called before the first frame update
     void Start()
     {
-        normalVector = new Vector3(0,1, 0);
         switch (type)
         {
             case ObjectType.Box:
                 rb = GetComponent<Rigidbody>();
                 boxCollider = GetComponent<BoxCollider>();
-                //should be set when instantiate
-                properties = new float[3];
-                properties[0] = 1; //mass
-                properties[1] = 0.9f; //static friction coefficient
-                properties[2] = 0.7f; //dynamic friction coefficient
 
                 centerofMass.transform.localPosition = rb.centerOfMass;
                 break;
@@ -57,6 +49,7 @@ public class PhysicsObject : MonoBehaviour
         }
         else
         {
+            velocityLine.SetActive(false);
             centerofMass.SetActive(false);
         }
     }
@@ -86,20 +79,25 @@ public class PhysicsObject : MonoBehaviour
                 break;
         }
     }
-    void OnCollisionEnter(Collision other)
+
+}
+
+[System.Serializable]
+public class ForceVector
+{
+    public Vector3 direction;
+    public byte force_num;
+    public ForceColor color;
+
+    public static string GetName(int num)
     {
-        // Print how many points are colliding with this transform
-        Debug.Log("Points colliding: " + other.contacts.Length);
-
-        // Print the normal of the first point in the collision.
-        Debug.Log("Normal of the first point: " + other.contacts[0].normal);
-
-        normalVector = other.contacts[0].normal;
-
-   /*     // Draw a different colored ray for every normal in the collision
-        foreach (var item in other.contacts)
+        switch (num)
         {
-            Debug.DrawRay(item.point, item.normal * 100, Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f), 10f);
-        }*/
+            case 0:
+                return "mg";
+            case 1:
+                return "N";
+        }
+        return "";
     }
 }

@@ -6,7 +6,6 @@ using UnityEngine;
 public class ObjectData : ScriptableObject
 {
     public string Name;
-    public GameObject prefab;
+    public GameObject[] prefab;
     public Sprite icon;
-    public ObjectType type;
 }

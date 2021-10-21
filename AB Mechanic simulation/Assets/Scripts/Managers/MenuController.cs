@@ -10,7 +10,7 @@ public class MenuController : MonoBehaviour
     public Stack<int> page_stack;
     public GameObject[] Pages;
     public GameObject SubMenu;
-    public  SceneCameraController CamController;
+    public SceneCameraController CamController;
     public GameObject Error_pref;
     public Canvas canvas;
     public MainWorkSpace mainworlspace;
@@ -68,7 +68,7 @@ public class MenuController : MonoBehaviour
                 }
                 SubMenu.SetActive(false);
                 CamController.enableRotate = (num != 2);
-                if (num == 3)
+                if (num == 4)
                 {
                     SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
                 }
@@ -86,4 +86,5 @@ public class MenuController : MonoBehaviour
     {
         SubMenu.SetActive(!SubMenu.activeSelf);
     }
+
 }

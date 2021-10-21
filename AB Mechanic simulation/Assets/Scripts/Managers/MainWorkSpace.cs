@@ -15,6 +15,7 @@ public class MainWorkSpace : MonoBehaviour
     public GameObject pauseButton;
     public static bool isSimulate;
     public ObjectDatacenter datacenter;
+    public GameObject ObjectChoosePanel;
     public Text simulationTime_txt;
     public float simulationTime;
 
@@ -104,6 +105,25 @@ public class MainWorkSpace : MonoBehaviour
           //  tmpSave[i].obj.transform.rotation.eulerAngles.Set(rot.x, rot.y, rot.z);
         }
         tmpSave.Clear();
+    }
+
+    public void SpawnObject(ObjectData data)
+    {
+        ClearObject();
+        for (int i = 0; i < data.prefab.Length; i++)
+        {
+            Instantiate(data.prefab[i], workSpace);
+        }
+        isSimulate = false;
+        StopSimulation();
+    }
+
+    public void ClearObject()
+    {
+        for(int i = 0; i < workSpace.childCount; i++)
+        {
+            Destroy(workSpace.GetChild(i).gameObject);
+        }
     }
 
 }
