@@ -15,9 +15,10 @@ public class MainWorkSpace : MonoBehaviour
     public GameObject pauseButton;
     public static bool isSimulate;
     public ObjectDatacenter datacenter;
-    public GameObject ObjectChoosePanel;
     public Text simulationTime_txt;
     public float simulationTime;
+    public GameObject object_interaction;
+    public Transform mainUI;
 
     public List<ObjectSaveData> tmpSave = new List<ObjectSaveData>();
     
@@ -114,6 +115,10 @@ public class MainWorkSpace : MonoBehaviour
         {
             Instantiate(data.prefab[i], workSpace);
         }
+        if(data.control_panel != null)
+        {
+            object_interaction = Instantiate(data.control_panel, mainUI);
+        }
         isSimulate = false;
         StopSimulation();
     }
@@ -123,6 +128,10 @@ public class MainWorkSpace : MonoBehaviour
         for(int i = 0; i < workSpace.childCount; i++)
         {
             Destroy(workSpace.GetChild(i).gameObject);
+        }
+        if(object_interaction != null)
+        {
+            Destroy(object_interaction);
         }
     }
 

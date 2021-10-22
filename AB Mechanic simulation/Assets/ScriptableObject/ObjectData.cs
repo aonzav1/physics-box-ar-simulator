@@ -7,5 +7,6 @@ public class ObjectData : ScriptableObject
 {
     public string Name;
     public GameObject[] prefab;
+    public GameObject control_panel;
     public Sprite icon;
 }

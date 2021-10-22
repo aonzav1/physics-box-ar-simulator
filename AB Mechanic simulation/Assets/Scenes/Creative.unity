@@ -1415,9 +1415,10 @@ MonoBehaviour:
   startButton: {fileID: 1476135984}
   pauseButton: {fileID: 439349156}
   datacenter: {fileID: 11400000, guid: 357a2f35c3f804441b122b2678c70e89, type: 2}
-  ObjectChoosePanel: {fileID: 0}
   simulationTime_txt: {fileID: 1274261201}
   simulationTime: 0
+  object_interaction: {fileID: 0}
+  mainUI: {fileID: 2034671878}
   tmpSave: []
 --- !u!1 &375899823
 GameObject:
@@ -5147,7 +5148,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1375853915
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5164,10 +5165,10 @@ RectTransform:
   m_Father: {fileID: 1955682619}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 320, y: -100}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1375853916
 MonoBehaviour:
@@ -8806,8 +8807,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 724.34186, y: 1566.5}
-  m_SizeDelta: {x: 423.698, y: 234.87}
+  m_AnchoredPosition: {x: 830.6088, y: 1462.6}
+  m_SizeDelta: {x: 211.164, y: 442.61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1955682620
 MonoBehaviour:
