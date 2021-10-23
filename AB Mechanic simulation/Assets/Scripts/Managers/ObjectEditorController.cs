@@ -278,11 +278,11 @@ public class ObjectEditorController : MonoBehaviour
         ForceTmp forceScript = force.GetComponent<ForceTmp>();
         float magnitude = CalculateForceMagnitude(force_vector.force_num);
         forceScript.calculateType = force_vector.force_num;
-        if (magnitude < 0)
+        /*if (magnitude < 0)
         {
             magnitude = -magnitude;
             forceScript.arrow.transform.eulerAngles = new Vector3(0, 180, 0);
-        }
+        }*/
         forceScript.UpdateMagnitude(magnitude,false);
         AllForce.Add(forceScript);
         return forceScript;

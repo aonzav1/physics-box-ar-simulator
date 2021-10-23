@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Creative.unity
     guid: 23ab4448795a54b4480ff56672ccfde6
+  - enabled: 1
+    path: Assets/Scenes/ProblemMode.unity
+    guid: 3633e36b48af33345937e96a180c7ed3
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 0}
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: f2aded5236475ea48a2e87f7cde8d2ca,

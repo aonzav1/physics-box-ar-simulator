@@ -416,11 +416,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc01aa4fc902fc54186c44dfe3f80734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highScore: 0
-  curScore: 0
   highscoreTxt: {fileID: 1165280444}
   scoreTxt: {fileID: 498672215}
-  cur_mul: 0
+  timeTxt: {fileID: 1733587620}
+  timeleft: 0
   menu_con: {fileID: 363007257}
 --- !u!1 &377034948
 GameObject:
@@ -724,14 +723,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 363007257}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: OpenPage
+      - m_Target: {fileID: 363007258}
+        m_TargetAssemblyTypeName: ProblemGenerator, Assembly-CSharp
+        m_MethodName: PlayMode
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1742,14 +1741,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 363007257}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: OpenPage
+      - m_Target: {fileID: 363007258}
+        m_TargetAssemblyTypeName: ProblemGenerator, Assembly-CSharp
+        m_MethodName: PlayMode
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2361,9 +2360,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 363007257}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: OpenPage
+      - m_Target: {fileID: 363007258}
+        m_TargetAssemblyTypeName: ProblemGenerator, Assembly-CSharp
+        m_MethodName: PlayMode
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

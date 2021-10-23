@@ -65,6 +65,10 @@ public class MenuController : MonoBehaviour
                 {
                     Pages[i].SetActive(num == i);
                 }
+                if (num == 4)
+                {
+                    SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+                }
                 break;
             case 2:
                 if (num == 2 && MainWorkSpace.isSimulate)
