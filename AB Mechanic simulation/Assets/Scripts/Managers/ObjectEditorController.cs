@@ -178,16 +178,16 @@ public class ObjectEditorController : MonoBehaviour
 
 
     public void SaveEdit()
-    {
+    {/*
         if (!enableEdit)
-            return;
+            return;*/
         Debug.Log("Save");
         CloseEditGracefully();
     }
     public void CancelEdit()
     {
-        if (!enableEdit)
-            return; 
+    /*    if (!enableEdit)
+            return; */
         Debug.Log("Cancel");
         selecting.transform.position = tmp_position;
         selecting.transform.eulerAngles = tmp_rotation;
@@ -195,6 +195,7 @@ public class ObjectEditorController : MonoBehaviour
     }
     void CloseEditGracefully()
     {
+        Debug.Log("Close");
         selecting = null;
         enableEdit = false;
         CleanTempForces();
@@ -276,6 +277,7 @@ public class ObjectEditorController : MonoBehaviour
         force.transform.rotation = Quaternion.LookRotation(force_vector.direction, Vector3.up);
         ForceTmp forceScript = force.GetComponent<ForceTmp>();
         float magnitude = CalculateForceMagnitude(force_vector.force_num);
+        forceScript.calculateType = force_vector.force_num;
         if (magnitude < 0)
         {
             magnitude = -magnitude;
@@ -291,6 +293,39 @@ public class ObjectEditorController : MonoBehaviour
         {
             case 0: //mg
                 return sel_rb.mass * -Physics.gravity.y;
+            case 1: //N
+                return sel_rb.mass * -Physics.gravity.y;
+            case 2: //N
+                return selecting_physicsObject.totalMass * -Physics.gravity.y;
+            case 3: //friction
+                float normal = selecting_physicsObject.totalMass * -Physics.gravity.y;
+                PhysicMaterial floorMatt_1 = selecting_physicsObject.floor.material;
+                PhysicMaterial myMatt_1 = selecting_physicsObject.boxCollider.material;
+                float maxstaticF = (floorMatt_1.staticFriction+ myMatt_1.staticFriction)/2 * normal;
+                if(selecting_physicsObject.externalForce > maxstaticF)
+                {
+                    return (floorMatt_1.dynamicFriction + myMatt_1.dynamicFriction) / 2 * normal; 
+                }
+                else
+                {
+                    return selecting_physicsObject.externalForce;
+                }
+            case 4: //relative friction
+                float r_normal = (selecting_physicsObject.totalMass-sel_rb.mass) * -Physics.gravity.y;
+                PhysicMaterial upperMatt_2 = selecting_physicsObject.stacking_rb[0].GetComponent<Collider>().material;
+                PhysicMaterial myMatt_2 = selecting_physicsObject.boxCollider.material;
+                float r_maxstaticF = (upperMatt_2.staticFriction + myMatt_2.staticFriction) / 2 * r_normal;
+                if (selecting_physicsObject.externalForce > r_maxstaticF)
+                {
+                 
+                    return -(upperMatt_2.dynamicFriction + myMatt_2.dynamicFriction) / 2 * r_normal;
+                }
+                else
+                {
+                    return -selecting_physicsObject.externalForce;
+                }
+            case 5:
+                return selecting_physicsObject.externalForce;
             default:
                 return 0;
         }

@@ -65,6 +65,7 @@ public class VIsibilityController : MonoBehaviour
             SeeAllObjects();
         selectingObject.UpdateSelection(false);
         selectingObject = null;
+        Debug.Log("say Opne page 0");
         menu_controller.OpenPage(0);
     }
 

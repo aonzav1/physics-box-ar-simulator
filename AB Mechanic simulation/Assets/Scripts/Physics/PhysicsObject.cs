@@ -7,12 +7,17 @@ public class PhysicsObject : MonoBehaviour
 {
     public ObjectType type;
     public float[] properties;
-    Rigidbody rb;
-    BoxCollider boxCollider;
+    public int[] stacking_object;
+    public List<Rigidbody> stacking_rb;
+    public float totalMass = 0;
+    public Rigidbody rb;
+    public BoxCollider boxCollider;
     public GameObject velocityLine;
     public GameObject centerofMass;
     public Text velocityMagnitude;
     public ForceVector[] forces;
+    public float externalForce;
+    public Collider floor;
 
     // Start is called before the first frame update
     void Start()
@@ -76,7 +81,24 @@ public class PhysicsObject : MonoBehaviour
                     boxCollider.material.staticFriction = properties[1];
                     boxCollider.material.dynamicFriction = properties[2];
                 }
+                float allmass = 0;
+                for (int i = 0; i < stacking_rb.Count; i++)
+                {
+                    allmass += stacking_rb[i].mass;
+                }
+                totalMass = rb.mass + allmass;
                 break;
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.gameObject.name); 
+        if(floor == null)
+        {
+            if(collision.gameObject.transform.position.y < transform.position.y)
+            {
+                floor = collision.gameObject.GetComponent<Collider>();
+            }
         }
     }
 
@@ -95,8 +117,16 @@ public class ForceVector
         {
             case 0:
                 return "mg";
-            case 1:
+            case 1: //one object
                 return "N";
+            case 2:  //group
+                return "N";
+            case 3:  //friction
+                return "friction";
+            case 4:  //relative friction
+                return "friction(r)";
+            case 5:
+                return "P";
         }
         return "";
     }

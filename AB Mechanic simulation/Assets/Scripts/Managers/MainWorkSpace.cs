@@ -111,9 +111,19 @@ public class MainWorkSpace : MonoBehaviour
     public void SpawnObject(ObjectData data)
     {
         ClearObject();
+        Rigidbody[] tmp_obj = new Rigidbody[data.prefab.Length]; 
         for (int i = 0; i < data.prefab.Length; i++)
         {
-            Instantiate(data.prefab[i], workSpace);
+            PhysicsObject a= Instantiate(data.prefab[i], workSpace).GetComponent<PhysicsObject>();
+            if(a.stacking_object != null)
+            {
+                a.stacking_rb = new List<Rigidbody>();
+                for(int j=0; j < a.stacking_object.Length; j++)
+                {
+                    a.stacking_rb.Add(tmp_obj[a.stacking_object[j]]);
+                }
+            }
+            tmp_obj[i] = a.GetComponent<Rigidbody>();
         }
         if(data.control_panel != null)
         {

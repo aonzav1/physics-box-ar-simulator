@@ -12,7 +12,7 @@ public class ForceTmp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        transform.localScale = new Vector3(0.5f / transform.parent.localScale.x, 0.5f / transform.parent.localScale.y, 0.5f / transform.parent.localScale.z);
     }
 
     // Update is called once per frame
