@@ -52,9 +52,19 @@ public class MenuController : MonoBehaviour
                 {
                     SceneManager.LoadScene("Creative", LoadSceneMode.Single);
                 }
+                if(num == 3)
+                {
+                    SceneManager.LoadScene("ProblemMode", LoadSceneMode.Single);
+                }
                 //num 2 for open creative mode
                 //num 3 for open survival mode
                 //num 4 for open setting page
+                break;
+            case 1:
+                for (int i = 0; i < Pages.Length; i++)
+                {
+                    Pages[i].SetActive(num == i);
+                }
                 break;
             case 2:
                 if (num == 2 && MainWorkSpace.isSimulate)
