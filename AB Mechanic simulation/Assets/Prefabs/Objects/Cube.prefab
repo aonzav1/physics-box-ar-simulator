@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 827901849938243690}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 827901850740108343}
@@ -192,6 +192,11 @@ MonoBehaviour:
   - 1
   - 0.25
   - 0.2
+  stacking_object: 
+  stacking_rb: []
+  totalMass: 0
+  rb: {fileID: 0}
+  boxCollider: {fileID: 0}
   velocityLine: {fileID: 827901850018032363}
   centerofMass: {fileID: 827901850740108342}
   velocityMagnitude: {fileID: 827901851438244996}
@@ -199,6 +204,10 @@ MonoBehaviour:
   - direction: {x: 0, y: -1, z: 0}
     force_num: 0
     color: 0
+  externalForce: 0
+  floor: {fileID: 0}
+  probgen: {fileID: 0}
+  AllForce: []
 --- !u!1 &827901849973301808
 GameObject:
   m_ObjectHideFlags: 0

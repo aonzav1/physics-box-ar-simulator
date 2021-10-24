@@ -27,6 +27,11 @@ public class PhysicsObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Setup();
+    }
+
+    void Setup()
+    {
         main = FindObjectOfType<MainWorkSpace>();
         switch (type)
         {
@@ -200,6 +205,10 @@ public class PhysicsObject : MonoBehaviour
 
     public ForceTmp CreateObjectForce(ForceVector force_vector, bool isUnkown)
     {
+        if(main == null)
+        {
+            Setup();
+        }
         GameObject force = Instantiate(main.datacenter.forceArrow[(byte)force_vector.color], transform);
         force.name = ForceVector.GetName(force_vector.force_num);
         force.transform.rotation = Quaternion.LookRotation(force_vector.direction, Vector3.up);
@@ -207,6 +216,7 @@ public class PhysicsObject : MonoBehaviour
         float magnitude = CalculateForceMagnitude(force_vector.force_num);
         if(magnitude == 0)
         {
+            Debug.Log("Vector 0");
             Destroy(force);
             return null;
         }
