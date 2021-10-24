@@ -52,10 +52,6 @@ public class ObjectEditorController : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject BoxProperties;
-    public GameObject[] ForceArrow;
-
-    [Header("Memory")]
-    public List<ForceTmp> AllForce = new List<ForceTmp>();
 
     // [Header("Ref")]
     bool enableEdit;
@@ -145,7 +141,17 @@ public class ObjectEditorController : MonoBehaviour
         tmp_rotation = target.transform.rotation.eulerAngles;
         SelectEditmode(0);
         SelectViewmode(0);
-       // StartCoroutine(DelayedEnableEdit());
+        if (!isViewForce)
+        {
+            selecting_physicsObject.CleanTempForces();
+            forcevisible_hover.SetActive(true);
+        }
+        else
+        {
+            selecting_physicsObject.CalculateNewForces();
+            forcevisible_hover.SetActive(false);
+        }
+        // StartCoroutine(DelayedEnableEdit());
     }
  /*   IEnumerator DelayedEnableEdit() //deprecated
     {
@@ -196,9 +202,10 @@ public class ObjectEditorController : MonoBehaviour
     void CloseEditGracefully()
     {
         Debug.Log("Close");
+        selecting_physicsObject.CleanTempForces();
+        selecting_physicsObject = null;
         selecting = null;
         enableEdit = false;
-        CleanTempForces();
         visible_controller.DeselectAll();
     }
 
@@ -232,7 +239,7 @@ public class ObjectEditorController : MonoBehaviour
 
     public void CloseEditProperties()
     {
-        UpdateForces();
+        selecting_physicsObject.UpdateForces();
         visible_controller.CamController.enableRotate = true;
         Destroy(OpeningProperties);
         enableEdit = true;
@@ -242,107 +249,18 @@ public class ObjectEditorController : MonoBehaviour
     {
         if (isViewForce)
         {
-            CleanTempForces();
+            selecting_physicsObject.CleanTempForces();
             forcevisible_hover.SetActive(true);
             isViewForce = false;
         }
         else
         {
-            CalculateNewForces();
+            selecting_physicsObject.CalculateNewForces();
             forcevisible_hover.SetActive(false);
             isViewForce = true;
         }
     }
 
-    public void CalculateNewForces()
-    {
-        CleanTempForces();
-        for(int i = 0; i < selecting_physicsObject.forces.Length; i++)
-        {
-            CreateObjectForce(selecting_physicsObject.forces[i],false);
-        }
-    }
-    public void UpdateForces()
-    {
-        for (int i = 0; i <AllForce.Count; i++)
-        {
-            ChangeForce(i);
-        }
-    }
 
-    public ForceTmp CreateObjectForce(ForceVector force_vector,bool isUnkown)
-    {
-        GameObject force = Instantiate(ForceArrow[(byte)force_vector.color], selecting.transform);
-        force.name = ForceVector.GetName(force_vector.force_num);
-        force.transform.rotation = Quaternion.LookRotation(force_vector.direction, Vector3.up);
-        ForceTmp forceScript = force.GetComponent<ForceTmp>();
-        float magnitude = CalculateForceMagnitude(force_vector.force_num);
-        forceScript.calculateType = force_vector.force_num;
-        /*if (magnitude < 0)
-        {
-            magnitude = -magnitude;
-            forceScript.arrow.transform.eulerAngles = new Vector3(0, 180, 0);
-        }*/
-        forceScript.UpdateMagnitude(magnitude,false);
-        AllForce.Add(forceScript);
-        return forceScript;
-    }
-    public float CalculateForceMagnitude(int num)
-    {
-        switch (num)
-        {
-            case 0: //mg
-                return sel_rb.mass * -Physics.gravity.y;
-            case 1: //N
-                return sel_rb.mass * -Physics.gravity.y;
-            case 2: //N
-                return selecting_physicsObject.totalMass * -Physics.gravity.y;
-            case 3: //friction
-                float normal = selecting_physicsObject.totalMass * -Physics.gravity.y;
-                PhysicMaterial floorMatt_1 = selecting_physicsObject.floor.material;
-                PhysicMaterial myMatt_1 = selecting_physicsObject.boxCollider.material;
-                float maxstaticF = (floorMatt_1.staticFriction+ myMatt_1.staticFriction)/2 * normal;
-                if(selecting_physicsObject.externalForce > maxstaticF)
-                {
-                    return (floorMatt_1.dynamicFriction + myMatt_1.dynamicFriction) / 2 * normal; 
-                }
-                else
-                {
-                    return selecting_physicsObject.externalForce;
-                }
-            case 4: //relative friction
-                float r_normal = (selecting_physicsObject.totalMass-sel_rb.mass) * -Physics.gravity.y;
-                PhysicMaterial upperMatt_2 = selecting_physicsObject.stacking_rb[0].GetComponent<Collider>().material;
-                PhysicMaterial myMatt_2 = selecting_physicsObject.boxCollider.material;
-                float r_maxstaticF = (upperMatt_2.staticFriction + myMatt_2.staticFriction) / 2 * r_normal;
-                if (selecting_physicsObject.externalForce > r_maxstaticF)
-                {
-                 
-                    return -(upperMatt_2.dynamicFriction + myMatt_2.dynamicFriction) / 2 * r_normal;
-                }
-                else
-                {
-                    return -selecting_physicsObject.externalForce;
-                }
-            case 5:
-                return selecting_physicsObject.externalForce;
-            default:
-                return 0;
-        }
-    }
 
-    public void ChangeForce(int num)
-    {
-        float magnitude = CalculateForceMagnitude(AllForce[num].calculateType);
-        AllForce[num].UpdateMagnitude(magnitude,false);
-    }
-
-    public void CleanTempForces()
-    {
-        for(int i = 0; i < AllForce.Count; i++)
-        {
-            Destroy(AllForce[i].gameObject);
-        }
-        AllForce = new List<ForceTmp>();
-    }
 }

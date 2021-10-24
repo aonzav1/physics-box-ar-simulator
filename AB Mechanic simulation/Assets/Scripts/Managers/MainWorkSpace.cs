@@ -19,6 +19,9 @@ public class MainWorkSpace : MonoBehaviour
     public float simulationTime;
     public GameObject object_interaction;
     public Transform mainUI;
+    public Rigidbody[] tmp_spawned;
+    public bool isGenInteraction;
+    bool stopCount;
 
     public List<ObjectSaveData> tmpSave = new List<ObjectSaveData>();
     
@@ -31,7 +34,7 @@ public class MainWorkSpace : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isSimulate)
+        if (isSimulate && !stopCount)
         {
             simulationTime += Time.deltaTime;
             simulationTime_txt.text = "t = "+simulationTime.ToString("F2")+" s";
@@ -39,6 +42,7 @@ public class MainWorkSpace : MonoBehaviour
     }
     public void StartSimulation()
     {
+        stopCount = false;
         if (!isSimulate)
         {
             SaveTmpData();
@@ -46,8 +50,11 @@ public class MainWorkSpace : MonoBehaviour
         }
         Time.timeScale = 1;
         isSimulate = true;
-        startButton.SetActive(false);
-        pauseButton.SetActive(true);
+        if (startButton != null)
+        {
+            startButton.SetActive(false);
+            pauseButton.SetActive(true);
+        }
         for (int i = 0; i < workSpace.childCount; i++)
         {
             workSpace.GetChild(i).GetComponent<Rigidbody>().isKinematic = false;
@@ -56,8 +63,11 @@ public class MainWorkSpace : MonoBehaviour
     public void PauseSimulation()
     {
         Time.timeScale = 0;
-        startButton.SetActive(true);
-        pauseButton.SetActive(false);
+        if (startButton != null)
+        {
+            startButton.SetActive(true);
+            pauseButton.SetActive(false);
+        }
        /* for (int i = 0; i < workSpace.childCount; i++)
         {
             workSpace.GetChild(i).GetComponent<Rigidbody>().isKinematic = true;
@@ -66,8 +76,11 @@ public class MainWorkSpace : MonoBehaviour
     public void StopSimulation()
     {
         Time.timeScale = 1;
-        startButton.SetActive(true);
-        pauseButton.SetActive(false);
+        if (startButton != null)
+        {
+            startButton.SetActive(true);
+            pauseButton.SetActive(false);
+        }
         for (int i = 0; i < workSpace.childCount; i++)
         {
             workSpace.GetChild(i).GetComponent<Rigidbody>().isKinematic = true;
@@ -107,8 +120,12 @@ public class MainWorkSpace : MonoBehaviour
         }
         tmpSave.Clear();
     }
+    public void StopTimeCount()
+    {
+        stopCount = true;
+    }
 
-    public void SpawnObject(ObjectData data)
+    public void SpawnObject(ObjectData data, ProblemGenerator probgen=null)
     {
         ClearObject();
         Rigidbody[] tmp_obj = new Rigidbody[data.prefab.Length]; 
@@ -123,13 +140,17 @@ public class MainWorkSpace : MonoBehaviour
                     a.stacking_rb.Add(tmp_obj[a.stacking_object[j]]);
                 }
             }
+            a.probgen = probgen;
             tmp_obj[i] = a.GetComponent<Rigidbody>();
         }
-        if(data.control_panel != null)
+        tmp_spawned = tmp_obj;
+
+        if(data.control_panel != null && isGenInteraction)
         {
             object_interaction = Instantiate(data.control_panel, mainUI);
         }
         isSimulate = false;
+        StartSimulation();
         StopSimulation();
     }
 

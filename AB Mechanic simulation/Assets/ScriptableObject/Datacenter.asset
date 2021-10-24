@@ -15,3 +15,18 @@ MonoBehaviour:
   objects:
   - {fileID: 11400000, guid: 71554b80440fa964081bf2b56132f2fb, type: 2}
   - {fileID: 11400000, guid: 57034e1c17862f84b8065a2691a7489b, type: 2}
+  forceArrow:
+  - {fileID: 2609277238508397263, guid: 7a1a0c867167f1343b772db2c957775e, type: 3}
+  - {fileID: 2609277238508397263, guid: 27f99f2368b1cf845adf933c959310e2, type: 3}
+  - {fileID: 2609277238508397263, guid: ddf5c9f514d28c0409a89da3ead45681, type: 3}
+  questions:
+  - question: The box is at {h}m height, calculate time that it hits the floor
+    data: {fileID: 11400000, guid: 71554b80440fa964081bf2b56132f2fb, type: 2}
+    targetobject: 0
+    unknown_force: 0
+    unknown_vector: {x: 1, y: 2.2, z: 0}
+    externalVector:
+      direction: {x: 0, y: 0, z: 0}
+      force_num: 0
+      color: 0
+    type: 1

@@ -24,7 +24,10 @@ public class ForceTmp : MonoBehaviour
     public void UpdateMagnitude(float magnitudez, bool isAnnonymus)
     {
         if (isAnnonymus)
+        {
             text.text = name;
+            magnitude = magnitudez;
+        }
         else
         {
             text.text = name + " " + magnitudez.ToString("F2") + " N";

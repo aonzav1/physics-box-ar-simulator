@@ -1394,11 +1394,6 @@ MonoBehaviour:
   rotateFactor: 1
   BoxProperties: {fileID: 1804646440638149010, guid: f84b702c65e5f0b499f1a75f832f85f8,
     type: 3}
-  ForceArrow:
-  - {fileID: 2609277238508397263, guid: 7a1a0c867167f1343b772db2c957775e, type: 3}
-  - {fileID: 2609277238508397263, guid: 27f99f2368b1cf845adf933c959310e2, type: 3}
-  - {fileID: 2609277238508397263, guid: ddf5c9f514d28c0409a89da3ead45681, type: 3}
-  AllForce: []
 --- !u!114 &363007260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1419,6 +1414,8 @@ MonoBehaviour:
   simulationTime: 0
   object_interaction: {fileID: 0}
   mainUI: {fileID: 2034671878}
+  tmp_spawned: []
+  isGenInteraction: 1
   tmpSave: []
 --- !u!1 &375899823
 GameObject:

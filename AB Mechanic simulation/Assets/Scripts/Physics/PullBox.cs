@@ -18,13 +18,18 @@ public class PullBox : MonoBehaviour
     void Start()
     {
         main = FindObjectOfType<MainWorkSpace>();
+        FindTarget();
+        Pull(0);
+    }
+    void FindTarget()
+    {
         Targets = new PhysicsObject[main.workSpace.childCount];
-        for(int i = 0; i < main.workSpace.childCount; i++)
+        for (int i = 0; i < main.workSpace.childCount; i++)
         {
             Targets[i] = main.workSpace.GetChild(i).GetComponent<PhysicsObject>();
         }
-        Pull(0);
     }
+
     private void Update()
     {
         //        valueText.text = val_slider.value.ToString("F2") + "N";
@@ -44,6 +49,10 @@ public class PullBox : MonoBehaviour
 
     public void Pull(int num)
     {
+        if(Targets.Length != main.workSpace.childCount)
+        {
+            FindTarget();
+        }
         if(curRope != null)
         {
             Destroy(curRope);
