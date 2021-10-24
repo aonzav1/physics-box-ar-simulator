@@ -25,7 +25,7 @@ public class ForceTmp : MonoBehaviour
     {
         if (isAnnonymus)
         {
-            text.text = name;
+            text.text = "F";
             magnitude = magnitudez;
         }
         else

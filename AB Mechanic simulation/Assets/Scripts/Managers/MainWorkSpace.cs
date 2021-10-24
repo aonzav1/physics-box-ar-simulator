@@ -150,7 +150,13 @@ public class MainWorkSpace : MonoBehaviour
             object_interaction = Instantiate(data.control_panel, mainUI);
         }
         isSimulate = false;
+        StartCoroutine(GetObjectSurroundingData());
+    }
+    IEnumerator GetObjectSurroundingData()
+    {
+        Debug.Log("Get object data");
         StartSimulation();
+        yield return new WaitForSeconds(0.2f);
         StopSimulation();
     }
 

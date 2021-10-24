@@ -70,7 +70,7 @@ public class ProblemGenerator : MonoBehaviour
         UpdateScore();
         GenerateNewQuestion();
         menu_con.OpenPage(1);
-        StartCoroutine(countdown(60*(4-difficulty)));
+        StartCoroutine(countdown(15+15*(3-difficulty)));
     }
     public void GenerateNewQuestion()
     {
@@ -80,6 +80,7 @@ public class ProblemGenerator : MonoBehaviour
         main.SpawnObject(targetProblem.data,this);
         string Question = targetProblem.question;
         float ans = 0;
+        string unit = "";
         switch (targetProblem.type)
         {
             case QuestionUnknownType.fall:
@@ -89,6 +90,20 @@ public class ProblemGenerator : MonoBehaviour
                 ans = Mathf.Sqrt((targetheight-0.25f) * 2/(-Physics.gravity.y));
                 Debug.Log("ans is "+ans);
                 Question = Question.Replace("{h}", targetheight.ToString("F2"));
+                unit = " s";
+                break;
+            case QuestionUnknownType.weight:
+                float targetmass = Random.Range(targetProblem.unknown_vector.x, targetProblem.unknown_vector.y);
+                main.tmp_spawned[targetProblem.targetobject].mass = targetmass;
+                PhysicsObject weightobject = main.tmp_spawned[targetProblem.targetobject].GetComponent<PhysicsObject>();
+                weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
+                float upwardforce = targetmass *Random.Range(1, 6);
+                ans = targetmass * (-Physics.gravity.y) - upwardforce;
+                Debug.Log("ans is " + ans);
+                weightobject.externalForce = upwardforce;
+                weightobject.CreateObjectForce(targetProblem.externalVector, false) ;
+                Question = Question.Replace("{m}", targetmass.ToString("F2"));
+                unit = " N";
                 break;
         }
         questionTxt.text = "Q" + question_num + ": " + Question;
@@ -111,13 +126,13 @@ public class ProblemGenerator : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 if (i == R) {
-                    choices[i].text = ans.ToString("F2") + " s";
+                    choices[i].text = ans.ToString("F2") + unit;
                 }
                 else
                 {
                     float rand = 0;
                     rand = mid + (smallmid * randList[i]);
-                    choices[i].text = rand.ToString("F2") + " s";
+                    choices[i].text = rand.ToString("F2") + unit;
                 }
             }
             thisAnswer = R;
@@ -134,6 +149,7 @@ public class ProblemGenerator : MonoBehaviour
     }
     IEnumerator countForSimulation(bool isCorrect)
     {
+        timeleft += 5;
         yield return new WaitForSeconds(0.25f);
         bool isContinue = true;
         while (isContinue)
@@ -157,7 +173,26 @@ public class ProblemGenerator : MonoBehaviour
         }
         else
         {
-            timeleft = 0;
+            if (difficulty == 1)
+            {
+                timeleft -= 15;
+                curScore -= 1;
+                UpdateScore();
+                if(timeleft > 0)
+                    GenerateNewQuestion();
+            }
+            else if (difficulty == 2)
+            {
+                timeleft = timeleft/2;
+                curScore -= 2;
+                UpdateScore();
+                if (timeleft > 15)
+                    GenerateNewQuestion();
+            }
+            else
+            {
+                timeleft = 0;
+            }
         }
         isAnswered = false;
     }
@@ -165,7 +200,7 @@ public class ProblemGenerator : MonoBehaviour
     public void AddScoreAndTime()
     {
         curScore += difficulty;
-        timeleft += 5+((3-difficulty)*5);
+        timeleft += (3-difficulty)*Random.Range(1,6);
         UpdateScore();
         //show add score and time
     }

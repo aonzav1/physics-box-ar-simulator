@@ -30,3 +30,13 @@ MonoBehaviour:
       force_num: 0
       color: 0
     type: 1
+  - question: The box is {m} kg, calculate its downward force
+    data: {fileID: 11400000, guid: 71554b80440fa964081bf2b56132f2fb, type: 2}
+    targetobject: 0
+    unknown_force: 0
+    unknown_vector: {x: 0.5, y: 5, z: 0}
+    externalVector:
+      direction: {x: 0, y: 1, z: 0}
+      force_num: 5
+      color: 1
+    type: 5
