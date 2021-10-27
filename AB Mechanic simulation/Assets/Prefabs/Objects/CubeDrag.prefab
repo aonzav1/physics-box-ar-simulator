@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 844139071428369545}
   - component: {fileID: 844139071428369544}
   m_Layer: 0
-  m_Name: Bottom Cube
+  m_Name: CubeDrag
   m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 36915633e60a3ef459d08be595300b9d, type: 2}
+  - {fileID: 2100000, guid: 3fd64190533d6cd4598e07e44261bb2b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -135,7 +135,7 @@ MonoBehaviour:
   - 1
   - 0.25
   - 0.2
-  stacking_object: 00000000
+  stacking_object: 
   stacking_rb: []
   totalMass: 0
   rb: {fileID: 0}
@@ -150,9 +150,6 @@ MonoBehaviour:
   - direction: {x: 0, y: 1, z: 0}
     force_num: 2
     color: 2
-  - direction: {x: 1, y: 0, z: 0}
-    force_num: 4
-    color: 1
   - direction: {x: -1, y: 0, z: 0}
     force_num: 3
     color: 2

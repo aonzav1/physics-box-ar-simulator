@@ -17,9 +17,12 @@ public class PhysicsObject : MonoBehaviour
     public Text velocityMagnitude;
     public ForceVector[] forces;
     public float externalForce;
+    public float ext_relative;
+    public Vector3 extForce_vector;
     public Collider floor;
     MainWorkSpace main;
     public ProblemGenerator probgen;
+    public bool isPush;
 
     [Header("Memory")]
     public List<ForceTmp> AllForce = new List<ForceTmp>();
@@ -69,6 +72,47 @@ public class PhysicsObject : MonoBehaviour
             centerofMass.SetActive(false);
         }
     }
+    float speedz;
+    bool isCheck;
+    private void FixedUpdate()
+    {
+        if (MainWorkSpace.isSimulate)
+        {
+            if (externalForce > 0 )
+            {
+                /*if (!isPush)
+                {*/
+                    isPush = true;
+                    rb.AddForce(extForce_vector * (externalForce/rb.mass), ForceMode.Acceleration);
+                //}
+            }
+            if (!isCheck)
+            {
+                isCheck = true;
+                StartCoroutine(CheckAcceleration());
+            }
+        }
+        else
+        {
+            isCheck = false;
+        }
+       /* else
+        {
+            isPush = false;
+        }*/
+    }
+    IEnumerator CheckAcceleration()
+    {
+        speedz = 0;
+        while (isCheck)
+        {
+            yield return new WaitForSeconds(0.1f);
+            float diff = rb.velocity.magnitude - speedz;
+            speedz = rb.velocity.magnitude;
+            if(diff > 0.01f)
+                Debug.Log(gameObject.name + " has a = "+(diff*10));
+        }
+    }
     public void NewProperties(float[] newdata)
     {
         properties = newdata;
@@ -83,14 +127,16 @@ public class PhysicsObject : MonoBehaviour
                 if (boxCollider.material == null)
                 {
                     PhysicMaterial actorMaterial = new PhysicMaterial();
-                    actorMaterial.staticFriction = properties[1];
-                    actorMaterial.dynamicFriction = properties[2];
+                    actorMaterial.staticFriction = properties[1]/2;
+                    actorMaterial.dynamicFriction = properties[2]/2;
+                    actorMaterial.frictionCombine = 0;
                     boxCollider.material = actorMaterial;
                 }
                 else
                 {
-                    boxCollider.material.staticFriction = properties[1];
-                    boxCollider.material.dynamicFriction = properties[2];
+                    boxCollider.material.staticFriction = properties[1]/2;
+                    boxCollider.material.dynamicFriction = properties[2]/2;
+                    boxCollider.material.frictionCombine = 0;
                 }
                 float allmass = 0;
                 for (int i = 0; i < stacking_rb.Count; i++)
@@ -120,6 +166,7 @@ public class PhysicsObject : MonoBehaviour
     public void CalculateNewForces()
     {
         CleanTempForces();
+        ext_relative = 0;
         for (int i = 0; i < forces.Length; i++)
         {
             CreateObjectForce(forces[i], false);
@@ -128,7 +175,7 @@ public class PhysicsObject : MonoBehaviour
     public float CalculateNewForcesWithUnknown(int unknown)
     {
         CleanTempForces();
-
+        ext_relative = 0;
         float res = 0;
         for (int i = 0; i < forces.Length; i++)
         {
@@ -173,31 +220,52 @@ public class PhysicsObject : MonoBehaviour
                 float normal = totalMass * -Physics.gravity.y;
                 PhysicMaterial floorMatt_1 = floor.material;
                 PhysicMaterial myMatt_1 = boxCollider.material;
-                float maxstaticF = (floorMatt_1.staticFriction + myMatt_1.staticFriction) / 2 * normal;
-                if (externalForce > maxstaticF)
+                float maxstaticF = (floorMatt_1.staticFriction + myMatt_1.staticFriction) * normal;
+                Debug.Log("Max static force is "+maxstaticF);
+                if (externalForce+ext_relative > maxstaticF)
                 {
-                    return (floorMatt_1.dynamicFriction + myMatt_1.dynamicFriction) / 2 * normal;
+                    return (floorMatt_1.dynamicFriction + myMatt_1.dynamicFriction) * normal;
                 }
                 else
                 {
-                    return externalForce;
+                    return externalForce + ext_relative;
                 }
-            case 4: //relative friction
+            case 4: //relative friction from above
                 float r_normal = (totalMass - rb.mass) * -Physics.gravity.y;
                 PhysicMaterial upperMatt_2 = stacking_rb[0].GetComponent<Collider>().material;
                 PhysicMaterial myMatt_2 = boxCollider.material;
-                float r_maxstaticF = (upperMatt_2.staticFriction + myMatt_2.staticFriction) / 2 * r_normal;
-                if (externalForce > r_maxstaticF)
+                float r_maxstaticF = (upperMatt_2.staticFriction + myMatt_2.staticFriction)  * r_normal;
+                float external = stacking_rb[0].GetComponent<PhysicsObject>().externalForce; //top box has external force
+                if (external > r_maxstaticF)
                 {
-
-                    return -(upperMatt_2.dynamicFriction + myMatt_2.dynamicFriction) / 2 * r_normal;
+                    float totalforce_2 = (upperMatt_2.dynamicFriction + myMatt_2.dynamicFriction) * r_normal;
+                    ext_relative = totalforce_2;
+                    return totalforce_2;
                 }
                 else
                 {
-                    return -externalForce;
+                    ext_relative = external ;
+                    return external;
                 }
             case 5:
                 return externalForce;
+            case 6: //floor friction
+                float r_normal2 = rb.mass * -Physics.gravity.y;
+                PhysicMaterial floorMatt_3 = floor.GetComponent<Collider>().material;
+                PhysicMaterial myMatt_3 = boxCollider.material;
+                float r_maxstaticF2 = (floorMatt_3.staticFriction + myMatt_3.staticFriction) * r_normal2;
+                float external2 = floor.GetComponent<PhysicsObject>().externalForce;
+                if (external2 > r_maxstaticF2)
+                {
+                    float totalforce = (floorMatt_3.dynamicFriction + myMatt_3.dynamicFriction) * r_normal2;
+                   // ext_relative = totalforce;
+                    return totalforce;
+                }
+                else
+                {
+                   // ext_relative = external2;
+                    return external2;
+                }
             default:
                 return 0;
         }
@@ -234,6 +302,7 @@ public class PhysicsObject : MonoBehaviour
 
     public void UpdateForces()
     {
+        ext_relative = 0;
         for (int i = 0; i < AllForce.Count; i++)
         {
             ChangeForce(i);
@@ -265,6 +334,8 @@ public class ForceVector
                 return "friction(r)";
             case 5:
                 return "P";
+            case 6:  //relative friction
+                return "friction(r)";
         }
         return "";
     }

@@ -7,7 +7,8 @@ public class BoxProperties : MonoBehaviour
 {
     public ObjectEditorController objEditor;
     public Text[] propertie_txt;
-    public Slider[] propertie_slider;
+    public Slider mass_slider;
+    public InputField[] inputFields;
     public float[] propertie_value;
     public string[] backword;
     public PhysicsObject target_Object; //target physics box
@@ -20,22 +21,33 @@ public class BoxProperties : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for(int i = 0; i < propertie_txt.Length; i++)
-        {
-            propertie_value[i] = propertie_slider[i].value;
-            propertie_txt[i].text = propertie_value[i] + backword[i];
-        }
+        propertie_value[0] = mass_slider.value;
+        propertie_txt[0].text = propertie_value[0] + backword[0];
     }
 
     public void LoadValue()
     {
         //load from save
-        for(int i = 0; i < propertie_txt.Length; i++)
+        for(int i = 0; i < propertie_value.Length; i++)
         {
             propertie_value[i] = target_Object.properties[i];
-            propertie_slider[i].value = propertie_value[i];
+            if(i==0)
+                mass_slider.value = propertie_value[i];
+            else
+                inputFields[i-1].text = propertie_value[i].ToString();
         }
     }
+
+    public void SetNewValue()
+    {
+        for (int i = 1; i < propertie_value.Length; i++)
+        {
+            if(inputFields[i - 1].text != "")
+                propertie_value[i] = float.Parse(inputFields[i-1].text);
+        }
+        Debug.Log("New value set!");
+    }
+
     public void Cancel()
     {
         objEditor.CloseEditProperties();

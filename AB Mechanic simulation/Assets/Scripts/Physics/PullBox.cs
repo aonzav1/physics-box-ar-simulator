@@ -12,8 +12,8 @@ public class PullBox : MonoBehaviour
     public GameObject curRope;
     public GameObject ropePref;
     public int pull_object;
-    public int pullmagnitude;
-    bool isPulled;
+    public float pullmagnitude;
+    public Vector3 pull_vector;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +34,7 @@ public class PullBox : MonoBehaviour
     {
         //        valueText.text = val_slider.value.ToString("F2") + "N";
 
-        if (MainWorkSpace.isSimulate)
+       /* if (MainWorkSpace.isSimulate)
         {
             if (!isPulled)
             {
@@ -44,7 +44,7 @@ public class PullBox : MonoBehaviour
         else
         {
             isPulled = false;
-        }
+        }*/
     }
 
     public void Pull(int num)
@@ -57,11 +57,15 @@ public class PullBox : MonoBehaviour
         {
             Destroy(curRope);
         }
-         curRope = Instantiate(ropePref,Targets[num].transform);
+        curRope = Instantiate(ropePref,Targets[num].transform);
         pull_object = num;
         CalculateMagnitude();
+        for(int i = 0; i < Targets.Length; i++)
+        {
+            Targets[i].externalForce = 0;
+        }
         Targets[num].externalForce = pullmagnitude;
-        isPulled = false;
+        Targets[num].extForce_vector = pull_vector;
     }
 
    /* public void CalculateForce()
@@ -81,12 +85,12 @@ public class PullBox : MonoBehaviour
 
     public void CalculateMagnitude()
     {
-        pullmagnitude = System.Convert.ToInt32(value.text);
+        pullmagnitude = float.Parse(value.text);
     }
-    public void PullSimulate()
+  /*  public void PullSimulate()
     {
         isPulled = true;
         if(Targets[pull_object].rb != null)
             Targets[pull_object].rb.AddForce(pullmagnitude, 0, 0);
-    }
+    }*/
 }

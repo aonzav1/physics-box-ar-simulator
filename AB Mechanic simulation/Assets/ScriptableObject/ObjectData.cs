@@ -9,4 +9,5 @@ public class ObjectData : ScriptableObject
     public GameObject[] prefab;
     public GameObject control_panel;
     public Sprite icon;
+    public bool requireSurroundData;
 }

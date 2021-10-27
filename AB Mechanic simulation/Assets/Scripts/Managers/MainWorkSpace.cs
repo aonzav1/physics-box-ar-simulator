@@ -55,9 +55,9 @@ public class MainWorkSpace : MonoBehaviour
             startButton.SetActive(false);
             pauseButton.SetActive(true);
         }
-        for (int i = 0; i < workSpace.childCount; i++)
+        for (int i = 0; i < tmp_spawned.Length; i++)
         {
-            workSpace.GetChild(i).GetComponent<Rigidbody>().isKinematic = false;
+            tmp_spawned[i].isKinematic = false;
         }
     }
     public void PauseSimulation()
@@ -81,9 +81,9 @@ public class MainWorkSpace : MonoBehaviour
             startButton.SetActive(true);
             pauseButton.SetActive(false);
         }
-        for (int i = 0; i < workSpace.childCount; i++)
+        for (int i = 0; i < tmp_spawned.Length; i++)
         {
-            workSpace.GetChild(i).GetComponent<Rigidbody>().isKinematic = true;
+            tmp_spawned[i].isKinematic = true;
         }
         simulationTime = 0;
         simulationTime_txt.text = "t = 0.00 s";
@@ -150,7 +150,10 @@ public class MainWorkSpace : MonoBehaviour
             object_interaction = Instantiate(data.control_panel, mainUI);
         }
         isSimulate = false;
-        StartCoroutine(GetObjectSurroundingData());
+        if (data.requireSurroundData)
+            StartCoroutine(GetObjectSurroundingData());
+        else
+            StopSimulation();
     }
     IEnumerator GetObjectSurroundingData()
     {

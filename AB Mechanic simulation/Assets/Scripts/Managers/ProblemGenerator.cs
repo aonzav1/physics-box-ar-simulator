@@ -94,13 +94,14 @@ public class ProblemGenerator : MonoBehaviour
                 break;
             case QuestionUnknownType.weight:
                 float targetmass = Random.Range(targetProblem.unknown_vector.x, targetProblem.unknown_vector.y);
-                main.tmp_spawned[targetProblem.targetobject].mass = targetmass;
                 PhysicsObject weightobject = main.tmp_spawned[targetProblem.targetobject].GetComponent<PhysicsObject>();
+                weightobject.properties[0] = targetmass;
                 weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
                 float upwardforce = targetmass *Random.Range(1, 6);
                 ans = targetmass * (-Physics.gravity.y) - upwardforce;
                 Debug.Log("ans is " + ans);
                 weightobject.externalForce = upwardforce;
+                weightobject.extForce_vector = targetProblem.externalVector.direction;
                 weightobject.CreateObjectForce(targetProblem.externalVector, false) ;
                 Question = Question.Replace("{m}", targetmass.ToString("F2"));
                 unit = " N";
@@ -166,6 +167,7 @@ public class ProblemGenerator : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         yield return new WaitForSeconds(0.5f);
+        main.StopSimulation();
         if (isCorrect)
         {
             AddScoreAndTime();
