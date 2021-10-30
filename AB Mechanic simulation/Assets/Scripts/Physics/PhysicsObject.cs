@@ -11,14 +11,16 @@ public class PhysicsObject : MonoBehaviour
     public List<Rigidbody> stacking_rb;
     public float totalMass = 0;
     public Rigidbody rb;
-    public BoxCollider boxCollider;
+    public Collider myCollider;
     public GameObject velocityLine;
     public GameObject centerofMass;
     public Text velocityMagnitude;
     public ForceVector[] forces;
     public float externalForce;
     public float ext_relative;
+    public float totalForce;
     public Vector3 extForce_vector;
+    public Vector3 pushAt;
     public Collider floor;
     MainWorkSpace main;
     public ProblemGenerator probgen;
@@ -40,15 +42,22 @@ public class PhysicsObject : MonoBehaviour
         {
             case ObjectType.Box:
                 rb = GetComponent<Rigidbody>();
-                boxCollider = GetComponent<BoxCollider>();
+                myCollider = GetComponent<BoxCollider>();
+                if(myCollider == null)
+                    myCollider = transform.GetChild(0).GetComponent<BoxCollider>();
 
                 centerofMass.transform.localPosition = rb.centerOfMass;
+                break;
+            case ObjectType.staticObject:
+                myCollider = GetComponent<Collider>();
                 break;
         }
         LoadProperties();
     }
     private void Update()
     {
+        if (type == ObjectType.staticObject)
+            return;
         if (VIsibilityController.showVelocity)
         {
             centerofMass.SetActive(true);
@@ -76,15 +85,21 @@ public class PhysicsObject : MonoBehaviour
     bool isCheck;
     private void FixedUpdate()
     {
+        if (type == ObjectType.staticObject)
+            return;
         if (MainWorkSpace.isSimulate)
         {
             if (externalForce > 0 )
             {
-                /*if (!isPush)
-                {*/
-                    isPush = true;
-                    rb.AddForce(extForce_vector * (externalForce/rb.mass), ForceMode.Acceleration);
-                //}
+                if (pushAt != Vector3.zero)
+                {
+                   // Debug.Log("push at "+pushAt);
+                    rb.AddForceAtPosition(extForce_vector * (externalForce),pushAt, ForceMode.Force);
+                }
+                else
+                {
+                    rb.AddForce(extForce_vector * (externalForce), ForceMode.Force);
+                }
             }
             if (!isCheck)
             {
@@ -95,11 +110,9 @@ public class PhysicsObject : MonoBehaviour
         else
         {
             isCheck = false;
+      //      isPush = false;
         }
-       /* else
-        {
-            isPush = false;
-        }*/
+
     }
     IEnumerator CheckAcceleration()
     {
@@ -124,19 +137,19 @@ public class PhysicsObject : MonoBehaviour
         {
             case ObjectType.Box:
                 rb.mass = properties[0];
-                if (boxCollider.material == null)
+                if (myCollider.material == null)
                 {
                     PhysicMaterial actorMaterial = new PhysicMaterial();
                     actorMaterial.staticFriction = properties[1]/2;
                     actorMaterial.dynamicFriction = properties[2]/2;
                     actorMaterial.frictionCombine = 0;
-                    boxCollider.material = actorMaterial;
+                    myCollider.material = actorMaterial;
                 }
                 else
                 {
-                    boxCollider.material.staticFriction = properties[1]/2;
-                    boxCollider.material.dynamicFriction = properties[2]/2;
-                    boxCollider.material.frictionCombine = 0;
+                    myCollider.material.staticFriction = properties[1]/2;
+                    myCollider.material.dynamicFriction = properties[2]/2;
+                    myCollider.material.frictionCombine = 0;
                 }
                 float allmass = 0;
                 for (int i = 0; i < stacking_rb.Count; i++)
@@ -144,6 +157,22 @@ public class PhysicsObject : MonoBehaviour
                     allmass += stacking_rb[i].mass;
                 }
                 totalMass = rb.mass + allmass;
+                break;
+            case ObjectType.staticObject:
+                if (myCollider.material == null)
+                {
+                    PhysicMaterial actorMaterial = new PhysicMaterial();
+                    actorMaterial.staticFriction = properties[0] / 2;
+                    actorMaterial.dynamicFriction = properties[1] / 2;
+                    actorMaterial.frictionCombine = 0;
+                    myCollider.material = actorMaterial;
+                }
+                else
+                {
+                    myCollider.material.staticFriction = properties[0] / 2;
+                    myCollider.material.dynamicFriction = properties[1] / 2;
+                    myCollider.material.frictionCombine = 0;
+                }
                 break;
         }
     }
@@ -167,6 +196,7 @@ public class PhysicsObject : MonoBehaviour
     {
         CleanTempForces();
         ext_relative = 0;
+        totalForce = 0;
         for (int i = 0; i < forces.Length; i++)
         {
             CreateObjectForce(forces[i], false);
@@ -176,6 +206,7 @@ public class PhysicsObject : MonoBehaviour
     {
         CleanTempForces();
         ext_relative = 0;
+        totalForce = 0;
         float res = 0;
         for (int i = 0; i < forces.Length; i++)
         {
@@ -219,21 +250,30 @@ public class PhysicsObject : MonoBehaviour
             case 3: //friction
                 float normal = totalMass * -Physics.gravity.y;
                 PhysicMaterial floorMatt_1 = floor.material;
-                PhysicMaterial myMatt_1 = boxCollider.material;
+                PhysicMaterial myMatt_1 = myCollider.material;
                 float maxstaticF = (floorMatt_1.staticFriction + myMatt_1.staticFriction) * normal;
-                Debug.Log("Max static force is "+maxstaticF);
-                if (externalForce+ext_relative > maxstaticF)
+                Rigidbody floorRb = floor.GetComponent<Rigidbody>();
+                float f_totalForce = externalForce + ext_relative;
+                if (floor.GetComponent<Rigidbody>() != null)
                 {
+                    float acceleration = externalForce / (floorRb.mass + rb.mass);
+                    f_totalForce = acceleration * rb.mass;
+                }
+                Debug.Log("Max static force is "+maxstaticF);
+                if (f_totalForce > maxstaticF)
+                {
+                    Debug.Log(gameObject.name+" will move");
                     return (floorMatt_1.dynamicFriction + myMatt_1.dynamicFriction) * normal;
                 }
                 else
                 {
-                    return externalForce + ext_relative;
+                    Debug.Log(gameObject.name + " won't move");
+                    return f_totalForce;
                 }
             case 4: //relative friction from above
                 float r_normal = (totalMass - rb.mass) * -Physics.gravity.y;
                 PhysicMaterial upperMatt_2 = stacking_rb[0].GetComponent<Collider>().material;
-                PhysicMaterial myMatt_2 = boxCollider.material;
+                PhysicMaterial myMatt_2 = myCollider.material;
                 float r_maxstaticF = (upperMatt_2.staticFriction + myMatt_2.staticFriction)  * r_normal;
                 float external = stacking_rb[0].GetComponent<PhysicsObject>().externalForce; //top box has external force
                 if (external > r_maxstaticF)
@@ -252,7 +292,7 @@ public class PhysicsObject : MonoBehaviour
             case 6: //floor friction
                 float r_normal2 = rb.mass * -Physics.gravity.y;
                 PhysicMaterial floorMatt_3 = floor.GetComponent<Collider>().material;
-                PhysicMaterial myMatt_3 = boxCollider.material;
+                PhysicMaterial myMatt_3 = myCollider.material;
                 float r_maxstaticF2 = (floorMatt_3.staticFriction + myMatt_3.staticFriction) * r_normal2;
                 float external2 = floor.GetComponent<PhysicsObject>().externalForce;
                 if (external2 > r_maxstaticF2)
@@ -303,6 +343,7 @@ public class PhysicsObject : MonoBehaviour
     public void UpdateForces()
     {
         ext_relative = 0;
+        totalForce = 0;
         for (int i = 0; i < AllForce.Count; i++)
         {
             ChangeForce(i);

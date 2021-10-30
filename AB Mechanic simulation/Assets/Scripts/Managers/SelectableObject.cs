@@ -5,11 +5,12 @@ using UnityEngine;
 public class SelectableObject : MonoBehaviour
 {
     public bool isSelected;
-    Outline thisOutline;
+    public Outline thisOutline;
     // Start is called before the first frame update
     void Start()
     {
-        thisOutline = GetComponent<Outline>();
+        if(thisOutline == null)
+            thisOutline = GetComponent<Outline>();
         UpdateSelection(false);
     }
 

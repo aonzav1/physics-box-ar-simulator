@@ -508,6 +508,7 @@ MonoBehaviour:
   CamController: {fileID: 0}
   Error_pref: {fileID: 0}
   canvas: {fileID: 0}
+  mainworlspace: {fileID: 0}
 --- !u!1 &378048484
 GameObject:
   m_ObjectHideFlags: 0

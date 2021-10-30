@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bad289c9a9c815944b333d6dd1759b4d, type: 3}
-  m_Name: Box_3
+  m_Name: Slant_30
   m_EditorClassIdentifier: 
-  Name: Pull 2 boxes
+  Name: Box on slope (30)
   prefab:
-  - {fileID: 5860771906025147358, guid: 2c5e7437044c1634ca15ee409c369a42, type: 3}
-  - {fileID: 844139071428369649, guid: 8886a022f8642f14294ef1880560aeb7, type: 3}
-  control_panel: {fileID: 2993461529952174568, guid: 3b90850b44ca02648ba79ca60e155332,
+  - {fileID: 8335451510329855109, guid: 5b688585b8cc610459fcb40c3737bcd9, type: 3}
+  - {fileID: 6345498657715527285, guid: dd98dd01da1ddbc4f9dd95fae3e85d8d, type: 3}
+  control_panel: {fileID: 2993461529952174568, guid: f5a1b278cfaeeb3469c56110f62d01aa,
     type: 3}
   icon: {fileID: 21300000, guid: 25887e1e767bc774e9a24997a9343056, type: 3}
   requireSurroundData: 1

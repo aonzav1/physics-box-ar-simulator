@@ -57,7 +57,8 @@ public class MainWorkSpace : MonoBehaviour
         }
         for (int i = 0; i < tmp_spawned.Length; i++)
         {
-            tmp_spawned[i].isKinematic = false;
+            if(tmp_spawned[i]!= null)
+                tmp_spawned[i].isKinematic = false;
         }
     }
     public void PauseSimulation()
@@ -83,7 +84,8 @@ public class MainWorkSpace : MonoBehaviour
         }
         for (int i = 0; i < tmp_spawned.Length; i++)
         {
-            tmp_spawned[i].isKinematic = true;
+            if (tmp_spawned[i] != null)
+                tmp_spawned[i].isKinematic = true;
         }
         simulationTime = 0;
         simulationTime_txt.text = "t = 0.00 s";
