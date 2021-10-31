@@ -8,8 +8,10 @@ public class VIsibilityController : MonoBehaviour
     public ObjectEditorController objEditor;
     public MenuController menu_controller;
     public SceneCameraController CamController;
-    public static bool showVelocity;
-    public GameObject vectorVisibility_hover;
+    public static byte showDetail;
+    public GameObject Visibility_hover;
+    public Transform[] visibleSelector;
+    public ObjectDatacenter datacenter;
     public Transform workSpace;
     // Start is called before the first frame update
     void Start()
@@ -17,7 +19,7 @@ public class VIsibilityController : MonoBehaviour
         objEditor = GetComponent<ObjectEditorController>();
         menu_controller = GetComponent<MenuController>();
         CamController = menu_controller.CamController;
-        ChangeVelocitVisibility();
+       // ChangeVisibility(0);
     }
 
     // Update is called once per frame
@@ -94,21 +96,66 @@ public class VIsibilityController : MonoBehaviour
         }
     }
 
-    public void ChangeVelocitVisibility()
+    public void ChangeVisibility(int num)
     {
-        if (showVelocity)
+        Visibility_hover.transform.position = visibleSelector[num].transform.position;
+        showDetail = (byte)num;
+        ShowAsDetail();
+    }
+    public void ShowAsDetail()
+    {
+        switch (showDetail)
         {
-            showVelocity = false;
-            vectorVisibility_hover.SetActive(true);
+            case 0:
+                changeMotionLineColor(1);
+                break;
+            case 1:
+                changeMotionLineColor(2);
+                break;
+            case 2:
+                TurnMotionLineOff();
+                break;
+        }
+    }
+
+    void TurnMotionLineOff()
+    {
+        for (int i = 0; i < workSpace.childCount; i++)
+        {
+            PhysicsObject ps = workSpace.GetChild(i).GetComponent<PhysicsObject>();
+            if(ps.type != ObjectType.staticObject)
+                ps.velocityLine.SetActive(false);
+        }
+    }
+
+    void changeMotionLineColor(byte linenum)
+    {
+        if(linenum == 1)
+        {
             for (int i = 0; i < workSpace.childCount; i++)
             {
-                workSpace.GetChild(i).GetComponent<PhysicsObject>().velocityLine.SetActive(false);
+                PhysicsObject ps = workSpace.GetChild(i).GetComponent<PhysicsObject>();
+                if (ps.type != ObjectType.staticObject) { 
+                    for (int j = 0; j < 4; j++)
+                        {
+                            ps.velocityLine.transform.GetChild(j).GetComponent<Renderer>().material = datacenter.velocity_arrow;
+                        }
+                }
             }
         }
-        else
+        else if(linenum == 2)
         {
-            showVelocity = true;
-            vectorVisibility_hover.SetActive(false);
+            for (int i = 0; i < workSpace.childCount; i++)
+            {
+                PhysicsObject ps = workSpace.GetChild(i).GetComponent<PhysicsObject>();
+                if (ps != null)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        ps.velocityLine.transform.GetChild(j).GetComponent<Renderer>().material = datacenter.acceleration_arrow;
+                    }
+                }
+            }
         }
     }
 }

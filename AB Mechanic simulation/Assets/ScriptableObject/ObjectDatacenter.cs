@@ -8,6 +8,8 @@ public class ObjectDatacenter : ScriptableObject
     public ObjectData[] objects;
     public GameObject[] forceArrow;
     public Problem[] questions;
+    public Material velocity_arrow;
+    public Material acceleration_arrow;
 }
 
 public enum QuestionUnknownType:byte {none,fall,force,frictionCo,velocity,weight}

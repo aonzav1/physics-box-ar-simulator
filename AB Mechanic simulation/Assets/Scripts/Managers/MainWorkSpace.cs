@@ -20,6 +20,7 @@ public class MainWorkSpace : MonoBehaviour
     public GameObject object_interaction;
     public Transform mainUI;
     public Rigidbody[] tmp_spawned;
+    public VIsibilityController visiblecontroler;
     public bool isGenInteraction;
     bool stopCount;
 
@@ -98,7 +99,6 @@ public class MainWorkSpace : MonoBehaviour
 
     public void SaveTmpData()
     {
-        Debug.Log("Save temp data");
         tmpSave = new List<ObjectSaveData>();
         for (int i = 0; i < workSpace.childCount; i++)
         {
@@ -108,16 +108,20 @@ public class MainWorkSpace : MonoBehaviour
             newsave.rotation = newsave.obj.transform.rotation.eulerAngles;
             tmpSave.Add(newsave);
         }
+        Debug.Log("Save temp data, total of "+tmpSave.Count);
     }
 
     public void LoadTmpData()
     {
-        Debug.Log("Load temp data");
+        Debug.Log("Load temp data, total of " + tmpSave.Count);
         for (int i = 0; i < tmpSave.Count; i++)
         {
-            tmpSave[i].obj.transform.position = tmpSave[i].position;
-            Vector3 rot = tmpSave[i].rotation;
-            tmpSave[i].obj.transform.eulerAngles = rot;
+            if (tmpSave[i].obj != null)
+            {
+                tmpSave[i].obj.transform.position = tmpSave[i].position;
+                Vector3 rot = tmpSave[i].rotation;
+                tmpSave[i].obj.transform.eulerAngles = rot;
+            }
           //  tmpSave[i].obj.transform.rotation.eulerAngles.Set(rot.x, rot.y, rot.z);
         }
         tmpSave.Clear();
@@ -156,6 +160,9 @@ public class MainWorkSpace : MonoBehaviour
             StartCoroutine(GetObjectSurroundingData());
         else
             StopSimulation();
+
+        if(visiblecontroler != null)
+            visiblecontroler.ShowAsDetail();
     }
     IEnumerator GetObjectSurroundingData()
     {

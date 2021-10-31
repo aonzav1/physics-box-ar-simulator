@@ -15,6 +15,7 @@ public class PhysicsObject : MonoBehaviour
     public GameObject velocityLine;
     public GameObject centerofMass;
     public Text velocityMagnitude;
+    public Text MassMagnitude;
     public ForceVector[] forces;
     public float externalForce;
     public float ext_relative;
@@ -58,27 +59,42 @@ public class PhysicsObject : MonoBehaviour
     {
         if (type == ObjectType.staticObject)
             return;
-        if (VIsibilityController.showVelocity)
+        if (VIsibilityController.showDetail == 0)
         {
-            centerofMass.SetActive(true);
-           // if (Time.timeScale > 0)
-        //    {
-                if (rb.velocity.magnitude > 0.01)
+            if (rb.velocity.magnitude > 0.01)
+            {
+                velocityLine.transform.rotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
+                velocityMagnitude.text = rb.velocity.magnitude.ToString("F2") + " m/s";
+                velocityLine.SetActive(true);
+            }
+            else
+            {
+                velocityLine.SetActive(false);
+            }
+            centerofMass.SetActive(false);
+        }
+        else if(VIsibilityController.showDetail == 1)
+        {
+            if (rb.velocity.magnitude > 0.01)
+            {
+                velocityLine.transform.rotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
+                if (!isCheck)
                 {
-                    velocityLine.transform.rotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
-                    velocityMagnitude.text = rb.velocity.magnitude.ToString("F2") + " m/s";
-                    velocityLine.SetActive(true);
+                    isCheck = true;
+                    StartCoroutine(CheckAcceleration());
                 }
-                else
-                {
-                    velocityLine.SetActive(false);
-                }
-          //  }
+                velocityLine.SetActive(true);
+            }
+            else
+            {
+                velocityLine.SetActive(false);
+            }
+            centerofMass.SetActive(false);
         }
         else
         {
+            centerofMass.SetActive(true);
             velocityLine.SetActive(false);
-            centerofMass.SetActive(false);
         }
     }
     float speedz;
@@ -101,11 +117,6 @@ public class PhysicsObject : MonoBehaviour
                     rb.AddForce(extForce_vector * (externalForce), ForceMode.Force);
                 }
             }
-            if (!isCheck)
-            {
-                isCheck = true;
-                StartCoroutine(CheckAcceleration());
-            }
         }
         else
         {
@@ -117,13 +128,17 @@ public class PhysicsObject : MonoBehaviour
     IEnumerator CheckAcceleration()
     {
         speedz = 0;
+        velocityMagnitude.text = "0 m/s^2";
         while (isCheck)
         {
             yield return new WaitForSeconds(0.1f);
             float diff = rb.velocity.magnitude - speedz;
             speedz = rb.velocity.magnitude;
-            if(diff > 0.01f)
-                Debug.Log(gameObject.name + " has a = "+(diff*10));
+            if(diff > 0.001f)
+            {
+                velocityMagnitude.text = (diff * 10).ToString("F2")+" m/s^2";
+                Debug.Log(gameObject.name + " has a = " + (diff * 10));
+            }
         }
     }
     public void NewProperties(float[] newdata)
@@ -157,6 +172,7 @@ public class PhysicsObject : MonoBehaviour
                     allmass += stacking_rb[i].mass;
                 }
                 totalMass = rb.mass + allmass;
+                UpdateMass();
                 break;
             case ObjectType.staticObject:
                 if (myCollider.material == null)
@@ -348,6 +364,12 @@ public class PhysicsObject : MonoBehaviour
         {
             ChangeForce(i);
         }
+    }
+
+    public void UpdateMass()
+    {
+        if(MassMagnitude != null)
+        MassMagnitude.text = "m = "+rb.mass+" kg";
     }
 
 }
