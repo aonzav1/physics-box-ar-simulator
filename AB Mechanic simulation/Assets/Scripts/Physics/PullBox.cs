@@ -66,6 +66,7 @@ public class PullBox : MonoBehaviour
         }
         Targets[num].externalForce = pullmagnitude;
         Targets[num].extForce_vector = pull_vector;
+        main.forcemanager.UpdateForces();
     }
 
    /* public void CalculateForce()

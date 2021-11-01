@@ -28,20 +28,14 @@ MonoBehaviour:
     targetobject: 0
     unknown_force: 0
     unknown_vector: {x: 1, y: 2.2, z: 0}
-    externalVector:
-      direction: {x: 0, y: 0, z: 0}
-      force_num: 0
-      color: 0
+    externalVector: {x: 0, y: 0, z: 0}
     type: 1
   - question: The box is {m} kg, calculate its downward force
     data: {fileID: 11400000, guid: 71554b80440fa964081bf2b56132f2fb, type: 2}
     targetobject: 0
-    unknown_force: 0
+    unknown_force: 1
     unknown_vector: {x: 0.5, y: 5, z: 0}
-    externalVector:
-      direction: {x: 0, y: 1, z: 0}
-      force_num: 5
-      color: 1
+    externalVector: {x: 0, y: 1, z: 0}
     type: 5
   velocity_arrow: {fileID: 2100000, guid: 2b60eeaba29bb02478ac0fd80a8f77e1, type: 2}
   acceleration_arrow: {fileID: 2100000, guid: 56514d5f4a242d641ab106e2ad35669c, type: 2}

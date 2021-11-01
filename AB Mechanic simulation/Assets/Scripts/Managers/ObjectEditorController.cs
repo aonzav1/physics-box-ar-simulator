@@ -58,10 +58,12 @@ public class ObjectEditorController : MonoBehaviour
     bool isEditing;
     Rigidbody sel_rb;
     VIsibilityController visible_controller;
+    ForceManager force_manager;
 
     private void Start()
     {
         visible_controller = GetComponent<VIsibilityController>();
+        force_manager = GetComponent<ForceManager>();
        // ToggleViewForce();
     }
     private void Update()
@@ -141,14 +143,16 @@ public class ObjectEditorController : MonoBehaviour
         tmp_rotation = target.transform.rotation.eulerAngles;
         SelectEditmode(0);
         SelectViewmode(0);
+        force_manager.selected = target;
+        force_manager.UpdateForces();
         if (!isViewForce)
         {
-            selecting_physicsObject.CleanTempForces();
+            force_manager.TurnOffForces();
             forcevisible_hover.SetActive(true);
         }
         else
         {
-            selecting_physicsObject.CalculateNewForces();
+            force_manager.TurnOnForces();
             forcevisible_hover.SetActive(false);
         }
         // StartCoroutine(DelayedEnableEdit());
@@ -202,7 +206,7 @@ public class ObjectEditorController : MonoBehaviour
     void CloseEditGracefully()
     {
         Debug.Log("Close");
-        selecting_physicsObject.CleanTempForces();
+        force_manager.TurnOffForces();
         selecting_physicsObject = null;
         selecting = null;
         enableEdit = false;
@@ -239,7 +243,7 @@ public class ObjectEditorController : MonoBehaviour
 
     public void CloseEditProperties()
     {
-        selecting_physicsObject.UpdateForces();
+        force_manager.UpdateForces();
         visible_controller.CamController.enableRotate = true;
         Destroy(OpeningProperties);
         enableEdit = true;
@@ -249,18 +253,17 @@ public class ObjectEditorController : MonoBehaviour
     {
         if (isViewForce)
         {
-            selecting_physicsObject.CleanTempForces();
+            force_manager.TurnOffForces();
             forcevisible_hover.SetActive(true);
             isViewForce = false;
         }
         else
         {
-            selecting_physicsObject.CalculateNewForces();
+            force_manager.TurnOnForces();
             forcevisible_hover.SetActive(false);
             isViewForce = true;
         }
     }
-
 
 
 }

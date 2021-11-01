@@ -280,7 +280,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0, y: -0.2}
+  m_AnchoredPosition: {x: -0, y: 0}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2609277237440728841
@@ -486,6 +486,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   calculateType: 0
   magnitude: 0
+  direction: {x: 0, y: 0, z: 0}
+  Name: 
   arrow: {fileID: 1793518827435581822}
   text: {fileID: 2609277236819651744}
 --- !u!1 &2609277238519310868

@@ -19,4 +19,4 @@ MonoBehaviour:
   control_panel: {fileID: 2993461529952174568, guid: f5a1b278cfaeeb3469c56110f62d01aa,
     type: 3}
   icon: {fileID: 21300000, guid: 25887e1e767bc774e9a24997a9343056, type: 3}
-  requireSurroundData: 1
+  forceCalculationNum: 0

@@ -363,6 +363,7 @@ GameObject:
   - component: {fileID: 363007257}
   - component: {fileID: 363007258}
   - component: {fileID: 363007259}
+  - component: {fileID: 363007260}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -431,6 +432,7 @@ MonoBehaviour:
   datacenter: {fileID: 11400000, guid: 357a2f35c3f804441b122b2678c70e89, type: 2}
   menu_con: {fileID: 363007257}
   main: {fileID: 363007259}
+  force_manager: {fileID: 363007260}
   thisAnswer: 0
   cam_controller: {fileID: 1764433969}
 --- !u!114 &363007259
@@ -454,8 +456,29 @@ MonoBehaviour:
   object_interaction: {fileID: 0}
   mainUI: {fileID: 2034671878}
   tmp_spawned: []
+  visiblecontroler: {fileID: 0}
+  forcemanager: {fileID: 0}
   isGenInteraction: 0
   tmpSave: []
+--- !u!114 &363007260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363007255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54aa5eed5df2cc409bf9a69e7b70a73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  datacenter: {fileID: 11400000, guid: 357a2f35c3f804441b122b2678c70e89, type: 2}
+  floor: {fileID: 542568658}
+  selected: {fileID: 0}
+  forceCalculationNum: 0
+  workSpace: {fileID: 847350202}
+  objectList: []
+  AllForce: []
 --- !u!1 &377034948
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,7 +1203,7 @@ Transform:
   m_GameObject: {fileID: 542568654}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1, z: 1.2}
+  m_LocalScale: {x: 2, y: 1, z: 2}
   m_Children: []
   m_Father: {fileID: 785058193}
   m_RootOrder: 1

@@ -22,6 +22,8 @@ public class Problem
     public int targetobject;
     public int unknown_force;
     public Vector3 unknown_vector;
-    public ForceVector externalVector;
+ //   public float external_force;
+    public Vector3 externalVector;
     public QuestionUnknownType type;
+    public bool isReceiveInput;
 }

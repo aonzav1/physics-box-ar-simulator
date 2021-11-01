@@ -426,31 +426,15 @@ MonoBehaviour:
   centerofMass: {fileID: 5860771907353896906}
   velocityMagnitude: {fileID: 5860771906608337418}
   MassMagnitude: {fileID: 5113724235568698282}
-  forces:
-  - direction: {x: 0, y: -1, z: 0}
-    force_num: 0
-    color: 0
-  - direction: {x: 0, y: 1, z: 0}
-    force_num: 1
-    color: 1
-  - direction: {x: 1, y: 0, z: 0}
-    force_num: 6
-    color: 2
-  - direction: {x: 1, y: 0, z: 0}
-    force_num: 5
-    color: 0
-  - direction: {x: -1, y: 0, z: 0}
-    force_num: 3
-    color: 1
   externalForce: 0
-  ext_relative: 0
-  totalForce: 0
   extForce_vector: {x: 0, y: 0, z: 0}
   pushAt: {x: 0, y: 0, z: 0}
   floor: {fileID: 0}
+  floorStaticfriction: 0.001
+  floorDynamicfriction: 0.001
   probgen: {fileID: 0}
   isPush: 0
-  AllForce: []
+  isOnTop: 1
 --- !u!114 &5860771906025147350
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -44,8 +44,12 @@ public class BoxProperties : MonoBehaviour
         {
             if(inputFields[i - 1].text != "")
                 propertie_value[i] = float.Parse(inputFields[i-1].text);
+            if(propertie_value[i] < 0.001)
+            {
+                propertie_value[i] = 0.001f;
+            }
         }
-        Debug.Log("New value set!");
+    //    Debug.Log("New value set!");
     }
 
     public void Cancel()

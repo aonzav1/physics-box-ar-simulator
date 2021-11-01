@@ -21,6 +21,7 @@ public class MainWorkSpace : MonoBehaviour
     public Transform mainUI;
     public Rigidbody[] tmp_spawned;
     public VIsibilityController visiblecontroler;
+    public ForceManager forcemanager;
     public bool isGenInteraction;
     bool stopCount;
 
@@ -29,6 +30,7 @@ public class MainWorkSpace : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        forcemanager = GetComponent<ForceManager>();
         StopSimulation();
     }
 
@@ -156,20 +158,27 @@ public class MainWorkSpace : MonoBehaviour
             object_interaction = Instantiate(data.control_panel, mainUI);
         }
         isSimulate = false;
-        if (data.requireSurroundData)
-            StartCoroutine(GetObjectSurroundingData());
-        else
-            StopSimulation();
+        StopSimulation();
+        /*  if (data.requireSurroundData)
+              StartCoroutine(GetObjectSurroundingData());
+          else
+              StopSimulation();*/
 
-        if(visiblecontroler != null)
+        if (visiblecontroler != null)
             visiblecontroler.ShowAsDetail();
+
+        if(probgen == null)
+            StartCoroutine(GetObjectSurroundingData(data));
     }
-    IEnumerator GetObjectSurroundingData()
+    IEnumerator GetObjectSurroundingData(ObjectData data)
     {
         Debug.Log("Get object data");
-        StartSimulation();
         yield return new WaitForSeconds(0.2f);
-        StopSimulation();
+        forcemanager.ReceivedAllObjectData();
+        if (forcemanager != null)
+        {
+            forcemanager.CalculateNewForces(data.forceCalculationNum, -1);
+        }
     }
 
     public void ClearObject()

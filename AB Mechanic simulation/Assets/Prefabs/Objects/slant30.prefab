@@ -299,7 +299,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6345498657715527285}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 1560575207a7b4f27bcd4ab2aeb2e3a1, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -330,12 +330,12 @@ MonoBehaviour:
   velocityLine: {fileID: 0}
   centerofMass: {fileID: 0}
   velocityMagnitude: {fileID: 0}
-  forces: []
+  MassMagnitude: {fileID: 0}
   externalForce: 0
-  ext_relative: 0
-  totalForce: 0
   extForce_vector: {x: 0, y: 0, z: 0}
+  pushAt: {x: 0, y: 0, z: 0}
   floor: {fileID: 0}
+  floorStaticFriction: 0.25
+  floorDynamicFriction: 0.2
   probgen: {fileID: 0}
   isPush: 0
-  AllForce: []
