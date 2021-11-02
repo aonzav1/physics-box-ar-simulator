@@ -148,7 +148,7 @@ public class VIsibilityController : MonoBehaviour
             for (int i = 0; i < workSpace.childCount; i++)
             {
                 PhysicsObject ps = workSpace.GetChild(i).GetComponent<PhysicsObject>();
-                if (ps != null)
+                if (ps.velocityLine != null)
                 {
                     for (int j = 0; j < 4; j++)
                     {

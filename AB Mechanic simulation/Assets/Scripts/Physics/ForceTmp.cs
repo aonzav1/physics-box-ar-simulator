@@ -11,6 +11,7 @@ public class ForceTmp : MonoBehaviour
     public string Name;
     public Transform arrow;
     public Text text;
+    public bool isUnknown;
 
     // Start is called before the first frame update
     void Start()
@@ -19,9 +20,10 @@ public class ForceTmp : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
     }
 
-    public void UpdateData(string namez, float mag, Vector3 dir)
+    public void UpdateData(string namez, float mag, Vector3 dir, bool isUnknownz)
     {
-       // Debug.Log("namez update to "+mag+dir);
+        // Debug.Log("namez update to "+mag+dir);
+        isUnknown = isUnknownz;
         UpdateName(namez);
         UpdateMagnitude(mag);
         UpdateDirection(dir);
@@ -29,35 +31,31 @@ public class ForceTmp : MonoBehaviour
 
     public void UpdateMagnitude(float magnitudez)
     {
-        if (magnitudez == 0)
+        if (isUnknown)
         {
             text.text = Name;
             magnitude = magnitudez;
+            ChangeVisibility(true);
+        }
+        else if(magnitudez == 0)
+        {
+            text.text = "";
+            ChangeVisibility(false);
         }
         else
         {
+            ChangeVisibility(true);
+            if (magnitudez < 0)
+                magnitudez = -magnitudez;
             text.text = Name + " " + magnitudez.ToString("F2") + " N";
             magnitude = magnitudez;
         }
     }
-
-    public void UpdateAll()
+    public void ChangeVisibility(bool isOn)
     {
-        int mul = 1;
-        if (magnitude == 0)
-        {
-            text.text = Name;
-        }
-        else
-        {
-            if (magnitude < 0)
-            {
-                mul = -1;
-            }
-            text.text = Name + " " + magnitude.ToString("F2") + " N";
-        }
-        transform.rotation = Quaternion.LookRotation(direction * mul, Vector3.up);
+        arrow.gameObject.SetActive(isOn);
     }
+
     public void UpdateDirection(Vector3 dir)
     {
         direction = dir;

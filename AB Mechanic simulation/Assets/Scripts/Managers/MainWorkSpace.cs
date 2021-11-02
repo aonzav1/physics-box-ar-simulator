@@ -23,6 +23,9 @@ public class MainWorkSpace : MonoBehaviour
     public VIsibilityController visiblecontroler;
     public ForceManager forcemanager;
     public bool isGenInteraction;
+    public float timeScale;
+    public Transform[] timescaleTabs;
+    public GameObject timeSelect_ring;
     bool stopCount;
 
     public List<ObjectSaveData> tmpSave = new List<ObjectSaveData>();
@@ -31,6 +34,7 @@ public class MainWorkSpace : MonoBehaviour
     void Start()
     {
         forcemanager = GetComponent<ForceManager>();
+        timeScale = 1;
         StopSimulation();
     }
 
@@ -51,7 +55,7 @@ public class MainWorkSpace : MonoBehaviour
             SaveTmpData();
             isSimulate = true;
         }
-        Time.timeScale = 1;
+        Time.timeScale = timeScale;
         isSimulate = true;
         if (startButton != null)
         {
@@ -79,7 +83,7 @@ public class MainWorkSpace : MonoBehaviour
     }
     public void StopSimulation()
     {
-        Time.timeScale = 1;
+        Time.timeScale = timeScale;
         if (startButton != null)
         {
             startButton.SetActive(true);
@@ -191,6 +195,15 @@ public class MainWorkSpace : MonoBehaviour
         {
             Destroy(object_interaction);
         }
+    }
+
+    public void ChangeTimeScale(int num)
+    {
+        timeScale = num*0.5f;
+        if(timeSelect_ring!=null)
+            timeSelect_ring.transform.position = timescaleTabs[num - 1].transform.position;
+        if(isSimulate)
+            Time.timeScale = timeScale;
     }
 
 }

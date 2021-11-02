@@ -50,12 +50,12 @@ public class ForceManager : MonoBehaviour
                 if(friction_req_1 > maxStatic_1)
                 {
                     float dynamicFriction_1 = objectList[0].properties[2] * mg_1;
-                    CreateObjectForce("fk", dynamicFriction_1, -objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 3);
+                    CreateObjectForce("f", dynamicFriction_1, -objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 3);
                     objectList[0].UpdateFriction(false);
                 }
                 else
                 {
-                    CreateObjectForce("fs", objectList[0].externalForce, -objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 3);
+                    CreateObjectForce("f", objectList[0].externalForce, -objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 3);
                     objectList[0].UpdateFriction(true);
                 }
                 break;
@@ -73,20 +73,20 @@ public class ForceManager : MonoBehaviour
                 //top cube
                 float mg_2 = objectList[0].rb.mass * -Physics.gravity.y;
                 CreateObjectForce("m1g", mg_2, new Vector3(0, -1, 0), ForceColor.pink, 0, unknown == 0);
-                CreateObjectForce("N1", mg_2, new Vector3(0, 1, 0), ForceColor.blue, 0, unknown == 2);
+                CreateObjectForce("N1", mg_2, new Vector3(0, 1, 0), ForceColor.blue, 0, unknown == 1);
 
                 //bottom cube
                 float mg_3 = objectList[1].totalMass * -Physics.gravity.y;
-                CreateObjectForce("(m1+m2)g", mg_3, new Vector3(0, -1, 0), ForceColor.pink, 1, unknown == 0);
-                CreateObjectForce("N12", mg_3, new Vector3(0, 1, 0), ForceColor.blue, 1, unknown == 2);
+                CreateObjectForce("(m1+m2)g", mg_3, new Vector3(0, -1, 0), ForceColor.pink, 1, unknown == 2);
+                CreateObjectForce("N12", mg_3, new Vector3(0, 1, 0), ForceColor.blue, 1, unknown == 3);
                 if (objectList[1].externalForce > 0) {
-                    CreateObjectForce("F", objectList[1].externalForce, objectList[1].extForce_vector, ForceColor.red, 1, unknown == 1);
+                    CreateObjectForce("F", objectList[1].externalForce, objectList[1].extForce_vector, ForceColor.red, 1, unknown == 4);
                     externalF_3 = objectList[1].externalForce;
                     externalTo = 2;
                 }
                 else
                 {
-                    CreateObjectForce("F", objectList[0].externalForce, objectList[0].extForce_vector, ForceColor.red, 0, unknown == 1);
+                    CreateObjectForce("F", objectList[0].externalForce, objectList[0].extForce_vector, ForceColor.red, 0, unknown == 4);
                     externalF_3 = objectList[0].externalForce;
                     externalTo = 1;
                 }
@@ -124,8 +124,8 @@ public class ForceManager : MonoBehaviour
                         friction_3 = friction_req_2;
                         objectList[0].UpdateFriction(true);
                     }
-                    CreateObjectForce("f(1)", friction_3, -objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 3);
-                    CreateObjectForce("f(1)", friction_3, objectList[0].extForce_vector, ForceColor.blue, 1, unknown == 3);
+                    CreateObjectForce("f(1)", friction_3, -objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 5);
+                    CreateObjectForce("f(1)", friction_3, objectList[0].extForce_vector, ForceColor.blue, 1, unknown == 6);
                     //BOTTOM CUBE
                     float groundForce = friction_3;
                     if (groundForce > maxStatic_3)
@@ -137,7 +137,7 @@ public class ForceManager : MonoBehaviour
                     {
                         objectList[1].UpdateFriction(true);
                     }
-                    CreateObjectForce("f(2)", groundForce, -objectList[0].extForce_vector, ForceColor.red, 1, unknown == 3);
+                    CreateObjectForce("f(2)", groundForce, -objectList[0].extForce_vector, ForceColor.red, 1, unknown == 7);
                 }
                 else if (externalTo == 2) //pull lower block
                 {
@@ -157,8 +157,8 @@ public class ForceManager : MonoBehaviour
                         frictionFrom2to3 = friction_req_2;
                         objectList[0].UpdateFriction(true);
                     }
-                    CreateObjectForce("f(1)", frictionFrom2to3, objectList[1].extForce_vector, ForceColor.blue, 0, unknown == 3);
-                    CreateObjectForce("f(1)", frictionFrom2to3, -objectList[1].extForce_vector, ForceColor.blue, 1, unknown == 3);
+                    CreateObjectForce("f(1)", frictionFrom2to3, objectList[1].extForce_vector, ForceColor.blue, 0, unknown == 5);
+                    CreateObjectForce("f(1)", frictionFrom2to3, -objectList[1].extForce_vector, ForceColor.blue, 1, unknown == 6);
                     float groundForce = objectList[1].externalForce + frictionFrom2to3 - objectList[1].totalMass * a_3;
                     if (groundForce > maxStatic_3)
                     {
@@ -170,7 +170,35 @@ public class ForceManager : MonoBehaviour
                         objectList[1].UpdateFriction(true);
                     }
                     //BOTTOM CUBE
-                    CreateObjectForce("f(2)", groundForce, -objectList[1].extForce_vector, ForceColor.red, 1, unknown == 3);
+                    CreateObjectForce("f(2)", groundForce, -objectList[1].extForce_vector, ForceColor.red, 1, unknown == 7);
+                }
+                break;
+            case 4:
+                //cube drag slant
+                float mg_4 = objectList[0].rb.mass * -Physics.gravity.y;
+                float angle = Mathf.Atan(objectList[0].extForce_vector.y / objectList[0].extForce_vector.x); ;
+                float normal_4 = mg_4*Mathf.Cos(angle);
+                CreateObjectForce("mg", mg_4, new Vector3(0, -1, 0), ForceColor.pink, 0, unknown == 0);
+                CreateObjectForce("F", objectList[0].externalForce, objectList[0].extForce_vector, ForceColor.red, 0, unknown == 1);
+                CreateObjectForce("N", normal_4, new Vector3(-objectList[0].extForce_vector.y, objectList[0].extForce_vector.x, 0), ForceColor.blue, 0, unknown == 2);
+                float pulling_mg = mg_4 * Mathf.Sin(angle);
+                float friction_req_4 = objectList[0].externalForce - pulling_mg;
+                float maxStatic_4 = objectList[0].properties[1] * normal_4;
+                float dynamicFriction_4 = objectList[0].properties[2] * normal_4;
+                if (friction_req_4 > maxStatic_4)
+                {
+                    CreateObjectForce("f", dynamicFriction_4, -objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 3);
+                    objectList[0].UpdateFriction(false);
+                }
+                else if (friction_req_4 < -maxStatic_4)
+                {
+                    CreateObjectForce("f", dynamicFriction_4, objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 3);
+                    objectList[0].UpdateFriction(false);
+                }
+                else
+                {
+                    CreateObjectForce("f", friction_req_4, -objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 3);
+                    objectList[0].UpdateFriction(true);
                 }
                 break;
         }
@@ -325,6 +353,33 @@ public class ForceManager : MonoBehaviour
                         UpdateObjectForce(AllForce[7], groundForce, -objectList[1].extForce_vector);
                     }
                     break;
+                case 4:
+                    //cube drag slant
+                    float mg_4 = objectList[0].rb.mass * -Physics.gravity.y;
+                    float angle = Mathf.Atan(objectList[0].extForce_vector.y / objectList[0].extForce_vector.x); ;
+                    float normal_4 = mg_4 * Mathf.Cos(angle);
+                    UpdateObjectForce(AllForce[0], mg_4, new Vector3(0, -1, 0));
+                    UpdateObjectForce(AllForce[1], objectList[0].externalForce, objectList[0].extForce_vector);
+                    UpdateObjectForce(AllForce[2], normal_4, new Vector3(-objectList[0].extForce_vector.y, objectList[0].extForce_vector.x, 0));
+                    float pulling_mg = mg_4 * Mathf.Sin(angle);
+                    float friction_req_4 = objectList[0].externalForce - pulling_mg;
+                    float maxStatic_4 = objectList[0].properties[1] * normal_4;
+                    float dynamicFriction_4 = objectList[0].properties[2] * normal_4;
+                    if (friction_req_4 > maxStatic_4)
+                    {
+                        UpdateObjectForce(AllForce[3], dynamicFriction_4, -objectList[0].extForce_vector);
+                        objectList[0].UpdateFriction(false);
+                    }else if(friction_req_4 < -maxStatic_4)
+                    {
+                        UpdateObjectForce(AllForce[3], dynamicFriction_4, objectList[0].extForce_vector);
+                        objectList[0].UpdateFriction(false);
+                    }
+                    else
+                    {
+                        UpdateObjectForce(AllForce[3], friction_req_4, -objectList[0].extForce_vector);
+                        objectList[0].UpdateFriction(true);
+                    }
+                    break;
             }
         }
     }
@@ -370,89 +425,12 @@ public class ForceManager : MonoBehaviour
         }
     }
 
-    public float CalculateForceMagnitude(int num)
-    {
-        return 0;
-     /*   switch (num)
-        {
-            case 0: //mg
-                return rb.mass * -Physics.gravity.y;
-            case 1: //N
-                return rb.mass * -Physics.gravity.y;
-            case 2: //N
-                return totalMass * -Physics.gravity.y;
-            case 3: //friction
-                float normal = totalMass * -Physics.gravity.y;
-                PhysicMaterial floorMatt_1 = floor.material;
-                PhysicMaterial myMatt_1 = myCollider.material;
-                float maxstaticF = (floorMatt_1.staticFriction + myMatt_1.staticFriction) * normal;
-                Rigidbody floorRb = floor.GetComponent<Rigidbody>();
-                float f_totalForce = externalForce + ext_relative;
-                if (floor.GetComponent<Rigidbody>() != null)
-                {
-                    float acceleration = externalForce / (floorRb.mass + rb.mass);
-                    f_totalForce = acceleration * rb.mass;
-                }
-                Debug.Log("Max static force is " + maxstaticF);
-                if (f_totalForce > maxstaticF)
-                {
-                    Debug.Log(gameObject.name + " will move");
-                    return (floorMatt_1.dynamicFriction + myMatt_1.dynamicFriction) * normal;
-                }
-                else
-                {
-                    Debug.Log(gameObject.name + " won't move");
-                    return f_totalForce;
-                }
-            case 4: //relative friction from above
-                float r_normal = (totalMass - rb.mass) * -Physics.gravity.y;
-                PhysicMaterial upperMatt_2 = stacking_rb[0].GetComponent<Collider>().material;
-                PhysicMaterial myMatt_2 = myCollider.material;
-                float r_maxstaticF = (upperMatt_2.staticFriction + myMatt_2.staticFriction) * r_normal;
-                float external = stacking_rb[0].GetComponent<PhysicsObject>().externalForce; //top box has external force
-                if (external > r_maxstaticF)
-                {
-                    float totalforce_2 = (upperMatt_2.dynamicFriction + myMatt_2.dynamicFriction) * r_normal;
-                    ext_relative = totalforce_2;
-                    return totalforce_2;
-                }
-                else
-                {
-                    ext_relative = external;
-                    return external;
-                }
-            case 5:
-                return externalForce;
-            case 6: //floor friction
-                float r_normal2 = rb.mass * -Physics.gravity.y;
-                PhysicMaterial floorMatt_3 = floor.GetComponent<Collider>().material;
-                PhysicMaterial myMatt_3 = myCollider.material;
-                float r_maxstaticF2 = (floorMatt_3.staticFriction + myMatt_3.staticFriction) * r_normal2;
-                float external2 = floor.GetComponent<PhysicsObject>().externalForce;
-                if (external2 > r_maxstaticF2)
-                {
-                    float totalforce = (floorMatt_3.dynamicFriction + myMatt_3.dynamicFriction) * r_normal2;
-                    // ext_relative = totalforce;
-                    return totalforce;
-                }
-                else
-                {
-                    // ext_relative = external2;
-                    return external2;
-                }
-            default:
-                return 0;
-        }*/
-    }
-
     public void CreateObjectForce(string namez, float mag, Vector3 dir,ForceColor color,int target_num,bool isUnkown)
     {
         GameObject force = Instantiate(datacenter.forceArrow[(byte)color],objectList[target_num].transform);
         force.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
         ForceTmp forceScript = force.GetComponent<ForceTmp>();
-        if (isUnkown)
-            mag = 0;
-        forceScript.UpdateData(namez, mag, dir);
+        forceScript.UpdateData(namez, mag, dir, isUnkown);
         AllForce.Add(forceScript);
         force.gameObject.SetActive(false);
         //return forceScript;
