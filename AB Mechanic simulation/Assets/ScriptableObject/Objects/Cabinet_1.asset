@@ -17,5 +17,7 @@ MonoBehaviour:
   - {fileID: 844139071428369649, guid: ebc5d53ea1db7964999622456459e6ad, type: 3}
   control_panel: {fileID: 2993461529952174568, guid: b8a9d4d2e1a4bc9478fd86e1cd286dd9,
     type: 3}
-  icon: {fileID: 21300000, guid: 25887e1e767bc774e9a24997a9343056, type: 3}
-  forceCalculationNum: 0
+  icon: {fileID: 21300000, guid: 8ed3a3d13ad53b14eb9c4b5b10668051, type: 3}
+  forceCalculationNum: 5
+  information: {fileID: 2467553105378548056, guid: cc545f3a5cdcfa143aa42d2788ba018c,
+    type: 3}

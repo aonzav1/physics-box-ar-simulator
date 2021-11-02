@@ -107,7 +107,6 @@ public class PhysicsObject : MonoBehaviour
             {
                 if (pushAt != Vector3.zero)
                 {
-                    Debug.Log("push at "+pushAt);
                     rb.AddForceAtPosition(extForce_vector * (externalForce),pushAt, ForceMode.Force);
                 }
                 else

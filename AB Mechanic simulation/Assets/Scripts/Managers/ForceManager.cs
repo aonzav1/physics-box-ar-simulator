@@ -50,12 +50,12 @@ public class ForceManager : MonoBehaviour
                 if(friction_req_1 > maxStatic_1)
                 {
                     float dynamicFriction_1 = objectList[0].properties[2] * mg_1;
-                    CreateObjectForce("f", dynamicFriction_1, -objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 3);
+                    CreateObjectForce("f", dynamicFriction_1, -objectList[0].extForce_vector, ForceColor.yellow, 0, unknown == 3);
                     objectList[0].UpdateFriction(false);
                 }
                 else
                 {
-                    CreateObjectForce("f", objectList[0].externalForce, -objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 3);
+                    CreateObjectForce("f", objectList[0].externalForce, -objectList[0].extForce_vector, ForceColor.yellow, 0, unknown == 3);
                     objectList[0].UpdateFriction(true);
                 }
                 break;
@@ -187,17 +187,48 @@ public class ForceManager : MonoBehaviour
                 float dynamicFriction_4 = objectList[0].properties[2] * normal_4;
                 if (friction_req_4 > maxStatic_4)
                 {
-                    CreateObjectForce("f", dynamicFriction_4, -objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 3);
+                    CreateObjectForce("f", dynamicFriction_4, -objectList[0].extForce_vector, ForceColor.yellow, 0, unknown == 3);
                     objectList[0].UpdateFriction(false);
                 }
                 else if (friction_req_4 < -maxStatic_4)
                 {
-                    CreateObjectForce("f", dynamicFriction_4, objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 3);
+                    CreateObjectForce("f", dynamicFriction_4, objectList[0].extForce_vector, ForceColor.yellow, 0, unknown == 3);
                     objectList[0].UpdateFriction(false);
                 }
                 else
                 {
-                    CreateObjectForce("f", friction_req_4, -objectList[0].extForce_vector, ForceColor.blue, 0, unknown == 3);
+                    CreateObjectForce("f", friction_req_4, -objectList[0].extForce_vector, ForceColor.yellow, 0, unknown == 3);
+                    objectList[0].UpdateFriction(true);
+                }
+                break;
+            case 5:
+                //cabinet flip
+                float mg_5 = objectList[0].rb.mass * -Physics.gravity.y;
+                CreateObjectForce("mg", mg_5, new Vector3(0, -1, 0), ForceColor.pink, 0, unknown == 0, new Vector3(0,1,0));
+                CreateObjectForce("F", objectList[0].externalForce, objectList[0].extForce_vector, ForceColor.red, 0, unknown == 1, new Vector3(0,1,0));
+                float normal_5 = mg_5 / 4;
+                CreateObjectForce("N1", normal_5, new Vector3(0, 1, 0), ForceColor.blue, 0, unknown == 2, new Vector3(0.297f,0.03f, 0.32f));
+                CreateObjectForce("N2", normal_5, new Vector3(0, 1, 0), ForceColor.blue, 0, unknown == 3, new Vector3(0.297f, 0.03f, -0.32f));
+                CreateObjectForce("N3", normal_5, new Vector3(0, 1, 0), ForceColor.blue, 0, unknown == 4, new Vector3(-0.297f, 0.03f, 0.32f));
+                CreateObjectForce("N4", normal_5, new Vector3(0, 1, 0), ForceColor.blue, 0, unknown == 5, new Vector3(-0.297f, 0.03f, -0.32f));
+                float friction_req_5 = objectList[0].externalForce;
+                float maxStatic_5 = objectList[0].properties[1] * mg_5;
+                if (friction_req_5 > maxStatic_5)
+                {
+                    float dynamicFriction_5 = objectList[0].properties[2] * normal_5;
+                    CreateObjectForce("f", dynamicFriction_5, -objectList[0].extForce_vector, ForceColor.yellow, 0, unknown == 6, new Vector3(0.297f, 0.03f, 0.32f));
+                    CreateObjectForce("f", dynamicFriction_5, -objectList[0].extForce_vector, ForceColor.yellow, 0, unknown == 7, new Vector3(0.297f, 0.03f, -0.32f));
+                    CreateObjectForce("f", dynamicFriction_5, -objectList[0].extForce_vector, ForceColor.yellow, 0, unknown == 8, new Vector3(-0.297f, 0.03f, 0.32f));
+                    CreateObjectForce("f", dynamicFriction_5, -objectList[0].extForce_vector, ForceColor.yellow, 0, unknown == 9, new Vector3(-0.297f, 0.03f, -0.32f));
+                    objectList[0].UpdateFriction(false);
+                }
+                else
+                {
+                    float distributedForce = objectList[0].externalForce / 4;
+                    CreateObjectForce("f", distributedForce, -objectList[0].extForce_vector, ForceColor.yellow, 0, unknown == 6, new Vector3(0.297f, 0.03f, 0.32f));
+                    CreateObjectForce("f", distributedForce, -objectList[0].extForce_vector, ForceColor.yellow, 0, unknown == 7, new Vector3(0.297f, 0.03f, -0.32f));
+                    CreateObjectForce("f", distributedForce, -objectList[0].extForce_vector, ForceColor.yellow, 0, unknown == 8, new Vector3(-0.297f, 0.03f, 0.32f));
+                    CreateObjectForce("f", distributedForce, -objectList[0].extForce_vector, ForceColor.yellow, 0, unknown == 9, new Vector3(-0.297f, 0.03f, -0.32f));
                     objectList[0].UpdateFriction(true);
                 }
                 break;
@@ -380,27 +411,40 @@ public class ForceManager : MonoBehaviour
                         objectList[0].UpdateFriction(true);
                     }
                     break;
+                case 5:
+                    //cabinet flip
+                    float mg_5 = objectList[0].rb.mass * -Physics.gravity.y;
+                    UpdateObjectForce(AllForce[0], mg_5, new Vector3(0, -1, 0));
+                    UpdateObjectForce(AllForce[1], objectList[0].externalForce, objectList[0].extForce_vector);
+                    float normal_5 = mg_5 / 4;
+                    UpdateObjectForce(AllForce[2], normal_5, new Vector3(0, 1, 0));
+                    UpdateObjectForce(AllForce[3], normal_5, new Vector3(0, 1, 0));
+                    UpdateObjectForce(AllForce[4], normal_5, new Vector3(0, 1, 0));
+                    UpdateObjectForce(AllForce[5], normal_5, new Vector3(0, 1, 0));
+                    float friction_req_5 = objectList[0].externalForce;
+                    float maxStatic_5 = objectList[0].properties[1] * mg_5;
+                    if (friction_req_5 > maxStatic_5)
+                    {
+                        float dynamicFriction_5 = objectList[0].properties[2] * normal_5;
+                        UpdateObjectForce(AllForce[6], dynamicFriction_5, -objectList[0].extForce_vector);
+                        UpdateObjectForce(AllForce[7], dynamicFriction_5, -objectList[0].extForce_vector);
+                        UpdateObjectForce(AllForce[8], dynamicFriction_5, -objectList[0].extForce_vector);
+                        UpdateObjectForce(AllForce[9], dynamicFriction_5, -objectList[0].extForce_vector);
+                        objectList[0].UpdateFriction(false);
+                    }
+                    else
+                    {
+                        float distributedForce = objectList[0].externalForce / 4;
+                        UpdateObjectForce(AllForce[6], distributedForce, -objectList[0].extForce_vector);
+                        UpdateObjectForce(AllForce[7], distributedForce, -objectList[0].extForce_vector);
+                        UpdateObjectForce(AllForce[8], distributedForce, -objectList[0].extForce_vector);
+                        UpdateObjectForce(AllForce[9], distributedForce, -objectList[0].extForce_vector);
+                        objectList[0].UpdateFriction(true);
+                    }
+                    break;
             }
         }
     }
-    public float CalculateNewForcesWithUnknown(int unknown)
-    {
-        CleanTempForces();
-        float res = 0;
-      /*  for (int i = 0; i < curForceList.Length; i++)
-        {
-            if (i != unknown)
-            {
-                CreateObjectForce(curForceList[i], false);
-            }
-            else
-            {
-                res = CreateObjectForce(curForceList[i], true).magnitude;
-            }
-        }*/
-        return res;
-    }
-
     public void CleanTempForces()
     {
         AllForce = new List<ForceTmp>();
@@ -425,10 +469,11 @@ public class ForceManager : MonoBehaviour
         }
     }
 
-    public void CreateObjectForce(string namez, float mag, Vector3 dir,ForceColor color,int target_num,bool isUnkown)
+    public void CreateObjectForce(string namez, float mag, Vector3 dir,ForceColor color,int target_num,bool isUnkown,Vector3 offset=default(Vector3))
     {
         GameObject force = Instantiate(datacenter.forceArrow[(byte)color],objectList[target_num].transform);
         force.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
+        force.transform.localPosition = offset;
         ForceTmp forceScript = force.GetComponent<ForceTmp>();
         forceScript.UpdateData(namez, mag, dir, isUnkown);
         AllForce.Add(forceScript);

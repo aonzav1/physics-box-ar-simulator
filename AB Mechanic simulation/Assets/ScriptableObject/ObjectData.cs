@@ -10,4 +10,5 @@ public class ObjectData : ScriptableObject
     public GameObject control_panel;
     public Sprite icon;
     public byte forceCalculationNum;
+    public GameObject information;
 }

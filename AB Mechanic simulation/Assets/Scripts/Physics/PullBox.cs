@@ -18,6 +18,11 @@ public class PullBox : MonoBehaviour
     void Start()
     {
         main = FindObjectOfType<MainWorkSpace>();
+        StartCoroutine(DelayPull());
+    }
+    IEnumerator DelayPull()
+    {
+        yield return new WaitForSeconds(0.2f);
         FindTarget();
         Pull(0);
     }
@@ -67,6 +72,7 @@ public class PullBox : MonoBehaviour
         Targets[num].externalForce = pullmagnitude;
         Targets[num].extForce_vector = pull_vector;
         main.forcemanager.UpdateForces();
+        Debug.Log("Pull no."+num);
     }
 
    /* public void CalculateForce()

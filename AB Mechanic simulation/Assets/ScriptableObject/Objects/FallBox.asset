@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bad289c9a9c815944b333d6dd1759b4d, type: 3}
   m_Name: FallBox
   m_EditorClassIdentifier: 
-  Name: Cube
+  Name: Falling cube
   prefab:
   - {fileID: 827901849938243690, guid: 2b9ed26d32ab7934581166580b22b9b0, type: 3}
   control_panel: {fileID: 2993461529952174568, guid: 3737968a417c64c4e888b025f8cf1213,
     type: 3}
-  icon: {fileID: 21300000, guid: 25887e1e767bc774e9a24997a9343056, type: 3}
+  icon: {fileID: 21300000, guid: 67493f01f1f11ba4f8845c34a07255a3, type: 3}
   forceCalculationNum: 0
+  information: {fileID: 2467553105378548056, guid: 1475c623a0d0e6d4caef9179f2ca27bb,
+    type: 3}

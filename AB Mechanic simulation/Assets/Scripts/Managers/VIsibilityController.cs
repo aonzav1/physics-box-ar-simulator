@@ -12,7 +12,9 @@ public class VIsibilityController : MonoBehaviour
     public GameObject Visibility_hover;
     public Transform[] visibleSelector;
     public ObjectDatacenter datacenter;
+    public ObjectData Objectdata;
     public Transform workSpace;
+    public GameObject InformationTab;
     // Start is called before the first frame update
     void Start()
     {
@@ -157,5 +159,14 @@ public class VIsibilityController : MonoBehaviour
                 }
             }
         }
+    }
+    public void OpenInformation()
+    {
+        if(Objectdata != null)
+            InformationTab = Instantiate(Objectdata.information, menu_controller.canvas.transform);
+    }
+    public void CloseInformation()
+    {
+        Destroy(InformationTab);
     }
 }

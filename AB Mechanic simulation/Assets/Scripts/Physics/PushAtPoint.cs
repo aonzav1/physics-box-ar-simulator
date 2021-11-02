@@ -22,6 +22,11 @@ public class PushAtPoint : MonoBehaviour
     void Start()
     {
         main = FindObjectOfType<MainWorkSpace>();
+        StartCoroutine(DelayPull());
+    }
+    IEnumerator DelayPull()
+    {
+        yield return new WaitForSeconds(0.2f);
         FindTarget();
         positon_selector.maxValue = targetHeight;
         positon_selector.minValue = 0;

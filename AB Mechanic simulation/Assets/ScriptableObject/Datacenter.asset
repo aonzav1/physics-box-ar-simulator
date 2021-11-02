@@ -22,6 +22,7 @@ MonoBehaviour:
   - {fileID: 2609277238508397263, guid: 7a1a0c867167f1343b772db2c957775e, type: 3}
   - {fileID: 2609277238508397263, guid: 27f99f2368b1cf845adf933c959310e2, type: 3}
   - {fileID: 2609277238508397263, guid: ddf5c9f514d28c0409a89da3ead45681, type: 3}
+  - {fileID: 2609277238508397263, guid: 88f7c7b78e82bac40b8b29ea1edafe64, type: 3}
   questions:
   - question: The box is at {h}m height, calculate time that it hits the floor
     data: {fileID: 11400000, guid: 71554b80440fa964081bf2b56132f2fb, type: 2}
@@ -30,6 +31,7 @@ MonoBehaviour:
     unknown_vector: {x: 1, y: 2.2, z: 0}
     externalVector: {x: 0, y: 0, z: 0}
     type: 1
+    isReceiveInput: 0
   - question: The box is {m} kg, calculate its downward force
     data: {fileID: 11400000, guid: 71554b80440fa964081bf2b56132f2fb, type: 2}
     targetobject: 0
@@ -37,5 +39,6 @@ MonoBehaviour:
     unknown_vector: {x: 0.5, y: 5, z: 0}
     externalVector: {x: 0, y: 1, z: 0}
     type: 5
+    isReceiveInput: 0
   velocity_arrow: {fileID: 2100000, guid: 2b60eeaba29bb02478ac0fd80a8f77e1, type: 2}
   acceleration_arrow: {fileID: 2100000, guid: 56514d5f4a242d641ab106e2ad35669c, type: 2}

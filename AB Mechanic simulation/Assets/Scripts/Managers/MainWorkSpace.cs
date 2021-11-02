@@ -19,7 +19,7 @@ public class MainWorkSpace : MonoBehaviour
     public float simulationTime;
     public GameObject object_interaction;
     public Transform mainUI;
-    public Rigidbody[] tmp_spawned;
+    public PhysicsObject[] tmp_spawned;
     public VIsibilityController visiblecontroler;
     public ForceManager forcemanager;
     public bool isGenInteraction;
@@ -49,6 +49,7 @@ public class MainWorkSpace : MonoBehaviour
     }
     public void StartSimulation()
     {
+        Debug.Log("Start simulation");
         stopCount = false;
         if (!isSimulate)
         {
@@ -64,8 +65,8 @@ public class MainWorkSpace : MonoBehaviour
         }
         for (int i = 0; i < tmp_spawned.Length; i++)
         {
-            if(tmp_spawned[i]!= null)
-                tmp_spawned[i].isKinematic = false;
+            if(tmp_spawned[i].rb!= null)
+                tmp_spawned[i].rb.isKinematic = false;
         }
     }
     public void PauseSimulation()
@@ -83,6 +84,7 @@ public class MainWorkSpace : MonoBehaviour
     }
     public void StopSimulation()
     {
+        Debug.Log("Stop simulation");
         Time.timeScale = timeScale;
         if (startButton != null)
         {
@@ -91,8 +93,8 @@ public class MainWorkSpace : MonoBehaviour
         }
         for (int i = 0; i < tmp_spawned.Length; i++)
         {
-            if (tmp_spawned[i] != null)
-                tmp_spawned[i].isKinematic = true;
+            if (tmp_spawned[i].rb != null)
+                tmp_spawned[i].rb.isKinematic = true;
         }
         simulationTime = 0;
         simulationTime_txt.text = "t = 0.00 s";
@@ -140,7 +142,7 @@ public class MainWorkSpace : MonoBehaviour
     public void SpawnObject(ObjectData data, ProblemGenerator probgen=null)
     {
         ClearObject();
-        Rigidbody[] tmp_obj = new Rigidbody[data.prefab.Length]; 
+        PhysicsObject[] tmp_obj = new PhysicsObject[data.prefab.Length]; 
         for (int i = 0; i < data.prefab.Length; i++)
         {
             PhysicsObject a= Instantiate(data.prefab[i], workSpace).GetComponent<PhysicsObject>();
@@ -149,11 +151,11 @@ public class MainWorkSpace : MonoBehaviour
                 a.stacking_rb = new List<Rigidbody>();
                 for(int j=0; j < a.stacking_object.Length; j++)
                 {
-                    a.stacking_rb.Add(tmp_obj[a.stacking_object[j]]);
+                    a.stacking_rb.Add(tmp_obj[a.stacking_object[j]].rb);
                 }
             }
             a.probgen = probgen;
-            tmp_obj[i] = a.GetComponent<Rigidbody>();
+            tmp_obj[i] = a;
         }
         tmp_spawned = tmp_obj;
 
@@ -167,6 +169,8 @@ public class MainWorkSpace : MonoBehaviour
               StartCoroutine(GetObjectSurroundingData());
           else
               StopSimulation();*/
+
+        visiblecontroler.Objectdata = data;
 
         if (visiblecontroler != null)
             visiblecontroler.ShowAsDetail();

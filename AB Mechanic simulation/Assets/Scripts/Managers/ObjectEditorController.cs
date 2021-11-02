@@ -16,7 +16,7 @@ public enum EditMode:byte
 
 public enum ForceColor : byte
 {
-    blue,red,pink
+    blue,red,pink,yellow
 }
 
 public class ObjectEditorController : MonoBehaviour
