@@ -72,27 +72,34 @@ public class PullBox : MonoBehaviour
         Targets[num].externalForce = pullmagnitude;
         Targets[num].extForce_vector = pull_vector;
         main.forcemanager.UpdateForces();
+        MainWorkSpace.isRecalculateRequire = false;
         Debug.Log("Pull no."+num);
+        Debug.Log("Recalculated");
     }
 
-   /* public void CalculateForce()
+    /* public void CalculateForce()
+     {
+         for(int i = 0; i < Targets.Length; i++)
+         {
+             if (i == 0)
+             {
+                // Targets.
+             }
+             else
+             {
+
+             }
+         }
+     }*/
+    public void CheckMagnitude()
     {
-        for(int i = 0; i < Targets.Length; i++)
-        {
-            if (i == 0)
-            {
-               // Targets.
-            }
-            else
-            {
-
-            }
-        }
-    }*/
-
+        MainWorkSpace.isRecalculateRequire = true;
+    }
     public void CalculateMagnitude()
     {
-        pullmagnitude = float.Parse(value.text);
+        float.TryParse(value.text, out pullmagnitude);
+        Debug.Log("Parsed value, result : "+pullmagnitude);
+        value.text = pullmagnitude.ToString();
     }
   /*  public void PullSimulate()
     {

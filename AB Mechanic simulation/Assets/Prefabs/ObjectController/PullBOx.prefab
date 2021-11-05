@@ -737,7 +737,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2993461529952174574}
         m_TargetAssemblyTypeName: PullBox, Assembly-CSharp
-        m_MethodName: CalculateMagnitude
+        m_MethodName: CheckMagnitude
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

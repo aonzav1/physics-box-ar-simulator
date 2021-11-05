@@ -26,6 +26,7 @@ public class MainWorkSpace : MonoBehaviour
     public float timeScale;
     public Transform[] timescaleTabs;
     public GameObject timeSelect_ring;
+    public static bool isRecalculateRequire;
     bool stopCount;
 
     public List<ObjectSaveData> tmpSave = new List<ObjectSaveData>();
@@ -49,6 +50,11 @@ public class MainWorkSpace : MonoBehaviour
     }
     public void StartSimulation()
     {
+        if (isRecalculateRequire)
+        {
+            visiblecontroler.menu_controller.DisplayError("Tap pull/push to recalculate");
+            return;
+        }
         Debug.Log("Start simulation");
         stopCount = false;
         if (!isSimulate)
@@ -142,6 +148,7 @@ public class MainWorkSpace : MonoBehaviour
     public void SpawnObject(ObjectData data, ProblemGenerator probgen=null)
     {
         ClearObject();
+        isRecalculateRequire = false;
         PhysicsObject[] tmp_obj = new PhysicsObject[data.prefab.Length]; 
         for (int i = 0; i < data.prefab.Length; i++)
         {

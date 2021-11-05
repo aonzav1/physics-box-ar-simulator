@@ -76,6 +76,11 @@ public class MenuController : MonoBehaviour
                     DisplayError("Stop simulation first!");
                     return;
                 }
+                if (MainWorkSpace.isRecalculateRequire)
+                {
+                    DisplayError("Tap pull/push to recalculate");
+                    return;
+                }
                 for (int i = 0; i < Pages.Length; i++)
                 {
                     Pages[i].SetActive(num == i);

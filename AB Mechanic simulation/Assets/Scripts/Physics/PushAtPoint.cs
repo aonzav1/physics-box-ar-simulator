@@ -77,23 +77,32 @@ public class PushAtPoint : MonoBehaviour
             Targets[i].externalForce = 0;
             Targets[i].pushAt = Vector3.zero;
         }
-        if(push_at != Vector3.zero)
+        if (push_at != Vector3.zero)
         {
             curRope.transform.position = push_at + new Vector3(-0.5f, 0, 0);
         }
         Targets[num].externalForce = pushmagnitude;
         Targets[num].extForce_vector = push_vector;
         Targets[num].pushAt = push_at;
+        MainWorkSpace.isRecalculateRequire = false;
+        Debug.Log("Recalculated");
     }
 
+    public void CheckMagnitude()
+    {
+        MainWorkSpace.isRecalculateRequire = true;
+    }
 
     public void CalculateMagnitude()
     {
-        pushmagnitude = float.Parse(value.text);
+        float.TryParse(value.text, out pushmagnitude);
+        Debug.Log("Parsed value, result : " + pushmagnitude);
+        value.text = pushmagnitude.ToString();
     }
 
     public void CalculatePosition()
     {
+        MainWorkSpace.isRecalculateRequire = true;
         Vector3 localPush = new Vector3(-0.5f,positon_selector.value,0);
         push_at = Targets[push_object].transform.TransformPoint(localPush);
         position_txt.text = "At height: " + positon_selector.value.ToString("F2");

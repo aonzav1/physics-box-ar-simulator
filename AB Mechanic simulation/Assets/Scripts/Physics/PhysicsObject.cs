@@ -57,21 +57,7 @@ public class PhysicsObject : MonoBehaviour
     {
         if (type == ObjectType.staticObject)
             return;
-        if (VIsibilityController.showDetail == 0)
-        {
-            if (rb.velocity.magnitude > 0.01)
-            {
-                velocityLine.transform.rotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
-                velocityMagnitude.text = rb.velocity.magnitude.ToString("F2") + " m/s";
-                velocityLine.SetActive(true);
-            }
-            else
-            {
-                velocityLine.SetActive(false);
-            }
-            centerofMass.SetActive(false);
-        }
-        else if(VIsibilityController.showDetail == 1)
+        if(VIsibilityController.showDetail <= 1)
         {
             if (rb.velocity.magnitude > 0.01)
             {
@@ -125,17 +111,26 @@ public class PhysicsObject : MonoBehaviour
     IEnumerator CheckAcceleration()
     {
         speedz = 0;
-        velocityMagnitude.text = "0 m/s^2";
+        velocityMagnitude.text = "loading..";
+        yield return new WaitForSeconds(0.05f);
         while (isCheck)
         {
-            yield return new WaitForSeconds(0.1f);
-            float diff = rb.velocity.magnitude - speedz;
-            speedz = rb.velocity.magnitude;
-            if(diff > 0.001f)
+            if(VIsibilityController.showDetail == 0)
             {
-                velocityMagnitude.text = (diff * 10).ToString("F2")+" m/s^2";
-                Debug.Log(gameObject.name + " has a = " + (diff * 10));
+                velocityMagnitude.text = rb.velocity.magnitude.ToString("F2") + " m/s";
             }
+            else
+            if (VIsibilityController.showDetail == 1)
+            {
+                float diff = rb.velocity.magnitude - speedz;
+                speedz = rb.velocity.magnitude;
+                if (diff > 0.001f)
+                {
+                    velocityMagnitude.text = (diff * 10).ToString("F2") + " m/s^2";
+                    Debug.Log(gameObject.name + " has a = " + (diff * 10));
+                }
+            }
+            yield return new WaitForSeconds(0.1f);
         }
     }
     public void NewProperties(float[] newdata)
@@ -154,7 +149,7 @@ public class PhysicsObject : MonoBehaviour
                 {
                     PhysicMaterial actorMaterial = new PhysicMaterial();
                     actorMaterial.staticFriction = friction_static;
-                    actorMaterial.dynamicFriction = friction_static; //change to propertie 2 in runtime
+                    actorMaterial.dynamicFriction = friction_static*1.2f; //change to propertie 2 in runtime
                   //  actorMaterial.dynamicFriction = properties[2];
                     actorMaterial.frictionCombine = PhysicMaterialCombine.Multiply;
                     myCollider.material = actorMaterial;
@@ -162,7 +157,7 @@ public class PhysicsObject : MonoBehaviour
                 else
                 {
                     myCollider.material.staticFriction = friction_static;
-                    myCollider.material.dynamicFriction = friction_static; //change to propertie 2 in runtime
+                    myCollider.material.dynamicFriction = friction_static*1.2f; //change to propertie 2 in runtime
                     //  myCollider.material.dynamicFriction = properties[2];
                     myCollider.material.frictionCombine = PhysicMaterialCombine.Multiply;
                 }
@@ -245,15 +240,17 @@ public class PhysicsObject : MonoBehaviour
             }
             mul = 1;
         }
-        myCollider.material.staticFriction = staticFriction * mul;
+       // myCollider.material.staticFriction = staticFriction * mul;
         Debug.Log("Static friction is "+staticFriction);
         if (isStatic)
         {
-            myCollider.material.dynamicFriction = staticFriction * mul;
-            Debug.Log("Dynamic friction is " + staticFriction);
+            myCollider.material.staticFriction = staticFriction * mul;
+            myCollider.material.dynamicFriction = staticFriction * mul *1.2f;
+            Debug.Log("Dynamic friction is " + staticFriction *1.2f);
         }
         else
         {
+            myCollider.material.staticFriction = staticFriction * mul;
             float dynamicFriction = properties[2] / floorDynamicfriction;
             if (isOnTop)
             {
