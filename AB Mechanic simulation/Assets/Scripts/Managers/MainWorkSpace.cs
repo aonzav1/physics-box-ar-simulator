@@ -210,9 +210,16 @@ public class MainWorkSpace : MonoBehaviour
 
     public void ChangeTimeScale(int num)
     {
-        timeScale = num*0.5f;
+        if (num > 0)
+        {
+            timeScale = num * 0.5f;
+        }
+        else
+        {
+            timeScale = 0.2f;
+        }
         if(timeSelect_ring!=null)
-            timeSelect_ring.transform.position = timescaleTabs[num - 1].transform.position;
+            timeSelect_ring.transform.position = timescaleTabs[num].transform.position;
         if(isSimulate)
             Time.timeScale = timeScale;
     }
