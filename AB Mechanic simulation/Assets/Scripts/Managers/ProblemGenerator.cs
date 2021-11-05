@@ -83,7 +83,6 @@ public class ProblemGenerator : MonoBehaviour
         main.SpawnObject(targetProblem.data,this);
         string Question = targetProblem.question;
         float ans = 0;
-        string unit = "";
         switch (targetProblem.type)
         {
             case QuestionUnknownType.fall:
@@ -93,7 +92,7 @@ public class ProblemGenerator : MonoBehaviour
                 ans = Mathf.Sqrt((targetheight-0.25f) * 2/(-Physics.gravity.y));
                 Debug.Log("ans is "+ans);
                 Question = Question.Replace("{h}", targetheight.ToString("F2"));
-                unit = " s";
+                GenerateAnswer(0, " s", ans);
                 break;
             case QuestionUnknownType.weight:
                 float targetmass = Random.Range(targetProblem.unknown_vector.x, targetProblem.unknown_vector.y);
@@ -105,44 +104,139 @@ public class ProblemGenerator : MonoBehaviour
                 Debug.Log("ans is " + ans);
                 weightobject.externalForce = upwardforce;
                 weightobject.extForce_vector = targetProblem.externalVector;
-                StartCoroutine(DelayCalculation_1(weightobject.gameObject,2,-1));
+                StartCoroutine(DelayCalculation_1(weightobject.gameObject,2,0));
                 // weightobject.CreateObjectForce(targetProblem.externalVector, false) ;
                 Question = Question.Replace("{m}", targetmass.ToString("F2"));
-                unit = " N";
+                GenerateAnswer(0, " s", ans);
                 break;
-        }
-        questionTxt.text = "Q" + question_num + ": " + Question;
-            float mid = ans / 2;
-            float smallmid = ans / 10;
-            int R = Random.Range(0, 4);
-            List<int> randList = new List<int>();
-            for(int i = 0; i < 4; i++)
-            {
-                int L = 5;
-                if (i != R) {
-                    L = Random.Range(0, 10);
-                    while (L == 5 || randList.Contains(L))
-                    {
-                    L = Random.Range(0, 10);
-                    }
-                }
-                randList.Add(L); 
-            }
-            for (int i = 0; i < 4; i++)
-            {
-                if (i == R) {
-                    choices[i].text = ans.ToString("F2") + unit;
-                    answers[i] = ans;
+            case QuestionUnknownType.acc:
+                int mu_multiplier_1 = Random.Range(1,8);
+                float mu_multiplier_2 = Random.Range(0, 2);
+                float targetmass_2 = Random.Range(0.5f, 3);
+                PhysicsObject boxObject_1 = main.tmp_spawned[targetProblem.targetobject].GetComponent<PhysicsObject>();
+                boxObject_1.properties[0] = targetmass_2;
+                boxObject_1.properties[1] = (targetProblem.unknown_vector.y) * mu_multiplier_1 + 0.1f * mu_multiplier_2;
+                boxObject_1.properties[2] = (targetProblem.unknown_vector.x) * mu_multiplier_1;
+                // weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
+                float pullingForce = Random.Range(1, 15);
+                ans = 0;
+                float fakeans = 0;
+                float maxStaticFriction_acc = boxObject_1.properties[1] * targetmass_2 * -Physics.gravity.y;
+                float DynamicFriction_acc = boxObject_1.properties[2] * targetmass_2 * -Physics.gravity.y;
+                if (pullingForce > maxStaticFriction_acc)
+                {
+                    ans = (pullingForce - DynamicFriction_acc) / targetmass_2;
                 }
                 else
                 {
-                    float rand = 0;
-                    rand = mid + (smallmid * randList[i]);
-                    answers[i] = rand;
-                    choices[i].text = rand.ToString("F2") + unit;
+                    fakeans = (pullingForce - DynamicFriction_acc) / targetmass_2;
+                    if(fakeans < 0)
+                    {
+                        fakeans = pullingForce / targetmass_2;
+                        if(fakeans < 0)
+                        {
+                            fakeans = pullingForce;
+                        }
+                    }
                 }
-            }
-            thisAnswer = R;
+                Debug.Log("ans is " + ans);
+                boxObject_1.externalForce = pullingForce;
+                boxObject_1.extForce_vector = targetProblem.externalVector;
+                StartCoroutine(DelayCalculation_1(boxObject_1.gameObject, 2, -1));
+                // weightobject.CreateObjectForce(targetProblem.externalVector, false) ;
+                Question = Question.Replace("{m}", targetmass_2.ToString("F2"));
+                Question = Question.Replace("{a}", boxObject_1.properties[1].ToString("F2"));
+                Question = Question.Replace("{b}", boxObject_1.properties[2].ToString("F2"));
+                GenerateAnswer(1, " m/s^2", ans, fakeans);
+                break;
+        }
+        questionTxt.text = "Q" + question_num + ": " + Question;
+    }
+    public void GenerateAnswer(int num,string unit,float ans,float ans_2=0)
+    {
+        switch (num)
+        {
+            case 0:
+                float mid = ans / 2;
+                float smallmid = ans / 10;
+                int R = Random.Range(0, 4);
+                List<int> randList = new List<int>();
+                for (int i = 0; i < 4; i++)
+                {
+                    int L = 5;
+                    if (i != R)
+                    {
+                        L = Random.Range(0, 10);
+                        while (L == 5 || randList.Contains(L))
+                        {
+                            L = Random.Range(0, 10);
+                        }
+                    }
+                    randList.Add(L);
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    if (i == R)
+                    {
+                        choices[i].text = ans.ToString("F2") + unit;
+                        answers[i] = ans;
+                    }
+                    else
+                    {
+                        float rand = 0;
+                        rand = mid + (smallmid * randList[i]);
+                        answers[i] = rand;
+                        choices[i].text = rand.ToString("F2") + unit;
+                    }
+                }
+                thisAnswer = R;
+                break;
+            case 1:
+                float mid_1;
+                float smallmid_1;
+                if (ans > 0)
+                {
+                    mid_1 = ans / 2;
+                    smallmid_1 = ans / 10;
+                }
+                else
+                {
+                    mid_1 = ans_2 / 2;
+                    smallmid_1 = ans_2 / 10;
+                }
+                int R_1 = Random.Range(0, 4);
+                List<int> randList_1 = new List<int>();
+                for (int i = 0; i < 4; i++)
+                {
+                    int L = 5;
+                    if (i != R_1)
+                    {
+                        L = Random.Range(0, 10);
+                        while (L == 5 || randList_1.Contains(L))
+                        {
+                            L = Random.Range(0, 10);
+                        }
+                    }
+                    randList_1.Add(L);
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    if (i == R_1)
+                    {
+                        choices[i].text = ans.ToString("F2") + unit;
+                        answers[i] = ans;
+                    }
+                    else
+                    {
+                        float rand = 0;
+                        rand = mid_1 + (smallmid_1 * randList_1[i]);
+                        answers[i] = rand;
+                        choices[i].text = rand.ToString("F2") + unit;
+                    }
+                }
+                thisAnswer = R_1;
+                break;
+        }
     }
     IEnumerator DelayCalculation_1(GameObject target, int cal_type, int unknown)
     {
@@ -174,7 +268,8 @@ public class ProblemGenerator : MonoBehaviour
         timeleft += 5;
         yield return new WaitForSeconds(0.25f);
         bool isContinue = true;
-        while (isContinue)
+        int maxcount = 5;
+        while (isContinue && maxcount > 0)
         {
             isContinue = false;
             for(int i = 0; i < main.workSpace.childCount; i++)
@@ -185,6 +280,7 @@ public class ProblemGenerator : MonoBehaviour
                     break;
                 }
             }
+            maxcount -= 1;
             yield return new WaitForSeconds(0.5f);
         }
         yield return new WaitForSeconds(0.5f);

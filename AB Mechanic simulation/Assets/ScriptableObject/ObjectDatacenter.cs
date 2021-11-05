@@ -12,7 +12,7 @@ public class ObjectDatacenter : ScriptableObject
     public Material acceleration_arrow;
 }
 
-public enum QuestionUnknownType:byte {none,fall,force,frictionCo,velocity,weight}
+public enum QuestionUnknownType:byte {none,fall,force,frictionCo,velocity,weight,acc}
 
 [System.Serializable]
 public class Problem

@@ -454,7 +454,8 @@ public class ForceManager : MonoBehaviour
     {
         for (int i = 0; i < AllForce.Count; i++)
         {
-            AllForce[i].gameObject.SetActive(false);
+            if(AllForce[i] != null)
+                AllForce[i].gameObject.SetActive(false);
         }
     }
     public void TurnOnForces()

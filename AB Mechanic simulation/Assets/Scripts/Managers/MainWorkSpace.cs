@@ -177,10 +177,12 @@ public class MainWorkSpace : MonoBehaviour
           else
               StopSimulation();*/
 
-        visiblecontroler.Objectdata = data;
 
         if (visiblecontroler != null)
+        {
+            visiblecontroler.Objectdata = data;
             visiblecontroler.ShowAsDetail();
+        }
 
         if(probgen == null)
             StartCoroutine(GetObjectSurroundingData(data));
