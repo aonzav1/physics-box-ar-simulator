@@ -436,6 +436,12 @@ MonoBehaviour:
   force_manager: {fileID: 363007260}
   thisAnswer: 0
   cam_controller: {fileID: 1764433969}
+  correct_pref: {fileID: 6155088599981388840, guid: 4d3ca3c25d441ac4b96306c03aff5638,
+    type: 3}
+  wrong_pref: {fileID: 6765817467638897057, guid: 46be47fa76b517f41b6aa0895e409ba5,
+    type: 3}
+  end_1_pref: {fileID: 8079511244798115086, guid: 4ade81ee5f8aa3e4fbf31a84f506e0b5,
+    type: 3}
 --- !u!114 &363007259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1232,7 +1238,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f58cf65ea995c4b45be95713bdea8134, type: 2}
+  - {fileID: 2100000, guid: 36915633e60a3ef459d08be595300b9d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1750,7 +1756,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f58cf65ea995c4b45be95713bdea8134, type: 2}
+  - {fileID: 2100000, guid: 36915633e60a3ef459d08be595300b9d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2341,7 +2347,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f58cf65ea995c4b45be95713bdea8134, type: 2}
+  - {fileID: 2100000, guid: 36915633e60a3ef459d08be595300b9d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3092,7 +3098,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f58cf65ea995c4b45be95713bdea8134, type: 2}
+  - {fileID: 2100000, guid: 36915633e60a3ef459d08be595300b9d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4227,7 +4233,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f58cf65ea995c4b45be95713bdea8134, type: 2}
+  - {fileID: 2100000, guid: 36915633e60a3ef459d08be595300b9d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
