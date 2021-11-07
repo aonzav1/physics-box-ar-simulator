@@ -48,13 +48,21 @@ public class MenuController : MonoBehaviour
                 {
                     Pages[i].SetActive(num == i);
                 }
-                if(num == 2)
+                if(num == 3)
                 {
                     SceneManager.LoadScene("Creative", LoadSceneMode.Single);
                 }
-                if(num == 3)
+                if(num == 4)
                 {
                     SceneManager.LoadScene("ProblemMode", LoadSceneMode.Single);
+                }
+                if(num == 5)
+                {
+                    SceneManager.LoadScene("Creative_AR", LoadSceneMode.Single);
+                }
+                if (num == 6)
+                {
+                    SceneManager.LoadScene("Creative_AR", LoadSceneMode.Single);
                 }
                 //num 2 for open creative mode
                 //num 3 for open survival mode
@@ -64,6 +72,10 @@ public class MenuController : MonoBehaviour
                 for (int i = 0; i < Pages.Length; i++)
                 {
                     Pages[i].SetActive(num == i);
+                }
+                if(num == 1)
+                {
+                    Pages[2].SetActive(true);
                 }
                 if (num == 4)
                 {

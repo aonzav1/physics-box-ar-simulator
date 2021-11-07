@@ -14,6 +14,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ProblemMode.unity
     guid: 3633e36b48af33345937e96a180c7ed3
+  - enabled: 1
+    path: Assets/Scenes/Creative_AR.unity
+    guid: d48713c2a952985439a9ed7fa3352bf5
+  - enabled: 1
+    path: Assets/Scenes/AR.unity
+    guid: 6bdce89659816455b9f906fc62d19910
+  - enabled: 1
+    path: Assets/Scenes/ProblemMode_AR.unity
+    guid: fb1282c093555864fafcbca9d4eff8b9
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 0}
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: f2aded5236475ea48a2e87f7cde8d2ca,
@@ -25,5 +34,5 @@ EditorBuildSettings:
     com.unity.xr.arkit.PlayerSettings: {fileID: 11400000, guid: b27ec7d82a91a48e69fd689ad6808e5e,
       type: 2}
     com.unity.xr.magicleap.magic_leap_settings: {fileID: 0}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 58f40b12bbc864f3c96c6505a9a1e1e3,
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: d84fa7b8105da804a82a90cab1434d8c,
       type: 2}

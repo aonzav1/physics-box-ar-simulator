@@ -30,10 +30,14 @@ public class ProblemGenerator : MonoBehaviour
     public GameObject correct_pref;
     public GameObject wrong_pref;
     public GameObject end_1_pref;
+    public int[] items_count;
+    public Text[] items_count_txt;
+    public bool is2x;
   //  public GameObject end_2_pref;
 
     private void Start()
     {
+        items_count = new int[3];
         highscoreTxt.text = highScore.ToString();
         cam_controller.enableRotate = true;
         VIsibilityController.showDetail = 1;
@@ -78,20 +82,39 @@ public class ProblemGenerator : MonoBehaviour
     {
         scoreTxt.text = "Score:" + curScore.ToString();
     }
-    public void PlayMode(int diff)
+    public void OpenPlayPage(int diff)
     {
+        menu_con.OpenPage(1);
         difficulty = diff;
+    }
+    public void StartGame()
+    {
+        menu_con.Pages[2].SetActive(false);
+        PlayMode();
+    }
+    public void PlayMode()
+    {
         question_num = 0;
         curScore = 0;
         correct = 0;
+        for(int i = 0; i < 3; i++)
+        {
+            items_count[i] = Random.Range(0, 5-difficulty);
+            items_count_txt[i].text = items_count[i].ToString();
+        }
         UpdateScore();
         GenerateNewQuestion();
-        menu_con.OpenPage(1);
+        is2x = false;
+        scoreTxt.color = Color.white;
         StartCoroutine(countdown(30 + 30 * (3 - difficulty)));
+    }
+    public void UpdateItemCount(int num)
+    {
+        items_count_txt[num].text = items_count[num].ToString();
     }
     public void ReTry()
     {
-        PlayMode(difficulty);
+        PlayMode();
     }
     public void GenerateNewQuestion()
     {
@@ -395,9 +418,9 @@ public class ProblemGenerator : MonoBehaviour
             {
                 ShowResult(false);
                 timeleft -= 10;
-                curScore -= 2;
+                curScore -= 1;
                 UpdateScore();
-                if (timeleft > 15)
+                if (timeleft > 0)
                     GenerateNewQuestion();
             }
             else //hard
@@ -428,7 +451,16 @@ public class ProblemGenerator : MonoBehaviour
 
     public void AddScoreAndTime()
     {
-        curScore += difficulty;
+        if (is2x)
+        {
+            is2x = false;
+            scoreTxt.color = Color.white;
+            curScore += difficulty*2;
+        }
+        else
+        {
+            curScore += difficulty;
+        }
         timeleft += 15;
         UpdateScore();
         //show add score and time
@@ -450,6 +482,30 @@ public class ProblemGenerator : MonoBehaviour
         if(targetProblem.type == 0)
         {
             main.StopTimeCount();
+        }
+    }
+
+    public void UseItem(int num)
+    {
+        if(items_count[num] > 0)
+        {
+            items_count[num] -= 1;
+            UpdateItemCount(num);
+            switch (num)
+            {
+                case 0:
+                    force_manager.TurnOnForces();
+                    break;
+                case 1:
+                    main.StopSimulation();
+                    question_num -= 1;
+                    GenerateNewQuestion();
+                    break;
+                case 2:
+                    is2x = true;
+                    scoreTxt.color = Color.yellow;
+                    break;
+            }
         }
     }
 

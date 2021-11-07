@@ -19,7 +19,7 @@ MonoBehaviour:
     cameraDeviceModeSetting: -1
     maxSimultaneousImageTargets: 1
     maxSimultaneousObjectTargets: 1
-    virtualSceneScaleFactor: 1
+    virtualSceneScaleFactor: 3
     useDelayedLoadingObjectTargets: 0
     modelTargetRecoWhileExtendedTracked: 1
     shareRecordingsInITunes: 0
@@ -37,8 +37,8 @@ MonoBehaviour:
     videoBackgroundEnabled: 1
   deviceTracker:
     autoStartTracker: 1
-    arcoreRequirement: 1
-    autoImportArcore: 1
+    arcoreRequirement: 0
+    autoImportArcore: 0
   playmode:
     mSequencePath: 
     playModeType: 0

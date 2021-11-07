@@ -66,6 +66,6 @@ MonoBehaviour:
     unknown_vector: {x: 0.04, y: 0.05, z: 0}
     externalVector: {x: 1, y: 0, z: 0}
     type: 4
-    isReceiveInput: 1
+    isReceiveInput: 0
   velocity_arrow: {fileID: 2100000, guid: 2b60eeaba29bb02478ac0fd80a8f77e1, type: 2}
   acceleration_arrow: {fileID: 2100000, guid: 56514d5f4a242d641ab106e2ad35669c, type: 2}
