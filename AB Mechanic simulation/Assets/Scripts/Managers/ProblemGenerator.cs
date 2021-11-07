@@ -29,6 +29,7 @@ public class ProblemGenerator : MonoBehaviour
     {
         highscoreTxt.text = highScore.ToString();
         cam_controller.enableRotate = true;
+        VIsibilityController.showDetail = 1;
     }
     // Update is called once per frame
     void Update()
@@ -85,7 +86,7 @@ public class ProblemGenerator : MonoBehaviour
         float ans = 0;
         switch (targetProblem.type)
         {
-            case QuestionUnknownType.fall:
+            case 0: //Time fall
                 float targetheight = Random.Range(targetProblem.unknown_vector.x, targetProblem.unknown_vector.y);
                 main.tmp_spawned[targetProblem.targetobject].transform.localPosition = new Vector3(0,targetheight, 0);
                 //fall
@@ -94,7 +95,7 @@ public class ProblemGenerator : MonoBehaviour
                 Question = Question.Replace("{h}", targetheight.ToString("F2"));
                 GenerateAnswer(0, " s", ans);
                 break;
-            case QuestionUnknownType.weight:
+            case 1: //Weight fall
                 float targetmass = Random.Range(targetProblem.unknown_vector.x, targetProblem.unknown_vector.y);
                 PhysicsObject weightobject = main.tmp_spawned[targetProblem.targetobject].GetComponent<PhysicsObject>();
                 weightobject.properties[0] = targetmass;
@@ -104,18 +105,18 @@ public class ProblemGenerator : MonoBehaviour
                 Debug.Log("ans is " + ans);
                 weightobject.externalForce = upwardforce;
                 weightobject.extForce_vector = targetProblem.externalVector;
-                StartCoroutine(DelayCalculation_1(weightobject.gameObject,2,0));
+                StartCoroutine(DelayCalculation_1(weightobject.gameObject,2,0,true));
                 // weightobject.CreateObjectForce(targetProblem.externalVector, false) ;
                 Question = Question.Replace("{m}", targetmass.ToString("F2"));
-                GenerateAnswer(0, " s", ans);
+                GenerateAnswer(0, " N", ans);
                 break;
-            case QuestionUnknownType.acc:
+            case 2: //Find acceleration
                 int mu_multiplier_1 = Random.Range(1,8);
                 float mu_multiplier_2 = Random.Range(0, 2);
                 float targetmass_2 = Random.Range(0.5f, 3);
                 PhysicsObject boxObject_1 = main.tmp_spawned[targetProblem.targetobject].GetComponent<PhysicsObject>();
                 boxObject_1.properties[0] = targetmass_2;
-                boxObject_1.properties[1] = (targetProblem.unknown_vector.y) * mu_multiplier_1 + 0.1f * mu_multiplier_2;
+                boxObject_1.properties[1] = (targetProblem.unknown_vector.y) * mu_multiplier_1 + 0.05f * mu_multiplier_2;
                 boxObject_1.properties[2] = (targetProblem.unknown_vector.x) * mu_multiplier_1;
                 // weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
                 float pullingForce = Random.Range(1, 15);
@@ -140,14 +141,72 @@ public class ProblemGenerator : MonoBehaviour
                     }
                 }
                 Debug.Log("ans is " + ans);
+                int R_2 = Random.Range(0, 2);
+                int mul_2 = 1;
+                if (R_2 == 0)
+                {
+                    mul_2 = -1;
+                }
                 boxObject_1.externalForce = pullingForce;
-                boxObject_1.extForce_vector = targetProblem.externalVector;
-                StartCoroutine(DelayCalculation_1(boxObject_1.gameObject, 2, -1));
+                boxObject_1.extForce_vector = mul_2 * targetProblem.externalVector;
+                StartCoroutine(DelayCalculation_1(boxObject_1.gameObject, 1, -1,false,1));;
                 // weightobject.CreateObjectForce(targetProblem.externalVector, false) ;
                 Question = Question.Replace("{m}", targetmass_2.ToString("F2"));
                 Question = Question.Replace("{a}", boxObject_1.properties[1].ToString("F2"));
                 Question = Question.Replace("{b}", boxObject_1.properties[2].ToString("F2"));
                 GenerateAnswer(1, " m/s^2", ans, fakeans);
+                break;
+            case 3: //Find minimum force
+                int mu_multiplier_3 = Random.Range(1, 8);
+                float mu_multiplier_3_2 = Random.Range(0, 2);
+                float targetmass_3 = Random.Range(0.5f, 3);
+                PhysicsObject boxObject_3 = main.tmp_spawned[targetProblem.targetobject].GetComponent<PhysicsObject>();
+                boxObject_3.properties[0] = targetmass_3;
+                boxObject_3.properties[1] = (targetProblem.unknown_vector.y) * mu_multiplier_3 + 0.05f * mu_multiplier_3_2;
+                boxObject_3.properties[2] = (targetProblem.unknown_vector.x) * mu_multiplier_3;
+                // weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
+                ans = boxObject_3.properties[1] * targetmass_3 * -Physics.gravity.y +0.04f;
+                Debug.Log("ans is " + ans);
+                int R_3 = Random.Range(0, 2);
+                int mul_3 = 1;
+                if(R_3 == 0)
+                {
+                    mul_3 = -1;
+                }
+                boxObject_3.extForce_vector = mul_3 * targetProblem.externalVector;
+                StartCoroutine(DelayCalculation_1(boxObject_3.gameObject, 1, 1,false,1));
+                // weightobject.CreateObjectForce(targetProblem.externalVector, false) ;
+                Question = Question.Replace("{m}", targetmass_3.ToString("F2"));
+                Question = Question.Replace("{a}", boxObject_3.properties[1].ToString("F2"));
+                Question = Question.Replace("{b}", boxObject_3.properties[2].ToString("F2"));
+                GenerateAnswer(0, " N", ans);
+                break;
+            case 4: //Find mass
+                int mu_multiplier_4 = Random.Range(1, 7);
+                float targetmass_4 = Random.Range(0.5f, 2);
+                PhysicsObject boxObject_4 = main.tmp_spawned[targetProblem.targetobject].GetComponent<PhysicsObject>();
+                boxObject_4.properties[0] = targetmass_4;
+                boxObject_4.properties[1] = 0;
+                boxObject_4.properties[2] = (targetProblem.unknown_vector.x) * mu_multiplier_4;
+                // weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
+                float pullingForce4 = Random.Range(6, 10);
+                ans = targetmass_4;
+                float DynamicFriction_acc4 = boxObject_4.properties[2] * targetmass_4 * -Physics.gravity.y;
+                float acc_4 = (pullingForce4 - DynamicFriction_acc4) / targetmass_4;
+                Debug.Log("ans is " + ans);
+                int R_4 = Random.Range(0, 2);
+                int mul_4 = 1;
+                if (R_4 == 0)
+                {
+                    mul_4 = -1;
+                }
+                boxObject_4.externalForce = pullingForce4;
+                boxObject_4.extForce_vector = mul_4 * targetProblem.externalVector;
+                StartCoroutine(DelayCalculation_1(boxObject_4.gameObject, 1, -1, false, 1)); ;
+                // weightobject.CreateObjectForce(targetProblem.externalVector, false) ;
+                Question = Question.Replace("{a}", acc_4.ToString("F2"));
+                Question = Question.Replace("{b}", boxObject_4.properties[2].ToString("F2"));
+                GenerateAnswer(0, " kg", ans);
                 break;
         }
         questionTxt.text = "Q" + question_num + ": " + Question;
@@ -238,13 +297,18 @@ public class ProblemGenerator : MonoBehaviour
                 break;
         }
     }
-    IEnumerator DelayCalculation_1(GameObject target, int cal_type, int unknown)
+    IEnumerator DelayCalculation_1(GameObject target, int cal_type, int unknown,bool isTurnOn,int turnonNum=-1)
     {
         yield return new WaitForSeconds(0.2f);
         force_manager.ReceivedAllObjectData();
         force_manager.CalculateNewForces(cal_type, unknown);
         force_manager.selected = target;
-        force_manager.TurnOnForces();
+        if (isTurnOn)
+            force_manager.TurnOnForces();
+        if(turnonNum >= 0)
+        {
+            force_manager.TurnOnForceNum(turnonNum);
+        }
     }
 
     public void Answer(int choice)
@@ -256,6 +320,7 @@ public class ProblemGenerator : MonoBehaviour
         {
             PhysicsObject weightobject = main.tmp_spawned[targetProblem.targetobject].GetComponent<PhysicsObject>();
             weightobject.externalForce = answers[choice];
+            Debug.Log("pull with "+answers[choice]+" N");
             force_manager.UpdateForces();
         }
         main.StartSimulation();
@@ -337,7 +402,7 @@ public class ProblemGenerator : MonoBehaviour
 
     public void objectHit()
     {
-        if(targetProblem.type == QuestionUnknownType.fall)
+        if(targetProblem.type == 0)
         {
             main.StopTimeCount();
         }

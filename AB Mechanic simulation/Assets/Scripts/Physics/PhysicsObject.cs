@@ -246,7 +246,7 @@ public class PhysicsObject : MonoBehaviour
         {
             myCollider.material.staticFriction = staticFriction * mul;
             myCollider.material.dynamicFriction = staticFriction * mul *1.2f;
-            Debug.Log("Dynamic friction is " + staticFriction *1.2f);
+            Debug.Log("(X) Dynamic friction is " + staticFriction *1.2f);
         }
         else
         {
@@ -261,7 +261,7 @@ public class PhysicsObject : MonoBehaviour
                 mul = 1;
             }
             myCollider.material.dynamicFriction = dynamicFriction * mul;
-            Debug.Log("Dynamic friction is " + dynamicFriction);
+            Debug.Log("(O) Dynamic friction is " + dynamicFriction);
         }
     }
 

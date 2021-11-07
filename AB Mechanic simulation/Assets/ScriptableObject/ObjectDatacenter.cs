@@ -12,8 +12,6 @@ public class ObjectDatacenter : ScriptableObject
     public Material acceleration_arrow;
 }
 
-public enum QuestionUnknownType:byte {none,fall,force,frictionCo,velocity,weight,acc}
-
 [System.Serializable]
 public class Problem
 {
@@ -24,6 +22,6 @@ public class Problem
     public Vector3 unknown_vector;
  //   public float external_force;
     public Vector3 externalVector;
-    public QuestionUnknownType type;
+    public byte type;
     public bool isReceiveInput;
 }

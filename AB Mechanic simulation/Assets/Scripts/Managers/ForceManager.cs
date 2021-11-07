@@ -443,6 +443,7 @@ public class ForceManager : MonoBehaviour
                     }
                     break;
             }
+            Debug.Log("Update forces with "+ forceCalculationNum+" successfully");
         }
     }
     public void CleanTempForces()
@@ -468,6 +469,10 @@ public class ForceManager : MonoBehaviour
                     AllForce[i].gameObject.SetActive(true);
             }
         }
+    }
+    public void TurnOnForceNum(int num)
+    {
+        AllForce[num].gameObject.SetActive(true);
     }
 
     public void CreateObjectForce(string namez, float mag, Vector3 dir,ForceColor color,int target_num,bool isUnkown,Vector3 offset=default(Vector3))
