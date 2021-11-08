@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad289c9a9c815944b333d6dd1759b4d, type: 3}
+  m_Name: Slant_45
+  m_EditorClassIdentifier: 
+  Name: Box on slope (45)
+  prefab:
+  - {fileID: 8335451510329855109, guid: 1f34a4b11743064479a2417d41732684, type: 3}
+  - {fileID: 9089420280568122696, guid: 78e6050401893564188b0ee0d301503b, type: 3}
+  control_panel: {fileID: 2993461529952174568, guid: aaf02c4b8a811a94ca43b7f805174c57,
+    type: 3}
+  icon: {fileID: 21300000, guid: 2cc11deb07dcd2748bab5e865508a341, type: 3}
+  forceCalculationNum: 4
+  information: {fileID: 2467553105378548056, guid: 5a9124831dd0c854db97dabe5fcb94a6,
+    type: 3}

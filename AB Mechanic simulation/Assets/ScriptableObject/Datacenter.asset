@@ -18,6 +18,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 57034e1c17862f84b8065a2691a7489b, type: 2}
   - {fileID: 11400000, guid: 44fe6fd44075ee54f87fb0ac716b4ade, type: 2}
   - {fileID: 11400000, guid: 7488a22646933e643a5c5e5a2294a282, type: 2}
+  - {fileID: 11400000, guid: db75a1a48d776da48b88fe13bc268ffb, type: 2}
+  - {fileID: 11400000, guid: c67784b260f647a4cb686bb24597dff9, type: 2}
+  - {fileID: 11400000, guid: fe96cf27c6c8f2843b62174109c22092, type: 2}
+  - {fileID: 11400000, guid: db75a1a48d776da48b88fe13bc268ffb, type: 2}
   forceArrow:
   - {fileID: 2609277238508397263, guid: 7a1a0c867167f1343b772db2c957775e, type: 3}
   - {fileID: 2609277238508397263, guid: 27f99f2368b1cf845adf933c959310e2, type: 3}
@@ -66,6 +70,51 @@ MonoBehaviour:
     unknown_vector: {x: 0.04, y: 0.05, z: 0}
     externalVector: {x: 1, y: 0, z: 0}
     type: 4
+    isReceiveInput: 0
+  - question: A {m}-kg box is on a 30-deg slope floor with {a},{b} static and kinetic
+      coefficient of friction. Find its a acceleration
+    data: {fileID: 11400000, guid: 44fe6fd44075ee54f87fb0ac716b4ade, type: 2}
+    targetobject: 0
+    unknown_force: 1
+    unknown_vector: {x: 0.04, y: 0.05, z: 30}
+    externalVector: {x: 0.866, y: 0.5, z: 0}
+    type: 5
+    isReceiveInput: 0
+  - question: A {m}-kg box is on a 37-deg slope floor with {a},{b} static and kinetic
+      coefficient of friction. Find the minimum force to stop the box
+    data: {fileID: 11400000, guid: 10af43763b499a4479aaf6ec8f31ed0f, type: 2}
+    targetobject: 0
+    unknown_force: 1
+    unknown_vector: {x: 0.04, y: 0.05, z: 37}
+    externalVector: {x: 0.8, y: 0.6, z: 0}
+    type: 6
+    isReceiveInput: 1
+  - question: A {m}-kg box is on a 45-deg slope floor with {a},{b} static and kinetic
+      coefficient of friction. Find its a acceleration
+    data: {fileID: 11400000, guid: c67784b260f647a4cb686bb24597dff9, type: 2}
+    targetobject: 0
+    unknown_force: 1
+    unknown_vector: {x: 0.04, y: 0.05, z: 45}
+    externalVector: {x: 0.7071, y: 0.7071, z: 0}
+    type: 5
+    isReceiveInput: 0
+  - question: A {m}-kg box is on a 53-deg slope floor with {a},{b} static and kinetic
+      coefficient of friction. Find the minimum force to stop the box
+    data: {fileID: 11400000, guid: fe96cf27c6c8f2843b62174109c22092, type: 2}
+    targetobject: 0
+    unknown_force: 1
+    unknown_vector: {x: 0.04, y: 0.05, z: 53}
+    externalVector: {x: 0.6, y: 0.8, z: 0}
+    type: 6
+    isReceiveInput: 1
+  - question: A {m}-kg box is on a 60-deg slope floor with {a},{b} static and kinetic
+      coefficient of friction. Find its a acceleration
+    data: {fileID: 11400000, guid: db75a1a48d776da48b88fe13bc268ffb, type: 2}
+    targetobject: 0
+    unknown_force: 1
+    unknown_vector: {x: 0.04, y: 0.05, z: 60}
+    externalVector: {x: 0.5, y: 0.866, z: 0}
+    type: 5
     isReceiveInput: 0
   velocity_arrow: {fileID: 2100000, guid: 2b60eeaba29bb02478ac0fd80a8f77e1, type: 2}
   acceleration_arrow: {fileID: 2100000, guid: 56514d5f4a242d641ab106e2ad35669c, type: 2}
