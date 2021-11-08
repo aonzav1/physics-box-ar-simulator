@@ -62,7 +62,7 @@ public class MenuController : MonoBehaviour
                 }
                 if (num == 6)
                 {
-                    SceneManager.LoadScene("Creative_AR", LoadSceneMode.Single);
+                    SceneManager.LoadScene("Problem_AR", LoadSceneMode.Single);
                 }
                 //num 2 for open creative mode
                 //num 3 for open survival mode
