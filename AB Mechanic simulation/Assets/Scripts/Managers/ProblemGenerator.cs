@@ -128,7 +128,7 @@ public class ProblemGenerator : MonoBehaviour
         //tmp
         if (cur_info != null)
             Destroy(cur_info);
-        int r = Random.Range(0, datacenter.questions.Length);
+        int r = Random.Range(13, datacenter.questions.Length);
         targetProblem = datacenter.questions[r];
         if (targetProblem.info_pref != null)
             info_butt.SetActive(true);
@@ -445,11 +445,13 @@ public class ProblemGenerator : MonoBehaviour
                     boxObject_13.properties[1] = dynamic + 0.05f * Random.Range(1,3);
                     boxObject_13.properties[2] = dynamic;
                 }
+                float halfwidth13 = (targetProblem.unknown_vector.x) / 2;
+                float halfheight13 = (targetProblem.unknown_vector.y) / 2;
                 float PushForce = Random.Range(10, 100);
                 // weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
                 float weight13 = targetmass_13 * -Physics.gravity.y;
                 float theA = (PushForce - weight13* boxObject_13.properties[2]) / targetmass_13;
-                ans = (targetmass_13*theA* (targetProblem.unknown_vector.y) / 2 + weight13* (targetProblem.unknown_vector.x)/2) /PushForce -0.04f;
+                ans = (targetmass_13*theA* halfheight13 + weight13* halfwidth13) /PushForce -0.04f;
                 Debug.Log("======= ans is " + ans);
                 if (ans > (targetProblem.unknown_vector.y))
                     ans = (targetProblem.unknown_vector.y);
@@ -479,10 +481,24 @@ public class ProblemGenerator : MonoBehaviour
                     boxObject_14.properties[1] = dynamic + 0.05f * Random.Range(1, 3);
                     boxObject_14.properties[2] = dynamic;
                 }
-                float height = Random.Range(targetProblem.unknown_vector.y/2f, targetProblem.unknown_vector.y);
+                float halfwidth14 = (targetProblem.unknown_vector.x) / 2;
+                float halfheight14 = (targetProblem.unknown_vector.y) / 2;
+                float height = Random.Range(halfheight14 + 0.02f, targetProblem.unknown_vector.y);
                 // weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
                 float weight14 = targetmass_14 * -Physics.gravity.y;
-                ans = (weight14 * (targetProblem.unknown_vector.x) / 2 + weight14 * boxObject_14.properties[2] * (targetProblem.unknown_vector.y) / 2) / (height - (targetProblem.unknown_vector.y) / 2);
+                float maxStatic = weight14 * boxObject_14.properties[1];
+                Debug.Log("max friction is "+ maxStatic);
+                float force14 = (weight14 * halfwidth14) / height;
+                if(force14 > maxStatic)
+                {
+                    Debug.Log("cabinet moves");
+                    force14 = weight14 * (halfwidth14 - boxObject_14.properties[2] * halfheight14) / (height- halfheight14);
+                }
+                else
+                {
+                    Debug.Log("cabinet wont move");
+                }
+                ans = force14+0.05f;
                 Debug.Log("======= ans is " + ans);
                 Vector3 localPush2 = new Vector3(-0.5f, height, 0);
                 Vector3 push_at2 = boxObject_14.transform.TransformPoint(localPush2);

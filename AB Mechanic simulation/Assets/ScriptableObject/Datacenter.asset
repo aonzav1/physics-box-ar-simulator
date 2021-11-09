@@ -173,7 +173,7 @@ MonoBehaviour:
     data: {fileID: 11400000, guid: 7488a22646933e643a5c5e5a2294a282, type: 2}
     targetobject: 0
     unknown_force: 1
-    unknown_vector: {x: 0.7, y: 2, z: 0}
+    unknown_vector: {x: 0.75, y: 2, z: 0}
     externalVector: {x: 1, y: 0, z: 0}
     type: 13
     isReceiveInput: 0
@@ -181,11 +181,11 @@ MonoBehaviour:
     info_pref: {fileID: 2467553105378548056, guid: cc545f3a5cdcfa143aa42d2788ba018c,
       type: 3}
   - question: A {m}-kg cabinet with freely move casters is pushed at height {h}-m.
-      Find the maximum force that it won't tip over.
+      Find the minimum force to make it tip over.
     data: {fileID: 11400000, guid: 7488a22646933e643a5c5e5a2294a282, type: 2}
     targetobject: 0
     unknown_force: 1
-    unknown_vector: {x: 0.7, y: 2, z: 0}
+    unknown_vector: {x: 0.75, y: 2, z: 0}
     externalVector: {x: 1, y: 0, z: 0}
     type: 14
     isReceiveInput: 1
@@ -197,7 +197,7 @@ MonoBehaviour:
     data: {fileID: 11400000, guid: 7488a22646933e643a5c5e5a2294a282, type: 2}
     targetobject: 0
     unknown_force: 1
-    unknown_vector: {x: 0.7, y: 2, z: 1}
+    unknown_vector: {x: 0.75, y: 2, z: 1}
     externalVector: {x: 1, y: 0, z: 0}
     type: 13
     isReceiveInput: 0
@@ -205,11 +205,11 @@ MonoBehaviour:
     info_pref: {fileID: 2467553105378548056, guid: cc545f3a5cdcfa143aa42d2788ba018c,
       type: 3}
   - question: A {m}-kg cabinet with locked casters is pushed at height {h}-m. Find
-      the maximum force that it won't tip over.
+      the minimum force to make it tip over.
     data: {fileID: 11400000, guid: 7488a22646933e643a5c5e5a2294a282, type: 2}
     targetobject: 0
     unknown_force: 1
-    unknown_vector: {x: 0.7, y: 2, z: 1}
+    unknown_vector: {x: 0.75, y: 2, z: 1}
     externalVector: {x: 1, y: 0, z: 0}
     type: 14
     isReceiveInput: 1
@@ -229,7 +229,7 @@ MonoBehaviour:
     info_pref: {fileID: 2467553105378548056, guid: 1fc74898b9e49f44389eca8ad01e9421,
       type: 3}
   - question: A {m}-kg cabinet with freely move casters is pushed at height {h}-m.
-      Find the maximum force that it won't tip over.
+      Find the minimum force to make it tip over.
     data: {fileID: 11400000, guid: 18d4059597f30414589eb3c3a405b5e3, type: 2}
     targetobject: 0
     unknown_force: 1
@@ -253,7 +253,7 @@ MonoBehaviour:
     info_pref: {fileID: 2467553105378548056, guid: 1fc74898b9e49f44389eca8ad01e9421,
       type: 3}
   - question: A {m}-kg cabinet with locked casters is pushed at height {h}-m. Find
-      the maximum force that it won't tip over.
+      the minimum force to make it tip over.
     data: {fileID: 11400000, guid: 18d4059597f30414589eb3c3a405b5e3, type: 2}
     targetobject: 0
     unknown_force: 1
