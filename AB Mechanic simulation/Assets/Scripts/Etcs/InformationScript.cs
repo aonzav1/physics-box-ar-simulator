@@ -16,7 +16,10 @@ public class InformationScript : MonoBehaviour
     }
     public void CloseTab()
     {
-        main.visiblecontroler.CloseInformation();
+        if (main.visiblecontroler != null)
+            main.visiblecontroler.CloseInformation();
+        else
+            Destroy(gameObject);
     }
 
     void SetupCustomTexts()

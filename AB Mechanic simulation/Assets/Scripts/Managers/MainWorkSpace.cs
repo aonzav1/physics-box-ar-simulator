@@ -122,12 +122,12 @@ public class MainWorkSpace : MonoBehaviour
             newsave.rotation = newsave.obj.transform.rotation.eulerAngles;
             tmpSave.Add(newsave);
         }
-        Debug.Log("Save temp data, total of "+tmpSave.Count);
+       // Debug.Log("Save temp data, total of "+tmpSave.Count);
     }
 
     public void LoadTmpData()
     {
-        Debug.Log("Load temp data, total of " + tmpSave.Count);
+       // Debug.Log("Load temp data, total of " + tmpSave.Count);
         for (int i = 0; i < tmpSave.Count; i++)
         {
             if (tmpSave[i].obj != null)

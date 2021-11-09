@@ -149,7 +149,7 @@ public class PhysicsObject : MonoBehaviour
                 {
                     PhysicMaterial actorMaterial = new PhysicMaterial();
                     actorMaterial.staticFriction = friction_static;
-                    actorMaterial.dynamicFriction = friction_static*1.2f; //change to propertie 2 in runtime
+                    actorMaterial.dynamicFriction = friction_static*1.5f; //change to propertie 2 in runtime
                   //  actorMaterial.dynamicFriction = properties[2];
                     actorMaterial.frictionCombine = PhysicMaterialCombine.Multiply;
                     myCollider.material = actorMaterial;
@@ -157,7 +157,7 @@ public class PhysicsObject : MonoBehaviour
                 else
                 {
                     myCollider.material.staticFriction = friction_static;
-                    myCollider.material.dynamicFriction = friction_static*1.2f; //change to propertie 2 in runtime
+                    myCollider.material.dynamicFriction = friction_static*1.5f; //change to propertie 2 in runtime
                     //  myCollider.material.dynamicFriction = properties[2];
                     myCollider.material.frictionCombine = PhysicMaterialCombine.Multiply;
                 }
@@ -171,7 +171,7 @@ public class PhysicsObject : MonoBehaviour
                 if (stacking_rb.Count > 0)
                 {
                     PhysicsObject topBox = stacking_rb[0].transform.GetComponent<PhysicsObject>();
-                    Debug.Log(gameObject.name + " assign friction to" + topBox.gameObject.name);
+                   // Debug.Log(gameObject.name + " assign friction to" + topBox.gameObject.name);
                     topBox.AssignFrictionFromFloor(myCollider.material.staticFriction*2, myCollider.material.dynamicFriction*2);
                 }
 
@@ -199,7 +199,7 @@ public class PhysicsObject : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name); 
+     //   Debug.Log(collision.gameObject.name); 
         if(floor == null)
         {
             if(collision.gameObject.transform.position.y < transform.position.y)
@@ -241,12 +241,12 @@ public class PhysicsObject : MonoBehaviour
             mul = 1;
         }
        // myCollider.material.staticFriction = staticFriction * mul;
-        Debug.Log("Static friction is "+staticFriction);
+        //Debug.Log("Static friction is "+staticFriction);
         if (isStatic)
         {
             myCollider.material.staticFriction = staticFriction * mul;
-            myCollider.material.dynamicFriction = staticFriction * mul *1.2f;
-            Debug.Log("(X) Dynamic friction is " + staticFriction *1.2f);
+            myCollider.material.dynamicFriction = staticFriction * mul *1.5f;
+            Debug.Log("(X) Dynamic friction is " + staticFriction *1.5f);
         }
         else
         {
