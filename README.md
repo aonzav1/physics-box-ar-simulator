@@ -1,4 +1,4 @@
-# AB-mechanic-simulation
+# Physics box AR simulator
 - An AR project in Basic mechanic class in Kasetsart university
 Made by Aon Burapa & Bank Sintana
 
