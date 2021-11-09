@@ -32,6 +32,7 @@ MonoBehaviour:
     externalVector: {x: 0, y: 0, z: 0}
     type: 0
     isReceiveInput: 0
+    isReceiveInput2: 0
     info_pref: {fileID: 0}
   - question: The box is {m} kg, calculate its downward force
     data: {fileID: 11400000, guid: 71554b80440fa964081bf2b56132f2fb, type: 2}
@@ -41,6 +42,7 @@ MonoBehaviour:
     externalVector: {x: 0, y: 1, z: 0}
     type: 1
     isReceiveInput: 0
+    isReceiveInput2: 0
     info_pref: {fileID: 0}
   - question: A {m}-kg box is on a floor with {a},{b} static and kinetic coefficient
       of friction. Find its a acceleration
@@ -51,6 +53,7 @@ MonoBehaviour:
     externalVector: {x: 1, y: 0, z: 0}
     type: 2
     isReceiveInput: 0
+    isReceiveInput2: 0
     info_pref: {fileID: 0}
   - question: A {m}-kg box is on a floor with {a},{b} static and kinetic coefficient
       of friction. Find minimum force to move the box.
@@ -61,6 +64,7 @@ MonoBehaviour:
     externalVector: {x: 1, y: 0, z: 0}
     type: 3
     isReceiveInput: 1
+    isReceiveInput2: 0
     info_pref: {fileID: 0}
   - question: A box is on a floor with {b} kinetic coefficient of friction. Knowing
       that its acceleration is {a} m/s^2. Find its mass.
@@ -71,6 +75,7 @@ MonoBehaviour:
     externalVector: {x: 1, y: 0, z: 0}
     type: 4
     isReceiveInput: 0
+    isReceiveInput2: 0
     info_pref: {fileID: 0}
   - question: A {m}-kg box is on a 30-deg slope floor with {a},{b} static and kinetic
       coefficient of friction. Find its a acceleration
@@ -81,6 +86,7 @@ MonoBehaviour:
     externalVector: {x: 0.866, y: 0.5, z: 0}
     type: 5
     isReceiveInput: 0
+    isReceiveInput2: 0
     info_pref: {fileID: 0}
   - question: A {m}-kg box is on a 37-deg slope floor with {a},{b} static and kinetic
       coefficient of friction. Find the minimum force to stop the box
@@ -91,6 +97,7 @@ MonoBehaviour:
     externalVector: {x: 0.8, y: 0.6, z: 0}
     type: 6
     isReceiveInput: 1
+    isReceiveInput2: 0
     info_pref: {fileID: 0}
   - question: A {m}-kg box is on a 45-deg slope floor with {a},{b} static and kinetic
       coefficient of friction. Find its a acceleration
@@ -101,6 +108,7 @@ MonoBehaviour:
     externalVector: {x: 0.7071, y: 0.7071, z: 0}
     type: 5
     isReceiveInput: 0
+    isReceiveInput2: 0
     info_pref: {fileID: 0}
   - question: A {m}-kg box is on a 53-deg slope floor with {a},{b} static and kinetic
       coefficient of friction. Find the minimum force to stop the box
@@ -111,6 +119,7 @@ MonoBehaviour:
     externalVector: {x: 0.6, y: 0.8, z: 0}
     type: 6
     isReceiveInput: 1
+    isReceiveInput2: 0
     info_pref: {fileID: 0}
   - question: A {m}-kg box is on a 60-deg slope floor with {a},{b} static and kinetic
       coefficient of friction. Find its a acceleration
@@ -121,6 +130,7 @@ MonoBehaviour:
     externalVector: {x: 0.5, y: 0.866, z: 0}
     type: 5
     isReceiveInput: 0
+    isReceiveInput2: 0
     info_pref: {fileID: 0}
   - question: A {m1}-kg box in on a {m2}-kg box. Find the maximum force allow to
       pull 2 boxes together.
@@ -131,17 +141,19 @@ MonoBehaviour:
     externalVector: {x: 1, y: 0, z: 0}
     type: 7
     isReceiveInput: 1
+    isReceiveInput2: 0
     info_pref: {fileID: 2467553105378548056, guid: a6d5d8f5496bc5a4991190c25c9f8f5f,
       type: 3}
   - question: A {m1}-kg box in on a {m2}-kg box with acceleration. Find the acceleration
       of top box
     data: {fileID: 11400000, guid: 57034e1c17862f84b8065a2691a7489b, type: 2}
-    targetobject: 1
+    targetobject: 0
     unknown_force: 1
     unknown_vector: {x: 0.04, y: 0.05, z: 0}
     externalVector: {x: 1, y: 0, z: 0}
     type: 9
     isReceiveInput: 0
+    isReceiveInput2: 0
     info_pref: {fileID: 2467553105378548056, guid: a6d5d8f5496bc5a4991190c25c9f8f5f,
       type: 3}
   - question: A {m1}-kg box in on a {m2}-kg box with acceleration. What is the minimum
@@ -153,7 +165,104 @@ MonoBehaviour:
     externalVector: {x: 1, y: 0, z: 0}
     type: 11
     isReceiveInput: 1
+    isReceiveInput2: 0
     info_pref: {fileID: 2467553105378548056, guid: a6d5d8f5496bc5a4991190c25c9f8f5f,
+      type: 3}
+  - question: A {m}-kg cabinet with freely move casters is pushed with {F}-N. Find
+      the maximum height that it won't tip over.
+    data: {fileID: 11400000, guid: 7488a22646933e643a5c5e5a2294a282, type: 2}
+    targetobject: 0
+    unknown_force: 1
+    unknown_vector: {x: 0.7, y: 2, z: 0}
+    externalVector: {x: 1, y: 0, z: 0}
+    type: 13
+    isReceiveInput: 0
+    isReceiveInput2: 1
+    info_pref: {fileID: 2467553105378548056, guid: cc545f3a5cdcfa143aa42d2788ba018c,
+      type: 3}
+  - question: A {m}-kg cabinet with freely move casters is pushed at height {h}-m.
+      Find the maximum force that it won't tip over.
+    data: {fileID: 11400000, guid: 7488a22646933e643a5c5e5a2294a282, type: 2}
+    targetobject: 0
+    unknown_force: 1
+    unknown_vector: {x: 0.7, y: 2, z: 0}
+    externalVector: {x: 1, y: 0, z: 0}
+    type: 14
+    isReceiveInput: 1
+    isReceiveInput2: 0
+    info_pref: {fileID: 2467553105378548056, guid: cc545f3a5cdcfa143aa42d2788ba018c,
+      type: 3}
+  - question: A {m}-kg cabinet with locked casters is pushed  with {F}-N. Find the
+      maximum height that it won't tip over.
+    data: {fileID: 11400000, guid: 7488a22646933e643a5c5e5a2294a282, type: 2}
+    targetobject: 0
+    unknown_force: 1
+    unknown_vector: {x: 0.7, y: 2, z: 1}
+    externalVector: {x: 1, y: 0, z: 0}
+    type: 13
+    isReceiveInput: 0
+    isReceiveInput2: 1
+    info_pref: {fileID: 2467553105378548056, guid: cc545f3a5cdcfa143aa42d2788ba018c,
+      type: 3}
+  - question: A {m}-kg cabinet with locked casters is pushed at height {h}-m. Find
+      the maximum force that it won't tip over.
+    data: {fileID: 11400000, guid: 7488a22646933e643a5c5e5a2294a282, type: 2}
+    targetobject: 0
+    unknown_force: 1
+    unknown_vector: {x: 0.7, y: 2, z: 1}
+    externalVector: {x: 1, y: 0, z: 0}
+    type: 14
+    isReceiveInput: 1
+    isReceiveInput2: 0
+    info_pref: {fileID: 2467553105378548056, guid: cc545f3a5cdcfa143aa42d2788ba018c,
+      type: 3}
+  - question: A {m}-kg cabinet with freely move casters is pushed with {F}-N. Find
+      the maximum height that it won't tip over.
+    data: {fileID: 11400000, guid: 18d4059597f30414589eb3c3a405b5e3, type: 2}
+    targetobject: 0
+    unknown_force: 1
+    unknown_vector: {x: 0.6, y: 1.8, z: 0}
+    externalVector: {x: 1, y: 0, z: 0}
+    type: 13
+    isReceiveInput: 0
+    isReceiveInput2: 1
+    info_pref: {fileID: 2467553105378548056, guid: 1fc74898b9e49f44389eca8ad01e9421,
+      type: 3}
+  - question: A {m}-kg cabinet with freely move casters is pushed at height {h}-m.
+      Find the maximum force that it won't tip over.
+    data: {fileID: 11400000, guid: 18d4059597f30414589eb3c3a405b5e3, type: 2}
+    targetobject: 0
+    unknown_force: 1
+    unknown_vector: {x: 0.6, y: 1.8, z: 0}
+    externalVector: {x: 1, y: 0, z: 0}
+    type: 14
+    isReceiveInput: 1
+    isReceiveInput2: 0
+    info_pref: {fileID: 2467553105378548056, guid: 1fc74898b9e49f44389eca8ad01e9421,
+      type: 3}
+  - question: A {m}-kg cabinet with locked casters is pushed  with {F}-N. Find the
+      maximum height that it won't tip over.
+    data: {fileID: 11400000, guid: 18d4059597f30414589eb3c3a405b5e3, type: 2}
+    targetobject: 0
+    unknown_force: 1
+    unknown_vector: {x: 0.6, y: 1.8, z: 1}
+    externalVector: {x: 1, y: 0, z: 0}
+    type: 13
+    isReceiveInput: 0
+    isReceiveInput2: 1
+    info_pref: {fileID: 2467553105378548056, guid: 1fc74898b9e49f44389eca8ad01e9421,
+      type: 3}
+  - question: A {m}-kg cabinet with locked casters is pushed at height {h}-m. Find
+      the maximum force that it won't tip over.
+    data: {fileID: 11400000, guid: 18d4059597f30414589eb3c3a405b5e3, type: 2}
+    targetobject: 0
+    unknown_force: 1
+    unknown_vector: {x: 0.6, y: 1.8, z: 1}
+    externalVector: {x: 1, y: 0, z: 0}
+    type: 14
+    isReceiveInput: 1
+    isReceiveInput2: 0
+    info_pref: {fileID: 2467553105378548056, guid: 1fc74898b9e49f44389eca8ad01e9421,
       type: 3}
   velocity_arrow: {fileID: 2100000, guid: 2b60eeaba29bb02478ac0fd80a8f77e1, type: 2}
   acceleration_arrow: {fileID: 2100000, guid: 56514d5f4a242d641ab106e2ad35669c, type: 2}

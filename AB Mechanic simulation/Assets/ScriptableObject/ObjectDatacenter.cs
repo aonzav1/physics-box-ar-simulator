@@ -24,5 +24,6 @@ public class Problem
     public Vector3 externalVector;
     public byte type;
     public bool isReceiveInput;
+    public bool isReceiveInput2;
     public GameObject info_pref;
 }

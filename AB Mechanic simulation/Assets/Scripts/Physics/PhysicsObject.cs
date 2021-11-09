@@ -127,7 +127,7 @@ public class PhysicsObject : MonoBehaviour
                 if (diff > 0.001f)
                 {
                     velocityMagnitude.text = (diff * 10).ToString("F2") + " m/s^2";
-                    Debug.Log(gameObject.name + " has a = " + (diff * 10));
+                  //  Debug.Log(gameObject.name + " has a = " + (diff * 10));
                 }
             }
             yield return new WaitForSeconds(0.1f);

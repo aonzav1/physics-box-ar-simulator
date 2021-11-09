@@ -743,6 +743,8 @@ MonoBehaviour:
   - {fileID: 1273905513}
   cur_info: {fileID: 0}
   info_butt: {fileID: 5299800650156095030}
+  rope_pref: {fileID: 2609277238508397263, guid: e03dd899a0d946b4e97d1a9f8771ea67,
+    type: 3}
   is2x: 0
 --- !u!114 &363007259
 MonoBehaviour:

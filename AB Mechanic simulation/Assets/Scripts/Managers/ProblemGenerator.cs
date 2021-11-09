@@ -34,6 +34,7 @@ public class ProblemGenerator : MonoBehaviour
     public Text[] items_count_txt;
     public GameObject cur_info;
     public GameObject info_butt;
+    public GameObject rope_pref;
     public bool is2x;
   //  public GameObject end_2_pref;
 
@@ -126,7 +127,7 @@ public class ProblemGenerator : MonoBehaviour
         //tmp
         if (cur_info != null)
             Destroy(cur_info);
-        int r = Random.Range(5, datacenter.questions.Length);
+        int r = Random.Range(0, datacenter.questions.Length);
         targetProblem = datacenter.questions[r];
         if (targetProblem.info_pref != null)
             info_butt.SetActive(true);
@@ -428,6 +429,73 @@ public class ProblemGenerator : MonoBehaviour
                 Question = Question.Replace("{m2}", targetmass_12.ToString("F2"));
                 GenerateAnswer(0, " N", ans);
                 break;
+            case 13: //Find maximum height
+                float targetmass_13= Random.Range(2, 10);
+                PhysicsObject boxObject_13 = main.tmp_spawned[0];
+                boxObject_13.properties[0] = targetmass_13;
+                if (targetProblem.unknown_vector.z == 0)
+                {
+                    boxObject_13.properties[1] = 0;
+                    boxObject_13.properties[2] = 0;
+                }
+                else
+                {
+                    float dynamic = 0.05f * Random.Range(5, 7);
+                    boxObject_13.properties[1] = dynamic + 0.05f * Random.Range(1,3);
+                    boxObject_13.properties[2] = dynamic;
+                }
+                float PushForce = Random.Range(10, 100);
+                // weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
+                float weight13 = targetmass_13 * -Physics.gravity.y;
+                float theA = (PushForce - weight13* boxObject_13.properties[2]) / targetmass_13;
+                ans = (targetmass_13*theA* (targetProblem.unknown_vector.y) / 2 + weight13* (targetProblem.unknown_vector.x)/2) /PushForce -0.04f;
+                Debug.Log("ans is " + ans);
+                if (ans > (targetProblem.unknown_vector.y))
+                    ans = (targetProblem.unknown_vector.y);
+                Vector3 localPush = new Vector3(-0.5f, ans, 0);
+                Vector3  push_at = boxObject_13.transform.TransformPoint(localPush);
+                boxObject_13.externalForce = PushForce;
+                boxObject_13.pushAt = push_at;
+                boxObject_13.extForce_vector = targetProblem.externalVector;
+                StartCoroutine(DelayCalculation_1(boxObject_13.gameObject, 5, -1, false, 1)); ;
+                // weightobject.CreateObjectForce(targetProblem.externalVector, false) ;
+                Question = Question.Replace("{m}", targetmass_13.ToString("F2"));
+                Question = Question.Replace("{F}", PushForce.ToString("F2"));
+                GenerateAnswer(0, " m", ans);
+                break;
+            case 14: //Find maximum force
+                float targetmass_14 = Random.Range(2f, 7f);
+                PhysicsObject boxObject_14 = main.tmp_spawned[0];
+                boxObject_14.properties[0] = targetmass_14;
+                if (targetProblem.unknown_vector.z == 0)
+                {
+                    boxObject_14.properties[1] = 0;
+                    boxObject_14.properties[2] = 0;
+                }
+                else
+                {
+                    float dynamic = 0.05f * Random.Range(5, 7);
+                    boxObject_14.properties[1] = dynamic + 0.05f * Random.Range(1, 3);
+                    boxObject_14.properties[2] = dynamic;
+                }
+                float height = Random.Range(targetProblem.unknown_vector.y/2f, targetProblem.unknown_vector.y);
+                // weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
+                float weight14 = targetmass_14 * -Physics.gravity.y;
+                ans = (weight14 * (targetProblem.unknown_vector.x) / 2 + weight14 * boxObject_14.properties[2]) / (height - (targetProblem.unknown_vector.y) / 2);
+                Debug.Log("ans is " + ans);
+                Vector3 localPush2 = new Vector3(-0.5f, height, 0);
+                Vector3 push_at2 = boxObject_14.transform.TransformPoint(localPush2);
+                boxObject_14.externalForce = ans;
+                boxObject_14.pushAt = push_at2;
+                boxObject_14.extForce_vector = targetProblem.externalVector;
+                GameObject rope = Instantiate(rope_pref, boxObject_14.transform);
+                rope.transform.position = push_at2 + new Vector3(-0.5f, 0, 0);
+                StartCoroutine(DelayCalculation_1(boxObject_14.gameObject, targetProblem.data.forceCalculationNum, -1, false)); ;
+                // weightobject.CreateObjectForce(targetProblem.externalVector, false) ;
+                Question = Question.Replace("{m}", targetmass_14.ToString("F2"));
+                Question = Question.Replace("{h}", height.ToString("F2"));
+                GenerateAnswer(0, " N", ans);
+                break;
         }
         questionTxt.text = "Q" + question_num + ": " + Question;
     }
@@ -555,6 +623,13 @@ public class ProblemGenerator : MonoBehaviour
             Debug.Log("pull with " + answers[choice] + " N");
             force_manager.UpdateForces();
         }
+        if (targetProblem.isReceiveInput2)
+        {
+            PhysicsObject weightobject = main.tmp_spawned[targetProblem.targetobject];
+            Vector3 localPush = new Vector3(-0.5f, answers[choice], 0);
+            weightobject.pushAt = weightobject.transform.TransformPoint(localPush);
+            force_manager.UpdateForces();
+        }
         main.StartSimulation();
         force_manager.TurnOffForces();
         Debug.Log("Correct choise is " + thisAnswer + ", your answer :" + choice);
@@ -586,7 +661,7 @@ public class ProblemGenerator : MonoBehaviour
                 }
             }
             maxcount -= 1;
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
         }
         yield return new WaitForSeconds(0.5f);
         main.StopSimulation();
