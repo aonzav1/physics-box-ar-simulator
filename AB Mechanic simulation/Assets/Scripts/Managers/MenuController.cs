@@ -14,12 +14,40 @@ public class MenuController : MonoBehaviour
     public GameObject Error_pref;
     public Canvas canvas;
     public MainWorkSpace mainworlspace;
+    public GameObject soundOn;
+    public GameObject soundOff;
     // Start is called before the first frame update
     void Start()
     {
+        if(SaveLoad.issetting == false)
+        {
+            LoadSetting();
+        }
         mainworlspace = GetComponent<MainWorkSpace>();
         page_stack = new Stack<int>();
         OpenPage(0);
+        SoundEditor se = FindObjectOfType<SoundEditor>();
+        if (se != null)
+        {
+            se.UpdateSetting();
+        }
+    }
+    void LoadSetting()
+    {
+        SaveLoad.Load();
+        if(SaveLoad.issetting == false)
+        {
+            NewSetting();
+        }
+
+    }
+    void NewSetting()
+    {
+        SettingSaveFile s = new SettingSaveFile();
+        s.highscore = 0;
+        s.volume = 0.8f;
+        SaveLoad.cur_setting = s;
+        SaveLoad.Save();
     }
 
     // Update is called once per frame
@@ -62,7 +90,7 @@ public class MenuController : MonoBehaviour
                 }
                 if (num == 6)
                 {
-                    SceneManager.LoadScene("Problem_AR", LoadSceneMode.Single);
+                    SceneManager.LoadScene("ProblemMode_AR", LoadSceneMode.Single);
                 }
                 //num 2 for open creative mode
                 //num 3 for open survival mode

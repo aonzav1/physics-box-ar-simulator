@@ -40,6 +40,7 @@ public class ProblemGenerator : MonoBehaviour
 
     private void Start()
     {
+        highScore = SaveLoad.cur_setting.highscore;
         items_count = new int[3];
         highscoreTxt.text = highScore.ToString();
         cam_controller.enableRotate = true;
@@ -739,6 +740,8 @@ public class ProblemGenerator : MonoBehaviour
         {
             Debug.Log("new high score : "+curScore);
             highScore = curScore;
+            SaveLoad.cur_setting.highscore = highScore;
+            SaveLoad.Save(); 
             //show award
         }
         highscoreTxt.text = highScore.ToString();
