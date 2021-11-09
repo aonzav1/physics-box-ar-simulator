@@ -11,10 +11,4 @@ public class ARmanager : MonoBehaviour
         if(!VuforiaApplication.Instance.IsInitialized)
             VuforiaApplication.Instance.Initialize();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

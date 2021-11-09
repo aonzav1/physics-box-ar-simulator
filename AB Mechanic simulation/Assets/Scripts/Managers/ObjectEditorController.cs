@@ -264,6 +264,4 @@ public class ObjectEditorController : MonoBehaviour
             isViewForce = true;
         }
     }
-
-
 }
