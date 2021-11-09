@@ -144,7 +144,7 @@ public class ProblemGenerator : MonoBehaviour
                 main.tmp_spawned[targetProblem.targetobject].transform.localPosition = new Vector3(0, targetheight, 0);
                 //fall
                 ans = Mathf.Sqrt((targetheight - 0.25f) * 2 / (-Physics.gravity.y));
-                Debug.Log("ans is " + ans);
+                Debug.Log("======= ans is " + ans);
                 Question = Question.Replace("{h}", targetheight.ToString("F2"));
                 GenerateAnswer(0, " s", ans);
                 break;
@@ -155,7 +155,7 @@ public class ProblemGenerator : MonoBehaviour
                 // weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
                 float upwardforce = targetmass * Random.Range(1, 6);
                 ans = targetmass * (-Physics.gravity.y) - upwardforce;
-                Debug.Log("ans is " + ans);
+                Debug.Log("======= ans is " + ans);
                 weightobject.externalForce = upwardforce;
                 weightobject.extForce_vector = targetProblem.externalVector;
                 StartCoroutine(DelayCalculation_1(weightobject.gameObject, 2, 0, true));
@@ -193,7 +193,7 @@ public class ProblemGenerator : MonoBehaviour
                         }
                     }
                 }
-                Debug.Log("ans is " + ans);
+                Debug.Log("======= ans is " + ans);
                 int R_2 = Random.Range(0, 2);
                 int mul_2 = 1;
                 if (R_2 == 0)
@@ -219,7 +219,7 @@ public class ProblemGenerator : MonoBehaviour
                 boxObject_3.properties[2] = (targetProblem.unknown_vector.x) * mu_multiplier_3;
                 // weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
                 ans = boxObject_3.properties[1] * targetmass_3 * -Physics.gravity.y + 0.04f;
-                Debug.Log("ans is " + ans);
+                Debug.Log("======= ans is " + ans);
                 int R_3 = Random.Range(0, 2);
                 int mul_3 = 1;
                 if (R_3 == 0)
@@ -246,7 +246,7 @@ public class ProblemGenerator : MonoBehaviour
                 ans = targetmass_4;
                 float DynamicFriction_acc4 = boxObject_4.properties[2] * targetmass_4 * -Physics.gravity.y;
                 float acc_4 = (pullingForce4 - DynamicFriction_acc4) / targetmass_4;
-                Debug.Log("ans is " + ans);
+                Debug.Log("======= ans is " + ans);
                 int R_4 = Random.Range(0, 2);
                 int mul_4 = 1;
                 if (R_4 == 0)
@@ -292,7 +292,7 @@ public class ProblemGenerator : MonoBehaviour
                         fakeans5 = Mathf.Abs((pullingForce5 - DynamicFriction_acc5) / targetmass_5);
                     }
                 }
-                Debug.Log("ans is " + ans);
+                Debug.Log("======= ans is " + ans);
                 boxObject_5.externalForce = pullingForce5;
                 boxObject_5.extForce_vector = targetProblem.externalVector;
                 StartCoroutine(DelayCalculation_1(boxObject_5.gameObject, 4, -1, false, 1)); ;
@@ -315,7 +315,7 @@ public class ProblemGenerator : MonoBehaviour
                 float downward6 = targetmass_6 * -Physics.gravity.y * Mathf.Sin((targetProblem.unknown_vector.z * Mathf.PI) / 180);
                 float maxStaticFriction_acc6 = boxObject_6.properties[1] * normal6;
                 ans = downward6 - maxStaticFriction_acc6 + 0.02f;
-                Debug.Log("ans is " + ans);
+                Debug.Log("======= ans is " + ans);
               //  boxObject_6.externalForce = pullingForce6;
                 boxObject_6.extForce_vector = targetProblem.externalVector;
                 StartCoroutine(DelayCalculation_1(boxObject_6.gameObject, 4, 1, false, 1)); ;
@@ -343,7 +343,7 @@ public class ProblemGenerator : MonoBehaviour
                 // weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
                 float totalWeight = (targetmass_7 + targetmass_8) *-Physics.gravity.y;
                 ans = totalWeight*(boxObject_8.properties[2] + boxObject_7.properties[1]) - 0.04f;
-                Debug.Log("ans is " + ans);
+                Debug.Log("======= ans is " + ans);
                 boxObject_8.externalForce = ans;
                 boxObject_8.extForce_vector = targetProblem.externalVector;
                 StartCoroutine(DelayCalculation_1(boxObject_8.gameObject, 3, 4, false, 4));
@@ -394,7 +394,7 @@ public class ProblemGenerator : MonoBehaviour
                 {
                     ans = a_9;
                 }
-                Debug.Log("ans is " + ans);
+                Debug.Log("======= ans is " + ans);
                 boxObject_9.externalForce = pullingForce10;
                 boxObject_9.extForce_vector = targetProblem.externalVector;
                 StartCoroutine(DelayCalculation_1(boxObject_9.gameObject, 3, -1, false, 4));
@@ -421,7 +421,7 @@ public class ProblemGenerator : MonoBehaviour
                 // weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
                 float totalWeight12 = (targetmass_11 + targetmass_12) * -Physics.gravity.y;
                 ans = totalWeight12 * (boxObject_12.properties[1]) +0.005f;
-                Debug.Log("ans is " + ans);
+                Debug.Log("======= ans is " + ans);
                 boxObject_12.externalForce = ans;
                 boxObject_12.extForce_vector = targetProblem.externalVector;
                 StartCoroutine(DelayCalculation_1(boxObject_12.gameObject, 3, 4, false, 4));
@@ -450,7 +450,7 @@ public class ProblemGenerator : MonoBehaviour
                 float weight13 = targetmass_13 * -Physics.gravity.y;
                 float theA = (PushForce - weight13* boxObject_13.properties[2]) / targetmass_13;
                 ans = (targetmass_13*theA* (targetProblem.unknown_vector.y) / 2 + weight13* (targetProblem.unknown_vector.x)/2) /PushForce -0.04f;
-                Debug.Log("ans is " + ans);
+                Debug.Log("======= ans is " + ans);
                 if (ans > (targetProblem.unknown_vector.y))
                     ans = (targetProblem.unknown_vector.y);
                 Vector3 localPush = new Vector3(-0.5f, ans, 0);
@@ -482,8 +482,8 @@ public class ProblemGenerator : MonoBehaviour
                 float height = Random.Range(targetProblem.unknown_vector.y/2f, targetProblem.unknown_vector.y);
                 // weightobject.CalculateNewForcesWithUnknown(targetProblem.unknown_force);
                 float weight14 = targetmass_14 * -Physics.gravity.y;
-                ans = (weight14 * (targetProblem.unknown_vector.x) / 2 + weight14 * boxObject_14.properties[2]) / (height - (targetProblem.unknown_vector.y) / 2);
-                Debug.Log("ans is " + ans);
+                ans = (weight14 * (targetProblem.unknown_vector.x) / 2 + weight14 * boxObject_14.properties[2] * (targetProblem.unknown_vector.y) / 2) / (height - (targetProblem.unknown_vector.y) / 2);
+                Debug.Log("======= ans is " + ans);
                 Vector3 localPush2 = new Vector3(-0.5f, height, 0);
                 Vector3 push_at2 = boxObject_14.transform.TransformPoint(localPush2);
                 boxObject_14.externalForce = ans;
@@ -665,7 +665,6 @@ public class ProblemGenerator : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
         yield return new WaitForSeconds(0.5f);
-        main.StopSimulation();
         if (isCorrect)
         {
             AddScoreAndTime();
@@ -674,6 +673,7 @@ public class ProblemGenerator : MonoBehaviour
         }
         else
         {
+            main.StopSimulation();
             if (difficulty == 1) //easy
             {
                 ShowResult(false);
