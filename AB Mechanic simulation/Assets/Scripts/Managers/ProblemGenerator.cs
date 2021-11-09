@@ -128,7 +128,7 @@ public class ProblemGenerator : MonoBehaviour
         //tmp
         if (cur_info != null)
             Destroy(cur_info);
-        int r = Random.Range(13, datacenter.questions.Length);
+        int r = Random.Range(0, datacenter.questions.Length);
         targetProblem = datacenter.questions[r];
         if (targetProblem.info_pref != null)
             info_butt.SetActive(true);
