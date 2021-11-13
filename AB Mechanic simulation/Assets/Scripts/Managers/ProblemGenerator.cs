@@ -35,6 +35,9 @@ public class ProblemGenerator : MonoBehaviour
     public GameObject cur_info;
     public GameObject info_butt;
     public GameObject rope_pref;
+    public GameObject problemSetting;
+    public bool isCustomGame;
+    public byte[] targetProblems;
     public bool is2x;
   //  public GameObject end_2_pref;
 
@@ -88,8 +91,16 @@ public class ProblemGenerator : MonoBehaviour
     }
     public void OpenPlayPage(int diff)
     {
+        isCustomGame = false;
         menu_con.OpenPage(1);
         difficulty = diff;
+    }
+    public void OpenPlayPageCustom(byte[] data)
+    {
+        targetProblems = data;
+        isCustomGame = true;
+        menu_con.OpenPage(1);
+        difficulty = 0;
     }
     public void StartGame()
     {
@@ -110,7 +121,7 @@ public class ProblemGenerator : MonoBehaviour
         GenerateNewQuestion();
         is2x = false;
         scoreTxt.color = Color.white;
-        StartCoroutine(countdown(30 + 30 * (3 - difficulty)));
+        StartCoroutine(countdown(60 + 60 * (3 - difficulty)));
     }
     public void UpdateItemCount(int num)
     {
@@ -128,7 +139,16 @@ public class ProblemGenerator : MonoBehaviour
         //tmp
         if (cur_info != null)
             Destroy(cur_info);
-        int r = Random.Range(0, datacenter.questions.Length);
+        int r = 0;
+        if (isCustomGame)
+        {
+            int R2 = Random.Range(0, targetProblems.Length);
+            r = targetProblems[R2];
+        }
+        else
+        {
+            r = Random.Range(0, datacenter.questions.Length);
+        }
         targetProblem = datacenter.questions[r];
         if (targetProblem.info_pref != null)
             info_butt.SetActive(true);
@@ -689,7 +709,20 @@ public class ProblemGenerator : MonoBehaviour
         }
         else
         {
+            if (is2x)
+            {
+                is2x = false;
+                scoreTxt.color = Color.white;
+            }
             main.StopSimulation();
+            if (difficulty == 0) //custom
+            {
+                ShowResult(false);
+                timeleft -= 10;
+                UpdateScore();
+                if (timeleft > 0)
+                    GenerateNewQuestion();
+            }else
             if (difficulty == 1) //easy
             {
                 ShowResult(false);
@@ -740,6 +773,8 @@ public class ProblemGenerator : MonoBehaviour
             is2x = false;
             scoreTxt.color = Color.white;
             curScore += difficulty*2;
+            if (difficulty == 0)
+                curScore += 1;
         }
         else
         {
@@ -802,5 +837,9 @@ public class ProblemGenerator : MonoBehaviour
             cur_info = Instantiate(targetProblem.info_pref,menu_con.Pages[1].transform);
     }
 
+    public void OpenProblemSetting()
+    {
+        problemSetting.SetActive(true);
+    }
 }
 
